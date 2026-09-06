@@ -23,12 +23,12 @@ export async function renderList(container) {
 
   if (!books.length) {
     container.innerHTML = `
-      ${pageHead({ title: "My Books", description: "Everything BookBoost does starts from a book." })}
+      ${pageHead({ title: "My Books", description: "Everything BookPilot does starts from a book." })}
       ${emptyState({
         icon: "▤",
         title: "No books yet",
         text: "Your next bestseller starts here.",
-        action: '<a class="bb-btn bb-btn--primary" href="#/books/new">Add your first book</a>',
+        action: '<a class="bp-btn bp-btn--primary" href="#/books/new">Add your first book</a>',
       })}`;
     return;
   }
@@ -37,9 +37,9 @@ export async function renderList(container) {
     ${raw(pageHead({
       title: "My Books",
       description: "Each book carries its own readers, angles, creatives and results.",
-      actions: `${demoBadge()}<a class="bb-btn bb-btn--primary" href="#/books/new">Add a book</a>`,
+      actions: `${demoBadge()}<a class="bp-btn bp-btn--primary" href="#/books/new">Add a book</a>`,
     }))}
-    <div class="bb-grid bb-grid--cards">
+    <div class="bp-grid bp-grid--cards">
       ${raw(books.map((book) => card(book, campaigns, analytics)).join(""))}
     </div>
   `;
@@ -61,25 +61,25 @@ function card(book, campaigns, analytics) {
   const active = bookCampaigns.filter((c) => c.status === "active").length;
 
   return html`
-    <article class="bb-card bb-card--interactive bb-book-card">
-      <div class="bb-book-card__cover">${raw(cover(book))}</div>
-      <div class="bb-book-card__body bb-stack-sm">
+    <article class="bp-card bp-card--interactive bp-book-card">
+      <div class="bp-book-card__cover">${raw(cover(book))}</div>
+      <div class="bp-book-card__body bp-stack-sm">
         <div>
-          <a href="#/books/${book.id}"><strong class="bb-clamp-2">${book.title}</strong></a>
-          <div class="bb-small bb-muted">${book.genre || "Genre not set"}</div>
+          <a href="#/books/${book.id}"><strong class="bp-clamp-2">${book.title}</strong></a>
+          <div class="bp-small bp-muted">${book.genre || "Genre not set"}</div>
         </div>
-        <div class="bb-row bb-row--wrap" style="gap:6px">
+        <div class="bp-row bp-row--wrap" style="gap:6px">
           ${raw(statusBadge(book.status))}
-          ${active ? raw(html`<span class="bb-badge bb-badge--success">${active} active</span>`) : ""}
+          ${active ? raw(html`<span class="bp-badge bp-badge--success">${active} active</span>`) : ""}
         </div>
-        <dl class="bb-kv bb-tiny" style="margin:0">
+        <dl class="bp-kv bp-tiny" style="margin:0">
           <dt>Sales</dt><dd>${totals.conversions ? fmt.number(totals.conversions) : "—"}</dd>
           <dt>Revenue</dt><dd>${totals.revenueCents ? fmt.money(totals.revenueCents, book.currency) : "—"}</dd>
           <dt>ROAS</dt><dd>${roas === null ? "—" : fmt.multiple(roas)}</dd>
         </dl>
-        <div class="bb-row bb-row--wrap" style="gap:6px">
-          <a class="bb-btn bb-btn--secondary bb-btn--sm" href="#/strategy/${book.id}">Strategy</a>
-          <a class="bb-btn bb-btn--ghost bb-btn--sm" href="#/creatives/new?book=${book.id}">Generate ads</a>
+        <div class="bp-row bp-row--wrap" style="gap:6px">
+          <a class="bp-btn bp-btn--secondary bp-btn--sm" href="#/strategy/${book.id}">Strategy</a>
+          <a class="bp-btn bp-btn--ghost bp-btn--sm" href="#/creatives/new?book=${book.id}">Generate ads</a>
         </div>
       </div>
     </article>
@@ -131,68 +131,68 @@ export async function renderDetail(container, params) {
     : null;
 
   container.innerHTML = html`
-    <div class="bb-row bb-row--between" style="margin-bottom:var(--bb-5)">
-      <a class="bb-small bb-muted" href="#/books">← All books</a>
+    <div class="bp-row bp-row--between" style="margin-bottom:var(--bp-5)">
+      <a class="bp-small bp-muted" href="#/books">← All books</a>
       ${raw(demoBadge())}
     </div>
 
-    <section class="bb-book-hero" style="margin-bottom:var(--bb-8)">
+    <section class="bp-book-hero" style="margin-bottom:var(--bp-8)">
       <div>${raw(cover(book))}</div>
-      <div class="bb-stack">
+      <div class="bp-stack">
         <div>
-          <h1 class="bb-display" style="font-size:1.8rem">${book.title}</h1>
-          ${book.subtitle ? raw(html`<p class="bb-lead" style="margin:6px 0 0">${book.subtitle}</p>`) : ""}
+          <h1 class="bp-display" style="font-size:1.8rem">${book.title}</h1>
+          ${book.subtitle ? raw(html`<p class="bp-lead" style="margin:6px 0 0">${book.subtitle}</p>`) : ""}
         </div>
-        <div class="bb-row bb-row--wrap" style="gap:6px">
+        <div class="bp-row bp-row--wrap" style="gap:6px">
           ${raw(statusBadge(book.status))}
-          ${book.genre ? raw(html`<span class="bb-badge">${book.genre}</span>`) : ""}
+          ${book.genre ? raw(html`<span class="bp-badge">${book.genre}</span>`) : ""}
           ${book.price_cents !== null && book.price_cents !== undefined
-            ? raw(html`<span class="bb-badge">${fmt.money(book.price_cents, book.currency)}</span>`)
+            ? raw(html`<span class="bp-badge">${fmt.money(book.price_cents, book.currency)}</span>`)
             : ""}
-          ${book.author_name ? raw(html`<span class="bb-badge">${book.author_name}</span>`) : ""}
+          ${book.author_name ? raw(html`<span class="bp-badge">${book.author_name}</span>`) : ""}
         </div>
-        ${book.description ? raw(`<div class="bb-small bb-muted bb-clamp-3">${paragraphs(book.description)}</div>`) : ""}
-        <div class="bb-row bb-row--wrap">
-          <a class="bb-btn bb-btn--primary bb-btn--sm" href="#/strategy/${book.id}">AI strategy</a>
-          <a class="bb-btn bb-btn--secondary bb-btn--sm" href="#/creatives/new?book=${book.id}">Generate ads</a>
-          <a class="bb-btn bb-btn--secondary bb-btn--sm" href="#/campaigns/new?book=${book.id}">Create campaign</a>
-          <a class="bb-btn bb-btn--ghost bb-btn--sm" href="#/books/${book.id}/edit">Edit</a>
-          ${book.sales_url ? raw(html`<a class="bb-btn bb-btn--ghost bb-btn--sm" href="${safeUrl(book.sales_url)}" target="_blank" rel="noopener noreferrer">Sales page ↗</a>`) : ""}
-          <button type="button" class="bb-btn bb-btn--danger bb-btn--sm" id="delete-book">Delete</button>
+        ${book.description ? raw(`<div class="bp-small bp-muted bp-clamp-3">${paragraphs(book.description)}</div>`) : ""}
+        <div class="bp-row bp-row--wrap">
+          <a class="bp-btn bp-btn--primary bp-btn--sm" href="#/strategy/${book.id}">AI strategy</a>
+          <a class="bp-btn bp-btn--secondary bp-btn--sm" href="#/creatives/new?book=${book.id}">Generate ads</a>
+          <a class="bp-btn bp-btn--secondary bp-btn--sm" href="#/campaigns/new?book=${book.id}">Create campaign</a>
+          <a class="bp-btn bp-btn--ghost bp-btn--sm" href="#/books/${book.id}/edit">Edit</a>
+          ${book.sales_url ? raw(html`<a class="bp-btn bp-btn--ghost bp-btn--sm" href="${safeUrl(book.sales_url)}" target="_blank" rel="noopener noreferrer">Sales page ↗</a>`) : ""}
+          <button type="button" class="bp-btn bp-btn--danger bp-btn--sm" id="delete-book">Delete</button>
         </div>
       </div>
     </section>
 
-    <div class="bb-stack-lg">
+    <div class="bp-stack-lg">
       <section>
-        <h2 style="font-size:1.05rem;margin-bottom:var(--bb-3)">Performance</h2>
+        <h2 style="font-size:1.05rem;margin-bottom:var(--bp-3)">Performance</h2>
         ${raw(statGrid(derived, book.currency))}
       </section>
 
-      <div class="bb-grid bb-grid--2">
-        <section class="bb-card">
-          <div class="bb-card__header"><div class="bb-card__title">AI strategy</div></div>
-          <dl class="bb-kv">
+      <div class="bp-grid bp-grid--2">
+        <section class="bp-card">
+          <div class="bp-card__header"><div class="bp-card__title">AI strategy</div></div>
+          <dl class="bp-kv">
             <dt>Analysis</dt><dd>${strategy.analysis ? "Complete" : "Not run yet"}</dd>
             <dt>Personas</dt><dd>${fmt.number(strategy.personas.length)}</dd>
             <dt>Angles</dt><dd>${fmt.number(strategy.angles.length)}</dd>
             <dt>Creatives</dt><dd>${fmt.number(creatives.length)}</dd>
           </dl>
-          <a class="bb-btn bb-btn--secondary bb-btn--sm" style="margin-top:var(--bb-4)" href="#/strategy/${book.id}">
+          <a class="bp-btn bp-btn--secondary bp-btn--sm" style="margin-top:var(--bp-4)" href="#/strategy/${book.id}">
             ${strategy.analysis ? "Open strategy" : "Analyse this book"}
           </a>
         </section>
 
-        <section class="bb-card">
-          <div class="bb-card__header"><div class="bb-card__title">Campaigns</div></div>
+        <section class="bp-card">
+          <div class="bp-card__header"><div class="bp-card__title">Campaigns</div></div>
           ${raw(bookCampaigns.length
-            ? `<div class="bb-stack-sm">${bookCampaigns.slice(0, 5).map((campaign) => html`
-                 <div class="bb-row bb-row--between">
-                   <a href="#/campaigns/${campaign.id}" class="bb-truncate">${campaign.name}</a>
+            ? `<div class="bp-stack-sm">${bookCampaigns.slice(0, 5).map((campaign) => html`
+                 <div class="bp-row bp-row--between">
+                   <a href="#/campaigns/${campaign.id}" class="bp-truncate">${campaign.name}</a>
                    ${raw(statusBadge(campaign.status))}
                  </div>`).join("")}</div>`
-            : `<p class="bb-small bb-muted">No campaigns for this book yet.</p>
-               <a class="bb-btn bb-btn--secondary bb-btn--sm" href="#/campaigns/new?book=${book.id}">Create campaign</a>`)}
+            : `<p class="bp-small bp-muted">No campaigns for this book yet.</p>
+               <a class="bp-btn bp-btn--secondary bp-btn--sm" href="#/campaigns/new?book=${book.id}">Create campaign</a>`)}
         </section>
       </div>
     </div>
@@ -231,73 +231,73 @@ export async function renderForm(container, params) {
         ? "Changing the description is worth re-running the analysis afterwards."
         : "The description is what the analysis reads — paste the one from your sales page.",
     }))}
-    <form id="book-form" class="bb-card" style="max-width:720px">
-      <div class="bb-field">
-        <label class="bb-label" for="title">Title</label>
-        <input class="bb-input" id="title" name="title" required maxlength="300" value="${value("title")}">
+    <form id="book-form" class="bp-card" style="max-width:720px">
+      <div class="bp-field">
+        <label class="bp-label" for="title">Title</label>
+        <input class="bp-input" id="title" name="title" required maxlength="300" value="${value("title")}">
       </div>
-      <div class="bb-field">
-        <label class="bb-label" for="subtitle">Subtitle</label>
-        <input class="bb-input" id="subtitle" name="subtitle" maxlength="300" value="${value("subtitle")}">
+      <div class="bp-field">
+        <label class="bp-label" for="subtitle">Subtitle</label>
+        <input class="bp-input" id="subtitle" name="subtitle" maxlength="300" value="${value("subtitle")}">
       </div>
-      <div class="bb-field-row">
-        <div class="bb-field">
-          <label class="bb-label" for="author_name">Author name</label>
-          <input class="bb-input" id="author_name" name="author_name" maxlength="200" value="${value("author_name")}">
+      <div class="bp-field-row">
+        <div class="bp-field">
+          <label class="bp-label" for="author_name">Author name</label>
+          <input class="bp-input" id="author_name" name="author_name" maxlength="200" value="${value("author_name")}">
         </div>
-        <div class="bb-field">
-          <label class="bb-label" for="genre">Genre</label>
-          <select class="bb-select" id="genre" name="genre">${raw(GENRE_OPTIONS)}</select>
+        <div class="bp-field">
+          <label class="bp-label" for="genre">Genre</label>
+          <select class="bp-select" id="genre" name="genre">${raw(GENRE_OPTIONS)}</select>
         </div>
       </div>
-      <div class="bb-field">
-        <label class="bb-label" for="subgenre">Subgenre</label>
-        <input class="bb-input" id="subgenre" name="subgenre" maxlength="120" value="${value("subgenre")}"
+      <div class="bp-field">
+        <label class="bp-label" for="subgenre">Subgenre</label>
+        <input class="bp-input" id="subgenre" name="subgenre" maxlength="120" value="${value("subgenre")}"
           placeholder="e.g. Life transitions, cosy mystery, cybersecurity for SMBs">
       </div>
-      <div class="bb-field">
-        <label class="bb-label" for="description">Description</label>
-        <textarea class="bb-textarea" id="description" name="description" rows="7" maxlength="8000">${value("description")}</textarea>
+      <div class="bp-field">
+        <label class="bp-label" for="description">Description</label>
+        <textarea class="bp-textarea" id="description" name="description" rows="7" maxlength="8000">${value("description")}</textarea>
       </div>
-      <div class="bb-field-row">
-        <div class="bb-field">
-          <label class="bb-label" for="price">Price</label>
-          <input class="bb-input" id="price" name="price" type="number" min="0" step="0.01"
+      <div class="bp-field-row">
+        <div class="bp-field">
+          <label class="bp-label" for="price">Price</label>
+          <input class="bp-input" id="price" name="price" type="number" min="0" step="0.01"
             value="${book?.price_cents !== null && book?.price_cents !== undefined ? (book.price_cents / 100).toFixed(2) : ""}">
         </div>
-        <div class="bb-field">
-          <label class="bb-label" for="currency">Currency</label>
-          <select class="bb-select" id="currency" name="currency">${raw(CURRENCIES)}</select>
+        <div class="bp-field">
+          <label class="bp-label" for="currency">Currency</label>
+          <select class="bp-select" id="currency" name="currency">${raw(CURRENCIES)}</select>
         </div>
       </div>
-      <div class="bb-field">
-        <label class="bb-label" for="sales_url">Sales URL</label>
-        <input class="bb-input" id="sales_url" name="sales_url" type="url" value="${value("sales_url")}" placeholder="https://">
+      <div class="bp-field">
+        <label class="bp-label" for="sales_url">Sales URL</label>
+        <input class="bp-input" id="sales_url" name="sales_url" type="url" value="${value("sales_url")}" placeholder="https://">
       </div>
-      <div class="bb-field">
-        <label class="bb-label" for="cover_url">Cover image URL</label>
-        <input class="bb-input" id="cover_url" name="cover_url" type="url" value="${value("cover_url")}" placeholder="https://">
-        <div class="bb-hint">A direct link to the image file.</div>
+      <div class="bp-field">
+        <label class="bp-label" for="cover_url">Cover image URL</label>
+        <input class="bp-input" id="cover_url" name="cover_url" type="url" value="${value("cover_url")}" placeholder="https://">
+        <div class="bp-hint">A direct link to the image file.</div>
       </div>
-      <div class="bb-field">
-        <label class="bb-label" for="sample_text">Sample text</label>
-        <textarea class="bb-textarea" id="sample_text" name="sample_text" rows="5" maxlength="40000"
+      <div class="bp-field">
+        <label class="bp-label" for="sample_text">Sample text</label>
+        <textarea class="bp-textarea" id="sample_text" name="sample_text" rows="5" maxlength="40000"
           placeholder="An excerpt — the opening pages work best.">${value("sample_text")}</textarea>
-        <div class="bb-hint">Used only to analyse your book and write your marketing. Never used to train a model.</div>
+        <div class="bp-hint">Used only to analyse your book and write your marketing. Never used to train a model.</div>
       </div>
-      <div class="bb-field">
-        <label class="bb-label" for="author_bio">Author bio</label>
-        <textarea class="bb-textarea" id="author_bio" name="author_bio" rows="3" maxlength="4000">${value("author_bio")}</textarea>
+      <div class="bp-field">
+        <label class="bp-label" for="author_bio">Author bio</label>
+        <textarea class="bp-textarea" id="author_bio" name="author_bio" rows="3" maxlength="4000">${value("author_bio")}</textarea>
       </div>
-      <div class="bb-field">
-        <label class="bb-label" for="reviews_text">Reviews you've actually received</label>
-        <textarea class="bb-textarea" id="reviews_text" name="reviews_text" rows="3" maxlength="8000">${value("reviews_text")}</textarea>
-        <div class="bb-hint">Paste them verbatim. Nothing will invent a review you didn't get.</div>
+      <div class="bp-field">
+        <label class="bp-label" for="reviews_text">Reviews you've actually received</label>
+        <textarea class="bp-textarea" id="reviews_text" name="reviews_text" rows="3" maxlength="8000">${value("reviews_text")}</textarea>
+        <div class="bp-hint">Paste them verbatim. Nothing will invent a review you didn't get.</div>
       </div>
 
-      <div class="bb-wizard__footer">
-        <a class="bb-btn bb-btn--ghost" href="${editing ? `#/books/${params.id}` : "#/books"}">Cancel</a>
-        <button type="submit" class="bb-btn bb-btn--primary">${editing ? "Save changes" : "Add book"}</button>
+      <div class="bp-wizard__footer">
+        <a class="bp-btn bp-btn--ghost" href="${editing ? `#/books/${params.id}` : "#/books"}">Cancel</a>
+        <button type="submit" class="bp-btn bp-btn--primary">${editing ? "Save changes" : "Add book"}</button>
       </div>
     </form>
   `;

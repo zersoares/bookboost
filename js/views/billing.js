@@ -43,14 +43,14 @@ export async function render(container, params, query) {
       actions: demoBadge(),
     }))}
 
-    <div class="bb-stack-lg">
-      <section class="bb-grid bb-grid--2">
-        <div class="bb-card">
-          <div class="bb-card__header">
-            <div class="bb-card__title">Current plan</div>
-            <span class="bb-badge bb-badge--primary">${currentPlan?.name || "Free"}</span>
+    <div class="bp-stack-lg">
+      <section class="bp-grid bp-grid--2">
+        <div class="bp-card">
+          <div class="bp-card__header">
+            <div class="bp-card__title">Current plan</div>
+            <span class="bp-badge bp-badge--primary">${currentPlan?.name || "Free"}</span>
           </div>
-          <dl class="bb-kv">
+          <dl class="bp-kv">
             <dt>Price</dt><dd>${currentPlan ? fmt.money(currentPlan.price_cents, currentPlan.currency) : "€0.00"} per month</dd>
             <dt>Books</dt><dd>${currentPlan?.book_limit === null ? "Unlimited" : fmt.number(currentPlan?.book_limit ?? 1)}</dd>
             <dt>Credits</dt><dd>${fmt.number(currentPlan?.monthly_credits ?? 0)} per month</dd>
@@ -60,22 +60,22 @@ export async function render(container, params, query) {
               : ""}
           </dl>
           ${raw(billing.billingAvailable && billing.subscription?.stripe_customer_id
-            ? '<button type="button" class="bb-btn bb-btn--secondary bb-btn--sm" style="margin-top:var(--bb-4)" id="portal-btn">Manage billing</button>'
+            ? '<button type="button" class="bp-btn bp-btn--secondary bp-btn--sm" style="margin-top:var(--bp-4)" id="portal-btn">Manage billing</button>'
             : "")}
         </div>
 
-        <div class="bb-card">
-          <div class="bb-card__header"><div class="bb-card__title">AI credits</div></div>
-          <div class="bb-stat__value" style="font-size:2.2rem">${fmt.number(profile?.ai_credits ?? billing.credits)}</div>
-          <p class="bb-small bb-muted">remaining this month</p>
-          <div class="bb-progress" style="margin-top:var(--bb-3)">
-            <div class="bb-progress__bar" style="width:${currentPlan?.monthly_credits
+        <div class="bp-card">
+          <div class="bp-card__header"><div class="bp-card__title">AI credits</div></div>
+          <div class="bp-stat__value" style="font-size:2.2rem">${fmt.number(profile?.ai_credits ?? billing.credits)}</div>
+          <p class="bp-small bp-muted">remaining this month</p>
+          <div class="bp-progress" style="margin-top:var(--bp-3)">
+            <div class="bp-progress__bar" style="width:${currentPlan?.monthly_credits
               ? Math.min(100, Math.round(((profile?.ai_credits ?? 0) / currentPlan.monthly_credits) * 100))
               : 0}%"></div>
           </div>
-          <details style="margin-top:var(--bb-4)">
-            <summary class="bb-small" style="cursor:pointer">What each operation costs</summary>
-            <dl class="bb-kv bb-small" style="margin-top:var(--bb-3)">
+          <details style="margin-top:var(--bp-4)">
+            <summary class="bp-small" style="cursor:pointer">What each operation costs</summary>
+            <dl class="bp-kv bp-small" style="margin-top:var(--bp-3)">
               ${raw(Object.entries(costs).map(([operation, credits]) => html`
                 <dt>${OPERATION_LABELS[operation] || fmt.titleCase(operation)}</dt>
                 <dd>${credits} ${credits === 1 ? "credit" : "credits"}</dd>`).join(""))}
@@ -85,37 +85,37 @@ export async function render(container, params, query) {
       </section>
 
       <section>
-        <h2 style="font-size:1.05rem;margin-bottom:var(--bb-3)">Plans</h2>
+        <h2 style="font-size:1.05rem;margin-bottom:var(--bp-3)">Plans</h2>
         ${raw(!billing.billingAvailable ? `
-          <div class="bb-alert bb-alert--info" style="margin-bottom:var(--bb-4)">
-            <span class="bb-alert__icon">◆</span>
-            <div class="bb-small">
+          <div class="bp-alert bp-alert--info" style="margin-bottom:var(--bp-4)">
+            <span class="bp-alert__icon">◆</span>
+            <div class="bp-small">
               ${isDemo()
                 ? "Checkout is switched off in the demo workspace — no card, nothing to cancel."
                 : "Payments aren't configured on this deployment yet, so upgrading isn't available. The plans below are what will be offered."}
             </div>
           </div>` : "")}
-        <div class="bb-pricing">
+        <div class="bp-pricing">
           ${raw(billing.plans.map((plan) => planCard(plan, billing, currentPlan)).join(""))}
         </div>
-        <p class="bb-tiny bb-subtle" style="margin-top:var(--bb-4)">
+        <p class="bp-tiny bp-subtle" style="margin-top:var(--bp-4)">
           Prices exclude VAT. Your advertising budget is separate and is paid to the ad platform, not
-          to BookBoost.
+          to BookPilot.
         </p>
       </section>
 
       ${raw(billing.recentUsage?.length ? html`
         <section>
-          <h2 style="font-size:1.05rem;margin-bottom:var(--bb-3)">Recent AI usage</h2>
-          <div class="bb-card bb-card--flush">
-            <div class="bb-table-wrap">
-              <table class="bb-table">
-                <thead><tr><th>Operation</th><th class="bb-num">Credits</th><th>When</th></tr></thead>
+          <h2 style="font-size:1.05rem;margin-bottom:var(--bp-3)">Recent AI usage</h2>
+          <div class="bp-card bp-card--flush">
+            <div class="bp-table-wrap">
+              <table class="bp-table">
+                <thead><tr><th>Operation</th><th class="bp-num">Credits</th><th>When</th></tr></thead>
                 <tbody>
                   ${raw(billing.recentUsage.slice(0, 25).map((row) => html`<tr>
                     <td>${OPERATION_LABELS[row.operation] || fmt.titleCase(row.operation)}</td>
-                    <td class="bb-num">${row.credits_used}</td>
-                    <td class="bb-small bb-muted">${fmt.relativeTime(row.created_at)}</td>
+                    <td class="bp-num">${row.credits_used}</td>
+                    <td class="bp-small bp-muted">${fmt.relativeTime(row.created_at)}</td>
                   </tr>`).join(""))}
                 </tbody>
               </table>
@@ -154,23 +154,23 @@ function planCard(plan, billing, currentPlan) {
   const isCurrent = plan.id === billing.planId;
   const isUpgrade = (plan.price_cents || 0) > (currentPlan?.price_cents || 0);
   return html`
-    <article class="bb-plan ${plan.id === "author" ? "bb-plan--featured" : ""}">
-      <div class="bb-row bb-row--between">
-        <div class="bb-plan__name">${plan.name}</div>
-        ${isCurrent ? raw('<span class="bb-badge bb-badge--primary">Current</span>') : ""}
+    <article class="bp-plan ${plan.id === "author" ? "bp-plan--featured" : ""}">
+      <div class="bp-row bp-row--between">
+        <div class="bp-plan__name">${plan.name}</div>
+        ${isCurrent ? raw('<span class="bp-badge bp-badge--primary">Current</span>') : ""}
       </div>
-      <div class="bb-plan__price">${fmt.money(plan.price_cents, plan.currency, { decimals: 0 })}</div>
-      <div class="bb-plan__period">per month</div>
-      <ul class="bb-plan__features">
+      <div class="bp-plan__price">${fmt.money(plan.price_cents, plan.currency, { decimals: 0 })}</div>
+      <div class="bp-plan__period">per month</div>
+      <ul class="bp-plan__features">
         ${raw((plan.features || []).map((feature) => html`<li>${feature}</li>`).join(""))}
       </ul>
       ${raw(isCurrent
-        ? '<button type="button" class="bb-btn bb-btn--secondary bb-btn--block" disabled>Your plan</button>'
+        ? '<button type="button" class="bp-btn bp-btn--secondary bp-btn--block" disabled>Your plan</button>'
         : billing.billingAvailable && plan.price_cents > 0
-          ? html`<button type="button" class="bb-btn bb-btn--${isUpgrade ? "primary" : "secondary"} bb-btn--block" data-plan="${plan.id}">
+          ? html`<button type="button" class="bp-btn bp-btn--${isUpgrade ? "primary" : "secondary"} bp-btn--block" data-plan="${plan.id}">
               ${isUpgrade ? `Upgrade to ${plan.name}` : `Switch to ${plan.name}`}
             </button>`
-          : '<button type="button" class="bb-btn bb-btn--secondary bb-btn--block" disabled>Unavailable</button>')}
+          : '<button type="button" class="bp-btn bp-btn--secondary bp-btn--block" disabled>Unavailable</button>')}
     </article>
   `;
 }

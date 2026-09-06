@@ -1,4 +1,4 @@
-// Runtime configuration for the BookBoost AI backend.
+// Runtime configuration for the BookPilot AI backend.
 //
 // Every secret is read here and nowhere else, so there is exactly one
 // place to audit for "does this value ever reach the browser?". The
@@ -27,7 +27,7 @@ export const env = {
   supabaseUrl: read("SUPABASE_URL"),
   supabaseAnonKey: read("SUPABASE_ANON_KEY"),
   // Service role bypasses RLS. Used only for the operations listed in
-  // bookboost/README.md § "Where the service role is used".
+  // bookpilot/README.md § "Where the service role is used".
   supabaseServiceKey: read("SUPABASE_SERVICE_ROLE_KEY"),
 
   // --- Anthropic ------------------------------------------------------
@@ -42,18 +42,18 @@ export const env = {
   metaAppSecret: read("META_APP_SECRET"),
   metaRedirectUri: read("META_REDIRECT_URI"),
   // Random string used to sign the OAuth `state` parameter (CSRF guard).
-  oauthStateSecret: read("BOOKBOOST_OAUTH_STATE_SECRET"),
+  oauthStateSecret: read("BOOKPILOT_OAUTH_STATE_SECRET"),
 
   // --- Deployment -----------------------------------------------------
-  siteUrl: read("BOOKBOOST_SITE_URL") || read("URL") || "http://localhost:8888",
-  allowedOrigins: (read("BOOKBOOST_ALLOWED_ORIGINS") || "")
+  siteUrl: read("BOOKPILOT_SITE_URL") || read("URL") || "http://localhost:8888",
+  allowedOrigins: (read("BOOKPILOT_ALLOWED_ORIGINS") || "")
     .split(",")
     .map((s) => s.trim())
     .filter(Boolean),
 };
 
 // Which capabilities the server can actually deliver right now. The
-// client asks for this (via /api/bb/config) and renders "Connect
+// client asks for this (via /api/bp/config) and renders "Connect
 // integration" or "Demo mode" for anything that is off, instead of
 // showing a control that would fail (spec §55).
 export function capabilities() {

@@ -3,7 +3,7 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import * as v from "../netlify/functions/bookboost-lib/validate.js";
+import * as v from "../netlify/functions/bookpilot-lib/validate.js";
 
 function throws(fn, code = "invalid_input") {
   assert.throws(fn, (err) => err.code === code, `expected ${code}`);

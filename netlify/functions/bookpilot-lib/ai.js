@@ -3,7 +3,7 @@
 // Raw HTTPS rather than the official SDK, deliberately: this repository
 // has no package.json and no build step — Netlify deploys the functions
 // as plain ESM — so adding a dependency would change how the whole site
-// is built. See bookboost/README.md § "Why there is no build step".
+// is built. See bookpilot/README.md § "Why there is no build step".
 //
 // Everything is server-side: the API key, the prompts and the model
 // choice never reach the browser.
@@ -168,7 +168,7 @@ export async function generate(key, variables = {}) {
     });
   } catch (err) {
     clearTimeout(timer);
-    console.error(`[bookboost] AI request failed (${key}):`, err);
+    console.error(`[bookpilot] AI request failed (${key}):`, err);
     throw Errors.aiUnavailable();
   }
   clearTimeout(timer);
@@ -177,7 +177,7 @@ export async function generate(key, variables = {}) {
   if (!res.ok) {
     // The upstream body can contain the request echo; keep it in the log
     // and give the user the plain-language version.
-    console.error(`[bookboost] AI ${key} -> ${res.status}: ${raw.slice(0, 500)}`);
+    console.error(`[bookpilot] AI ${key} -> ${res.status}: ${raw.slice(0, 500)}`);
     throw Errors.aiUnavailable();
   }
 
@@ -191,13 +191,13 @@ export async function generate(key, variables = {}) {
   // A safety classifier can decline a request: HTTP 200 with
   // stop_reason "refusal" and no usable content.
   if (message.stop_reason === "refusal") {
-    console.warn(`[bookboost] AI refused ${key}:`, message.stop_details?.category);
+    console.warn(`[bookpilot] AI refused ${key}:`, message.stop_details?.category);
     throw Errors.aiRefused();
   }
 
   const data = extractJson(message);
   if (!data) {
-    console.error(`[bookboost] AI ${key} returned unparseable content`);
+    console.error(`[bookpilot] AI ${key} returned unparseable content`);
     throw Errors.aiUnavailable();
   }
 

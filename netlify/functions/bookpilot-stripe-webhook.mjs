@@ -1,15 +1,15 @@
-// BookBoost AI — Stripe webhook.
+// BookPilot AI — Stripe webhook.
 //
-//   /api/bb-stripe-webhook
+//   /api/bp-stripe-webhook
 //
 // The only place a paid plan is granted. Requests are rejected unless
 // they carry a valid Stripe signature, so the endpoint being public
 // doesn't make plans free.
 
-import { json } from "./bookboost-lib/http.js";
-import { dbAsService } from "./bookboost-lib/db.js";
-import * as stripe from "./bookboost-lib/stripe.js";
-import * as audit from "./bookboost-lib/audit.js";
+import { json } from "./bookpilot-lib/http.js";
+import { dbAsService } from "./bookpilot-lib/db.js";
+import * as stripe from "./bookpilot-lib/stripe.js";
+import * as audit from "./bookpilot-lib/audit.js";
 
 async function applyPlan(userId, planId, subscription) {
   const service = dbAsService();
@@ -74,11 +74,11 @@ export default async (req) => {
   try {
     valid = await stripe.verifyWebhook(raw, signature);
   } catch (err) {
-    console.error("[bookboost] webhook not configured:", err.message);
+    console.error("[bookpilot] webhook not configured:", err.message);
     return json({ error: { message: "Not configured" } }, 501);
   }
   if (!valid) {
-    console.warn("[bookboost] rejected Stripe webhook with bad signature");
+    console.warn("[bookpilot] rejected Stripe webhook with bad signature");
     return json({ error: { message: "Invalid signature" } }, 400);
   }
 
@@ -127,11 +127,11 @@ export default async (req) => {
   } catch (err) {
     // Returning 500 makes Stripe retry, which is what we want for a
     // transient database failure.
-    console.error("[bookboost] webhook handling failed:", event.type, err);
+    console.error("[bookpilot] webhook handling failed:", event.type, err);
     return json({ received: false }, 500);
   }
 
   return json({ received: true });
 };
 
-export const config = { path: "/api/bb-stripe-webhook" };
+export const config = { path: "/api/bp-stripe-webhook" };

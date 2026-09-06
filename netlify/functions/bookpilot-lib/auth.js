@@ -37,7 +37,7 @@ export async function resolveUser(token) {
       headers: { apikey: env.supabaseAnonKey, Authorization: `Bearer ${token}` },
     });
   } catch (err) {
-    console.error("[bookboost] auth service unreachable:", err);
+    console.error("[bookpilot] auth service unreachable:", err);
     throw Errors.internal();
   }
   if (!res.ok) throw Errors.unauthorized();

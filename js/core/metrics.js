@@ -2,7 +2,7 @@
 //
 // Single source of truth: the browser imports this file directly and the
 // serverless functions import it through
-// netlify/functions/bookboost-lib/metrics.js, so a dashboard figure and
+// netlify/functions/bookpilot-lib/metrics.js, so a dashboard figure and
 // an AI Advisor figure can never disagree.
 //
 // The rule that matters: a rate with a zero denominator is *unknown*,

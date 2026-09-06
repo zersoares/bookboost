@@ -3,7 +3,7 @@
 // Stripe's REST API is form-encoded; three calls are all this product
 // needs (checkout session, billing portal session, subscription read),
 // so it is written directly rather than pulling in the SDK — see
-// bookboost/README.md § "Why there is no build step".
+// bookpilot/README.md § "Why there is no build step".
 
 import { env } from "./env.js";
 import { Errors } from "./errors.js";
@@ -47,12 +47,12 @@ async function call(path, { method = "POST", params } = {}) {
       body: params ? encode(params).toString() : undefined,
     });
   } catch (err) {
-    console.error("[bookboost] Stripe unreachable:", err);
+    console.error("[bookpilot] Stripe unreachable:", err);
     throw new Error("stripe_unreachable");
   }
   const body = await res.json().catch(() => null);
   if (!res.ok) {
-    console.error(`[bookboost] Stripe ${path} -> ${res.status}:`, body?.error?.message);
+    console.error(`[bookpilot] Stripe ${path} -> ${res.status}:`, body?.error?.message);
     throw Errors.internal();
   }
   return body;

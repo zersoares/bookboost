@@ -1,6 +1,6 @@
-// BookBoost AI — Meta integration.
+// BookPilot AI — Meta integration.
 //
-//   /api/bb-meta/*
+//   /api/bp-meta/*
 //
 // OAuth connect, ad-account selection, campaign launch and insights
 // sync. When META_APP_ID / META_APP_SECRET / META_REDIRECT_URI are not
@@ -9,17 +9,17 @@
 // thing this file will never do is invent a campaign id and call it
 // launched.
 
-import { withGuards, json, readJson, pathSegments } from "./bookboost-lib/http.js";
-import { authenticate } from "./bookboost-lib/auth.js";
-import { dbAsService } from "./bookboost-lib/db.js";
-import { Errors } from "./bookboost-lib/errors.js";
-import { env } from "./bookboost-lib/env.js";
-import { memoryLimit } from "./bookboost-lib/ratelimit.js";
-import * as meta from "./bookboost-lib/meta.js";
-import * as v from "./bookboost-lib/validate.js";
-import * as audit from "./bookboost-lib/audit.js";
+import { withGuards, json, readJson, pathSegments } from "./bookpilot-lib/http.js";
+import { authenticate } from "./bookpilot-lib/auth.js";
+import { dbAsService } from "./bookpilot-lib/db.js";
+import { Errors } from "./bookpilot-lib/errors.js";
+import { env } from "./bookpilot-lib/env.js";
+import { memoryLimit } from "./bookpilot-lib/ratelimit.js";
+import * as meta from "./bookpilot-lib/meta.js";
+import * as v from "./bookpilot-lib/validate.js";
+import * as audit from "./bookpilot-lib/audit.js";
 
-const PREFIX = "/api/bb-meta";
+const PREFIX = "/api/bp-meta";
 
 /** Read the stored token for a user. Service role: the client has no
  *  grant on the integrations table by design. */
@@ -54,7 +54,7 @@ async function callback(req) {
 
   const error = url.searchParams.get("error");
   if (error) {
-    console.warn("[bookboost] Meta OAuth declined:", error);
+    console.warn("[bookpilot] Meta OAuth declined:", error);
     return Response.redirect(`${appUrl}?meta=declined`, 302);
   }
 
@@ -85,7 +85,7 @@ async function callback(req) {
     await audit.record(userId, "integration.connected", { entity: "meta" });
     return Response.redirect(`${appUrl}?meta=connected`, 302);
   } catch (err) {
-    console.error("[bookboost] Meta callback failed:", err);
+    console.error("[bookpilot] Meta callback failed:", err);
     return Response.redirect(`${appUrl}?meta=failed`, 302);
   }
 }
@@ -315,4 +315,4 @@ export default withGuards(async (req) => {
   throw Errors.notFound("endpoint");
 });
 
-export const config = { path: "/api/bb-meta/*" };
+export const config = { path: "/api/bp-meta/*" };

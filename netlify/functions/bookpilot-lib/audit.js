@@ -19,6 +19,6 @@ export async function record(userId, action, { entity = null, entityId = null, d
     );
   } catch (err) {
     // Auditing must never break the operation being audited.
-    console.error("[bookboost] audit write failed:", action, err);
+    console.error("[bookpilot] audit write failed:", action, err);
   }
 }

@@ -1,5 +1,5 @@
 -- =====================================================================
--- BookBoost AI — database functions
+-- BookPilot AI — database functions
 --
 -- Credit accounting has to be atomic: two AI requests arriving together
 -- must not both read "12 credits left" and both spend 10. Doing the
@@ -12,7 +12,7 @@
 
 -- Spend credits for one AI operation and record the usage row.
 -- Returns the number of credits left, or raises `insufficient_credits`
--- when the balance is too low. The caller (bookboost-lib/credits.js)
+-- when the balance is too low. The caller (bookpilot-lib/credits.js)
 -- turns that into a friendly 402.
 create or replace function public.bb_consume_credits(
   p_user      uuid,

@@ -3,7 +3,7 @@
 // The important detail is *which key signs the request*:
 //
 //   dbAsUser(token)  — sends the caller's own JWT. Postgres applies the
-//                      RLS policies in bookboost/sql/002_rls.sql, so a
+//                      RLS policies in bookpilot/sql/002_rls.sql, so a
 //                      query can only ever return that user's rows even
 //                      if this file had a bug in its filters. This is
 //                      how every request that serves a user's data runs.
@@ -64,14 +64,14 @@ function makeClient({ token, isService }) {
         body: body === undefined ? undefined : JSON.stringify(body),
       });
     } catch (err) {
-      console.error("[bookboost] database unreachable:", err);
+      console.error("[bookpilot] database unreachable:", err);
       throw Errors.database();
     }
 
     const text = await res.text();
     if (!res.ok) {
       // PostgREST returns 401/403 when an RLS policy rejects the row.
-      console.error(`[bookboost] db ${method} ${table} -> ${res.status}: ${text}`);
+      console.error(`[bookpilot] db ${method} ${table} -> ${res.status}: ${text}`);
       if (res.status === 401 || res.status === 403) throw Errors.forbidden();
       if (res.status === 404) throw Errors.notFound();
       if (res.status === 409) {

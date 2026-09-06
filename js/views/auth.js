@@ -11,12 +11,12 @@ import { isDemo } from "../core/api.js";
 
 function shell(title, body, footer) {
   return html`
-    <div class="bb-auth">
-      <div class="bb-auth__card">
-        <a class="bb-auth__brand" href="/">
-          <span class="bb-sidebar__mark">B</span> BookBoost <span class="bb-logo__ai">AI</span>
+    <div class="bp-auth">
+      <div class="bp-auth__card">
+        <a class="bp-auth__brand" href="/">
+          <span class="bp-sidebar__mark">B</span> BookPilot <span class="bp-logo__ai">AI</span>
         </a>
-        <h1 style="font-size:1.35rem;text-align:center;margin-bottom:var(--bb-2)">${title}</h1>
+        <h1 style="font-size:1.35rem;text-align:center;margin-bottom:var(--bp-2)">${title}</h1>
         ${raw(body)}
         ${raw(footer || "")}
       </div>
@@ -27,27 +27,27 @@ function shell(title, body, footer) {
 function googleButton(enabled) {
   if (!enabled) return "";
   return `
-    <button type="button" class="bb-btn bb-btn--secondary bb-btn--block" id="google-btn">
+    <button type="button" class="bp-btn bp-btn--secondary bp-btn--block" id="google-btn">
       Continue with Google
     </button>
-    <div class="bb-row" style="margin:var(--bb-4) 0">
-      <div class="bb-divider bb-flex-1" style="margin:0"></div>
-      <span class="bb-tiny bb-subtle">or</span>
-      <div class="bb-divider bb-flex-1" style="margin:0"></div>
+    <div class="bp-row" style="margin:var(--bp-4) 0">
+      <div class="bp-divider bp-flex-1" style="margin:0"></div>
+      <span class="bp-tiny bp-subtle">or</span>
+      <div class="bp-divider bp-flex-1" style="margin:0"></div>
     </div>`;
 }
 
 function unavailableNotice() {
   return `
-    <div class="bb-alert bb-alert--info" style="margin-bottom:var(--bb-5)">
-      <span class="bb-alert__icon">◆</span>
+    <div class="bp-alert bp-alert--info" style="margin-bottom:var(--bp-5)">
+      <span class="bp-alert__icon">◆</span>
       <div>
-        <div class="bb-alert__title">Accounts aren't switched on here yet</div>
-        <div class="bb-small">
+        <div class="bp-alert__title">Accounts aren't switched on here yet</div>
+        <div class="bp-small">
           This deployment has no database connected, so sign-up is unavailable. You can still
           explore the whole product in the demo workspace.
         </div>
-        <a class="bb-btn bb-btn--primary bb-btn--sm" style="margin-top:var(--bb-3)" href="/app.html?demo=1#/overview">
+        <a class="bp-btn bp-btn--primary bp-btn--sm" style="margin-top:var(--bp-3)" href="/app.html?demo=1#/overview">
           Open the demo
         </a>
       </div>
@@ -65,50 +65,50 @@ export function render(root, mode) {
       `${configured ? "" : unavailableNotice()}
        ${googleButton(googleEnabled)}
        <form id="auth-form" novalidate>
-         <div class="bb-field">
-           <label class="bb-label" for="name">Your name</label>
-           <input class="bb-input" id="name" name="fullName" autocomplete="name" required>
+         <div class="bp-field">
+           <label class="bp-label" for="name">Your name</label>
+           <input class="bp-input" id="name" name="fullName" autocomplete="name" required>
          </div>
-         <div class="bb-field">
-           <label class="bb-label" for="email">Email</label>
-           <input class="bb-input" id="email" name="email" type="email" autocomplete="email" required>
+         <div class="bp-field">
+           <label class="bp-label" for="email">Email</label>
+           <input class="bp-input" id="email" name="email" type="email" autocomplete="email" required>
          </div>
-         <div class="bb-field">
-           <label class="bb-label" for="password">Password</label>
-           <input class="bb-input" id="password" name="password" type="password" autocomplete="new-password" minlength="8" required>
-           <div class="bb-hint">At least 8 characters.</div>
+         <div class="bp-field">
+           <label class="bp-label" for="password">Password</label>
+           <input class="bp-input" id="password" name="password" type="password" autocomplete="new-password" minlength="8" required>
+           <div class="bp-hint">At least 8 characters.</div>
          </div>
-         <label class="bb-checkbox" style="margin-bottom:var(--bb-5)">
+         <label class="bp-checkbox" style="margin-bottom:var(--bp-5)">
            <input type="checkbox" name="terms" required>
-           <span class="bb-small">
+           <span class="bp-small">
              I agree to the <a href="/terms.html">terms of service</a> and the
              <a href="/privacy.html">privacy policy</a>.
            </span>
          </label>
-         <button type="submit" class="bb-btn bb-btn--primary bb-btn--block" ${configured ? "" : "disabled"}>
+         <button type="submit" class="bp-btn bp-btn--primary bp-btn--block" ${configured ? "" : "disabled"}>
            Create account
          </button>
        </form>`,
-      `<p class="bb-small bb-center bb-muted" style="margin-top:var(--bb-5)">
+      `<p class="bp-small bp-center bp-muted" style="margin-top:var(--bp-5)">
          Already have an account? <a href="#/signin">Sign in</a>
        </p>`
     );
   } else if (mode === "reset") {
     target.innerHTML = shell(
       "Reset your password",
-      `<p class="bb-small bb-muted bb-center" style="margin-bottom:var(--bb-5)">
+      `<p class="bp-small bp-muted bp-center" style="margin-bottom:var(--bp-5)">
          We'll email you a link to choose a new one.
        </p>
        <form id="auth-form">
-         <div class="bb-field">
-           <label class="bb-label" for="email">Email</label>
-           <input class="bb-input" id="email" name="email" type="email" autocomplete="email" required>
+         <div class="bp-field">
+           <label class="bp-label" for="email">Email</label>
+           <input class="bp-input" id="email" name="email" type="email" autocomplete="email" required>
          </div>
-         <button type="submit" class="bb-btn bb-btn--primary bb-btn--block" ${configured ? "" : "disabled"}>
+         <button type="submit" class="bp-btn bp-btn--primary bp-btn--block" ${configured ? "" : "disabled"}>
            Send reset link
          </button>
        </form>`,
-      `<p class="bb-small bb-center bb-muted" style="margin-top:var(--bb-5)"><a href="#/signin">Back to sign in</a></p>`
+      `<p class="bp-small bp-center bp-muted" style="margin-top:var(--bp-5)"><a href="#/signin">Back to sign in</a></p>`
     );
   } else {
     target.innerHTML = shell(
@@ -116,22 +116,22 @@ export function render(root, mode) {
       `${configured ? "" : unavailableNotice()}
        ${googleButton(googleEnabled)}
        <form id="auth-form">
-         <div class="bb-field">
-           <label class="bb-label" for="email">Email</label>
-           <input class="bb-input" id="email" name="email" type="email" autocomplete="email" required>
+         <div class="bp-field">
+           <label class="bp-label" for="email">Email</label>
+           <input class="bp-input" id="email" name="email" type="email" autocomplete="email" required>
          </div>
-         <div class="bb-field">
-           <label class="bb-label" for="password">Password</label>
-           <input class="bb-input" id="password" name="password" type="password" autocomplete="current-password" required>
+         <div class="bp-field">
+           <label class="bp-label" for="password">Password</label>
+           <input class="bp-input" id="password" name="password" type="password" autocomplete="current-password" required>
          </div>
-         <button type="submit" class="bb-btn bb-btn--primary bb-btn--block" ${configured ? "" : "disabled"}>
+         <button type="submit" class="bp-btn bp-btn--primary bp-btn--block" ${configured ? "" : "disabled"}>
            Sign in
          </button>
        </form>`,
-      `<p class="bb-small bb-center bb-muted" style="margin-top:var(--bb-5)">
+      `<p class="bp-small bp-center bp-muted" style="margin-top:var(--bp-5)">
          <a href="#/reset">Forgot your password?</a>
        </p>
-       <p class="bb-small bb-center bb-muted">
+       <p class="bp-small bp-center bp-muted">
          New here? <a href="#/signup">Create an account</a> ·
          <a href="/app.html?demo=1#/overview">Try the demo</a>
        </p>`
@@ -160,11 +160,11 @@ export function render(root, mode) {
         const { needsConfirmation } = await auth.signUp(values);
         if (needsConfirmation) {
           form.innerHTML = `
-            <div class="bb-alert bb-alert--success">
-              <span class="bb-alert__icon">✓</span>
+            <div class="bp-alert bp-alert--success">
+              <span class="bp-alert__icon">✓</span>
               <div>
-                <div class="bb-alert__title">Check your inbox</div>
-                <div class="bb-small">We've sent a confirmation link. Open it and you'll land straight in your workspace.</div>
+                <div class="bp-alert__title">Check your inbox</div>
+                <div class="bp-small">We've sent a confirmation link. Open it and you'll land straight in your workspace.</div>
               </div>
             </div>`;
           return;
@@ -188,10 +188,10 @@ export function render(root, mode) {
   // Demo visitors reach these screens from the "create an account"
   // prompt; make the way back obvious.
   if (isDemo()) {
-    const card = target.querySelector(".bb-auth__card");
+    const card = target.querySelector(".bp-auth__card");
     card?.insertAdjacentHTML(
       "beforeend",
-      `<p class="bb-tiny bb-center bb-subtle" style="margin-top:var(--bb-4)">
+      `<p class="bp-tiny bp-center bp-subtle" style="margin-top:var(--bp-4)">
          <a href="/app.html?demo=1#/overview">Back to the demo workspace</a>
        </p>`
     );

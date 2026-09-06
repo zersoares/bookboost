@@ -5,7 +5,7 @@
 //
 //   - A capability the deployment doesn't have says so, and offers
 //     "Connect integration" rather than a button that fails.
-//   - Amazon is not presented as something BookBoost can read sales
+//   - Amazon is not presented as something BookPilot can read sales
 //     from. It can import Amazon Attribution data if the author has an
 //     eligible account, and that is a different, smaller claim.
 //   - Website-attributed and Amazon-attributed numbers are labelled
@@ -38,7 +38,7 @@ export async function render(container, params, query) {
       actions: demoBadge(),
     }))}
 
-    <div class="bb-stack-lg">
+    <div class="bp-stack-lg">
       ${raw(metaCard(meta, capabilities))}
       ${raw(trackingCard(sites))}
       ${raw(amazonCard(amazon, capabilities))}
@@ -61,7 +61,7 @@ export async function render(container, params, query) {
     const confirmed = await confirmDialog({
       title: "Disconnect Meta?",
       message:
-        "BookBoost will stop syncing performance data. Campaigns already running on Meta keep running — you'd pause those in Ads Manager.",
+        "BookPilot will stop syncing performance data. Campaigns already running on Meta keep running — you'd pause those in Ads Manager.",
       confirmLabel: "Disconnect",
       tone: "danger",
     });
@@ -79,14 +79,14 @@ export async function render(container, params, query) {
       target.innerHTML = accounts.length
         ? accounts
             .map((account) => html`
-              <label class="bb-radio ${account.id === selected ? "bb-radio--selected" : ""}">
+              <label class="bp-radio ${account.id === selected ? "bp-radio--selected" : ""}">
                 <input type="radio" name="ad-account" value="${account.id}" data-name="${account.name}" ${account.id === selected ? "checked" : ""}>
                 <span><strong>${account.name}</strong>
-                  <span class="bb-small bb-subtle"> · ${account.currency} · ${account.active ? "active" : "inactive"}</span></span>
+                  <span class="bp-small bp-subtle"> · ${account.currency} · ${account.active ? "active" : "inactive"}</span></span>
               </label>`)
             .join("") +
-          '<button type="button" class="bb-btn bb-btn--primary bb-btn--sm" id="save-account" style="margin-top:var(--bb-3)">Use this account</button>'
-        : '<p class="bb-small bb-muted">No ad accounts found on that Meta profile.</p>';
+          '<button type="button" class="bp-btn bp-btn--primary bp-btn--sm" id="save-account" style="margin-top:var(--bp-3)">Use this account</button>'
+        : '<p class="bp-small bp-muted">No ad accounts found on that Meta profile.</p>';
 
       target.querySelector("#save-account")?.addEventListener("click", async () => {
         const chosen = target.querySelector('input[name="ad-account"]:checked');
@@ -147,46 +147,46 @@ function metaCard(meta, capabilities) {
 
   if (!capabilities?.meta) {
     return html`
-      <section class="bb-card">
-        <div class="bb-card__header">
-          <div class="bb-card__title">Meta — Facebook &amp; Instagram</div>
-          <span class="bb-badge">${isDemo() ? "Not in the demo" : "Not configured"}</span>
+      <section class="bp-card">
+        <div class="bp-card__header">
+          <div class="bp-card__title">Meta — Facebook &amp; Instagram</div>
+          <span class="bp-badge">${isDemo() ? "Not in the demo" : "Not configured"}</span>
         </div>
-        <p class="bb-small bb-muted">
+        <p class="bp-small bp-muted">
           ${isDemo()
             ? "The demo workspace isn't connected to any ad account — that's the point of it. Create a free account to connect yours."
             : "This deployment doesn't have Meta app credentials configured yet, so the connection can't be offered. The integration is built and waiting on them."}
         </p>
-        ${raw(isDemo() ? '<a class="bb-btn bb-btn--primary bb-btn--sm" href="#/signup">Create a free account</a>' : "")}
+        ${raw(isDemo() ? '<a class="bp-btn bp-btn--primary bp-btn--sm" href="#/signup">Create a free account</a>' : "")}
       </section>`;
   }
 
   return html`
-    <section class="bb-card">
-      <div class="bb-card__header">
-        <div class="bb-card__title">Meta — Facebook &amp; Instagram</div>
-        <span class="bb-badge ${connected ? "bb-badge--success" : ""}">${connected ? "Connected" : "Not connected"}</span>
+    <section class="bp-card">
+      <div class="bp-card__header">
+        <div class="bp-card__title">Meta — Facebook &amp; Instagram</div>
+        <span class="bp-badge ${connected ? "bp-badge--success" : ""}">${connected ? "Connected" : "Not connected"}</span>
       </div>
       ${raw(connected
         ? html`
-          <dl class="bb-kv">
+          <dl class="bp-kv">
             <dt>Ad account</dt><dd>${meta.account_name || meta.account_id || "Not chosen yet"}</dd>
             <dt>Last synced</dt><dd>${meta.last_synced_at ? fmt.relativeTime(meta.last_synced_at) : "Never"}</dd>
             <dt>Access expires</dt><dd>${meta.expires_at ? fmt.date(meta.expires_at) : "—"}</dd>
           </dl>
-          ${meta.last_error ? raw(html`<div class="bb-alert bb-alert--warning" style="margin-top:var(--bb-4)">
-            <span class="bb-alert__icon">!</span><div class="bb-small">${meta.last_error}</div></div>`) : ""}
-          <div class="bb-row bb-row--wrap" style="margin-top:var(--bb-4)">
-            <button type="button" class="bb-btn bb-btn--secondary bb-btn--sm" id="meta-accounts">Choose ad account</button>
-            <button type="button" class="bb-btn bb-btn--danger bb-btn--sm" id="disconnect-meta">Disconnect</button>
+          ${meta.last_error ? raw(html`<div class="bp-alert bp-alert--warning" style="margin-top:var(--bp-4)">
+            <span class="bp-alert__icon">!</span><div class="bp-small">${meta.last_error}</div></div>`) : ""}
+          <div class="bp-row bp-row--wrap" style="margin-top:var(--bp-4)">
+            <button type="button" class="bp-btn bp-btn--secondary bp-btn--sm" id="meta-accounts">Choose ad account</button>
+            <button type="button" class="bp-btn bp-btn--danger bp-btn--sm" id="disconnect-meta">Disconnect</button>
           </div>
-          <div id="account-list" class="bb-stack-sm" style="margin-top:var(--bb-4)"></div>`
+          <div id="account-list" class="bp-stack-sm" style="margin-top:var(--bp-4)"></div>`
         : html`
-          <p class="bb-small bb-muted">
-            Connect the ad account you already use. Meta bills you directly, BookBoost never sees or
+          <p class="bp-small bp-muted">
+            Connect the ad account you already use. Meta bills you directly, BookPilot never sees or
             stores your password, and campaigns are always created paused.
           </p>
-          <button type="button" class="bb-btn bb-btn--primary bb-btn--sm" id="connect-meta">Connect Meta account</button>`)}
+          <button type="button" class="bp-btn bp-btn--primary bp-btn--sm" id="connect-meta">Connect Meta account</button>`)}
     </section>
   `;
 }
@@ -194,56 +194,56 @@ function metaCard(meta, capabilities) {
 function trackingCard(sites) {
   const origin = location.origin;
   return html`
-    <section class="bb-card">
-      <div class="bb-card__header">
-        <div class="bb-card__title">Website tracking</div>
-        <span class="bb-badge ${sites.length ? "bb-badge--success" : ""}">${sites.length ? `${sites.length} site${sites.length === 1 ? "" : "s"}` : "Not set up"}</span>
+    <section class="bp-card">
+      <div class="bp-card__header">
+        <div class="bp-card__title">Website tracking</div>
+        <span class="bp-badge ${sites.length ? "bp-badge--success" : ""}">${sites.length ? `${sites.length} site${sites.length === 1 ? "" : "s"}` : "Not set up"}</span>
       </div>
-      <p class="bb-small bb-muted">
+      <p class="bp-small bp-muted">
         If you sell from your own site, this is what closes the loop: a small script that reports
         page views, checkouts and purchases back against the ad that produced them. It stores no IP
         address, no user agent and no cookie — only which campaign and creative a purchase came from.
       </p>
 
       ${raw(sites.length
-        ? `<div class="bb-stack-sm" style="margin:var(--bb-4) 0">${sites.map((site) => html`
-            <div class="bb-panel">
-              <div class="bb-row bb-row--between">
+        ? `<div class="bp-stack-sm" style="margin:var(--bp-4) 0">${sites.map((site) => html`
+            <div class="bp-panel">
+              <div class="bp-row bp-row--between">
                 <div>
-                  <strong class="bb-small">${site.name}</strong>
-                  <div class="bb-tiny bb-subtle">${site.domain}</div>
+                  <strong class="bp-small">${site.name}</strong>
+                  <div class="bp-tiny bp-subtle">${site.domain}</div>
                 </div>
-                <button type="button" class="bb-btn bb-btn--ghost bb-btn--sm" data-remove-site="${site.id}">Remove</button>
+                <button type="button" class="bp-btn bp-btn--ghost bp-btn--sm" data-remove-site="${site.id}">Remove</button>
               </div>
-              <code class="bb-code" style="margin-top:var(--bb-3)">&lt;script async src="${origin}/track/bb.js" data-key="${site.public_key}"&gt;&lt;/script&gt;</code>
-              <button type="button" class="bb-btn bb-btn--secondary bb-btn--sm" style="margin-top:var(--bb-2)"
-                data-copy='<script async src="${origin}/track/bb.js" data-key="${site.public_key}"></script>'>Copy snippet</button>
+              <code class="bp-code" style="margin-top:var(--bp-3)">&lt;script async src="${origin}/track/bp.js" data-key="${site.public_key}"&gt;&lt;/script&gt;</code>
+              <button type="button" class="bp-btn bp-btn--secondary bp-btn--sm" style="margin-top:var(--bp-2)"
+                data-copy='<script async src="${origin}/track/bp.js" data-key="${site.public_key}"></script>'>Copy snippet</button>
             </div>`).join("")}</div>`
         : "")}
 
-      <form id="site-form" class="bb-field-row" style="margin-top:var(--bb-4);align-items:end">
-        <div class="bb-field" style="margin:0">
-          <label class="bb-label" for="site-name">Site name</label>
-          <input class="bb-input" id="site-name" name="name" placeholder="My author website" required>
+      <form id="site-form" class="bp-field-row" style="margin-top:var(--bp-4);align-items:end">
+        <div class="bp-field" style="margin:0">
+          <label class="bp-label" for="site-name">Site name</label>
+          <input class="bp-input" id="site-name" name="name" placeholder="My author website" required>
         </div>
-        <div class="bb-field" style="margin:0">
-          <label class="bb-label" for="site-domain">Domain</label>
-          <input class="bb-input" id="site-domain" name="domain" placeholder="example.com" required>
+        <div class="bp-field" style="margin:0">
+          <label class="bp-label" for="site-domain">Domain</label>
+          <input class="bp-input" id="site-domain" name="domain" placeholder="example.com" required>
         </div>
-        <button type="submit" class="bb-btn bb-btn--primary">Create tracking key</button>
+        <button type="submit" class="bp-btn bp-btn--primary">Create tracking key</button>
       </form>
 
-      <details style="margin-top:var(--bb-5)">
-        <summary class="bb-small" style="cursor:pointer">How to record a purchase</summary>
-        <p class="bb-small bb-muted" style="margin-top:var(--bb-3)">
+      <details style="margin-top:var(--bp-5)">
+        <summary class="bp-small" style="cursor:pointer">How to record a purchase</summary>
+        <p class="bp-small bp-muted" style="margin-top:var(--bp-3)">
           Page views are tracked automatically. Call this on your thank-you page, with the order
           total:
         </p>
-        <code class="bb-code">bookboost('purchase', { value: 8.99, currency: 'EUR' });</code>
-        <p class="bb-tiny bb-subtle" style="margin-top:var(--bb-3)">
+        <code class="bp-code">bookpilot('purchase', { value: 8.99, currency: 'EUR' });</code>
+        <p class="bp-tiny bp-subtle" style="margin-top:var(--bp-3)">
           You are the controller of your visitors' data on your own site. Where your cookie or
           consent policy requires it, gate the script behind consent — it reads a
-          <code>window.bookboostConsent</code> flag for exactly that. This is not legal advice.
+          <code>window.bookpilotConsent</code> flag for exactly that. This is not legal advice.
         </p>
       </details>
     </section>
@@ -253,14 +253,14 @@ function trackingCard(sites) {
 function amazonCard(amazon, capabilities) {
   const connected = amazon?.status === "connected";
   return html`
-    <section class="bb-card">
-      <div class="bb-card__header">
-        <div class="bb-card__title">Amazon Attribution</div>
-        <span class="bb-badge ${connected ? "bb-badge--success" : ""}">${connected ? "Connected" : "Not connected"}</span>
+    <section class="bp-card">
+      <div class="bp-card__header">
+        <div class="bp-card__title">Amazon Attribution</div>
+        <span class="bp-badge ${connected ? "bp-badge--success" : ""}">${connected ? "Connected" : "Not connected"}</span>
       </div>
-      <div class="bb-alert bb-alert--info" style="margin-bottom:var(--bb-4)">
-        <span class="bb-alert__icon">◆</span>
-        <div class="bb-small">
+      <div class="bp-alert bp-alert--info" style="margin-bottom:var(--bp-4)">
+        <span class="bp-alert__icon">◆</span>
+        <div class="bp-small">
           <strong>What this can and can't do.</strong> Amazon does not report your KDP sales to
           third-party tools, and no advertising platform can change that. What it does offer is
           Amazon Attribution: if you have an eligible account, its click, detail-page-view,
@@ -269,14 +269,14 @@ function amazonCard(amazon, capabilities) {
           your own website.
         </div>
       </div>
-      <p class="bb-small bb-muted">
+      <p class="bp-small bp-muted">
         Connect eligible Amazon Attribution campaigns to measure traffic and conversion performance
         for books you sell on Amazon.
       </p>
-      <button type="button" class="bb-btn bb-btn--secondary bb-btn--sm" disabled>
+      <button type="button" class="bp-btn bp-btn--secondary bp-btn--sm" disabled>
         ${capabilities?.amazon ? "Connect Amazon Attribution" : "Connect integration — coming soon"}
       </button>
-      <p class="bb-tiny bb-subtle" style="margin-top:var(--bb-2)">
+      <p class="bp-tiny bp-subtle" style="margin-top:var(--bp-2)">
         The import is built into the data model and the analytics already separate the two sources.
         The connection itself isn't available on this deployment yet, and the button says so rather
         than failing when you press it.
@@ -292,16 +292,16 @@ function comingSoonCard() {
     ["Pinterest Ads", "Strong for several non-fiction categories."],
   ];
   return html`
-    <section class="bb-card">
-      <div class="bb-card__title" style="margin-bottom:var(--bb-3)">On the roadmap</div>
-      <div class="bb-grid bb-grid--3">
+    <section class="bp-card">
+      <div class="bp-card__title" style="margin-bottom:var(--bp-3)">On the roadmap</div>
+      <div class="bp-grid bp-grid--3">
         ${raw(platforms.map(([name, note]) => html`
-          <div class="bb-panel">
-            <div class="bb-row bb-row--between"><strong class="bb-small">${name}</strong><span class="bb-badge">Planned</span></div>
-            <p class="bb-tiny bb-muted" style="margin:6px 0 0">${note}</p>
+          <div class="bp-panel">
+            <div class="bp-row bp-row--between"><strong class="bp-small">${name}</strong><span class="bp-badge">Planned</span></div>
+            <p class="bp-tiny bp-muted" style="margin:6px 0 0">${note}</p>
           </div>`).join(""))}
       </div>
-      <p class="bb-tiny bb-subtle" style="margin-top:var(--bb-3)">
+      <p class="bp-tiny bp-subtle" style="margin-top:var(--bp-3)">
         Listed so you know what's coming — not shown as switches that do nothing.
       </p>
     </section>

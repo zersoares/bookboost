@@ -39,8 +39,8 @@ export async function renderList(container) {
           ? "Your book is ready. Let's find your readers."
           : "Add a book first — a campaign needs something to sell.",
         action: books.length
-          ? '<a class="bb-btn bb-btn--primary" href="#/campaigns/new">Create campaign</a>'
-          : '<a class="bb-btn bb-btn--primary" href="#/books/new">Add a book</a>',
+          ? '<a class="bp-btn bp-btn--primary" href="#/campaigns/new">Create campaign</a>'
+          : '<a class="bp-btn bp-btn--primary" href="#/books/new">Add a book</a>',
       });
     return;
   }
@@ -52,17 +52,17 @@ export async function renderList(container) {
     ${raw(pageHead({
       title: "Campaigns",
       description: "Status, spend and what came back.",
-      actions: `${demoBadge()}<a class="bb-btn bb-btn--primary" href="#/campaigns/new">Create campaign</a>`,
+      actions: `${demoBadge()}<a class="bp-btn bp-btn--primary" href="#/campaigns/new">Create campaign</a>`,
     }))}
-    <div class="bb-card bb-card--flush">
-      <div class="bb-table-wrap">
-        <table class="bb-table">
+    <div class="bp-card bp-card--flush">
+      <div class="bp-table-wrap">
+        <table class="bp-table">
           <thead>
             <tr>
               <th>Campaign</th><th>Book</th><th>Platform</th><th>Status</th>
-              <th class="bb-num">Budget</th><th class="bb-num">Spend</th>
-              <th class="bb-num">Sales</th><th class="bb-num">Revenue</th>
-              <th class="bb-num">ROAS</th><th>Created</th>
+              <th class="bp-num">Budget</th><th class="bp-num">Spend</th>
+              <th class="bp-num">Sales</th><th class="bp-num">Revenue</th>
+              <th class="bp-num">ROAS</th><th>Created</th>
             </tr>
           </thead>
           <tbody>
@@ -70,15 +70,15 @@ export async function renderList(container) {
               const m = metricsFor(campaign.id);
               return html`<tr>
                 <td><a href="#/campaigns/${campaign.id}">${campaign.name}</a></td>
-                <td class="bb-small bb-muted">${bookTitle(campaign.book_id)}</td>
-                <td class="bb-small">${fmt.titleCase(campaign.platform)}</td>
+                <td class="bp-small bp-muted">${bookTitle(campaign.book_id)}</td>
+                <td class="bp-small">${fmt.titleCase(campaign.platform)}</td>
                 <td>${raw(statusBadge(campaign.status))}</td>
-                <td class="bb-num">${fmt.money(campaign.daily_budget_cents, campaign.currency)}</td>
-                <td class="bb-num">${m?.hasData ? fmt.money(m.spendCents, campaign.currency) : "—"}</td>
-                <td class="bb-num">${m?.hasData ? fmt.number(m.conversions) : "—"}</td>
-                <td class="bb-num">${m?.hasData ? fmt.money(m.revenueCents, campaign.currency) : "—"}</td>
-                <td class="bb-num">${m?.hasData ? fmt.multiple(m.roas) : "—"}</td>
-                <td class="bb-small bb-muted bb-nowrap">${fmt.date(campaign.created_at)}</td>
+                <td class="bp-num">${fmt.money(campaign.daily_budget_cents, campaign.currency)}</td>
+                <td class="bp-num">${m?.hasData ? fmt.money(m.spendCents, campaign.currency) : "—"}</td>
+                <td class="bp-num">${m?.hasData ? fmt.number(m.conversions) : "—"}</td>
+                <td class="bp-num">${m?.hasData ? fmt.money(m.revenueCents, campaign.currency) : "—"}</td>
+                <td class="bp-num">${m?.hasData ? fmt.multiple(m.roas) : "—"}</td>
+                <td class="bp-small bp-muted bp-nowrap">${fmt.date(campaign.created_at)}</td>
               </tr>`;
             }).join(""))}
           </tbody>
@@ -110,7 +110,7 @@ export async function renderWizard(container, params, query) {
         icon: "▤",
         title: "Add a book first",
         text: "A campaign advertises something.",
-        action: '<a class="bb-btn bb-btn--primary" href="#/books/new">Add a book</a>',
+        action: '<a class="bp-btn bp-btn--primary" href="#/books/new">Add a book</a>',
       });
     return;
   }
@@ -148,16 +148,16 @@ export async function renderWizard(container, params, query) {
   }
 
   function rail() {
-    return `<div class="bb-wizard__rail">${STEPS.map((label, index) => {
-      const cls = index === state.step ? "bb-wizard__step--active" : index < state.step ? "bb-wizard__step--done" : "";
-      return html`<span class="bb-wizard__step ${cls}">${index + 1}. ${label}</span>`;
+    return `<div class="bp-wizard__rail">${STEPS.map((label, index) => {
+      const cls = index === state.step ? "bp-wizard__step--active" : index < state.step ? "bp-wizard__step--done" : "";
+      return html`<span class="bp-wizard__step ${cls}">${index + 1}. ${label}</span>`;
     }).join("")}</div>`;
   }
 
   function footer({ nextLabel = "Continue", nextDisabled = false, back = true } = {}) {
-    return `<div class="bb-wizard__footer">
-      ${back ? '<button type="button" class="bb-btn bb-btn--ghost" data-back>Back</button>' : "<span></span>"}
-      <button type="button" class="bb-btn bb-btn--primary" data-next ${nextDisabled ? "disabled" : ""}>${nextLabel}</button>
+    return `<div class="bp-wizard__footer">
+      ${back ? '<button type="button" class="bp-btn bp-btn--ghost" data-back>Back</button>' : "<span></span>"}
+      <button type="button" class="bp-btn bp-btn--primary" data-next ${nextDisabled ? "disabled" : ""}>${nextLabel}</button>
     </div>`;
   }
 
@@ -203,7 +203,7 @@ export async function renderWizard(container, params, query) {
         description: "Ten steps. Nothing spends until the last one, and that step asks twice.",
         actions: demoBadge(),
       }))}
-      <div class="bb-wizard">${raw(rail())}<div id="wizard-body">${raw(loading(2))}</div></div>
+      <div class="bp-wizard">${raw(rail())}<div id="wizard-body">${raw(loading(2))}</div></div>
     `;
     const body = $("#wizard-body");
     if (!state.strategy && state.step > 0) await loadBookContext();
@@ -227,17 +227,17 @@ export async function renderWizard(container, params, query) {
 
   function stepBook(body) {
     body.innerHTML = html`
-      <div class="bb-card">
-        <div class="bb-field">
-          <label class="bb-label" for="w-book">Which book are you promoting?</label>
-          <select class="bb-select" id="w-book">
+      <div class="bp-card">
+        <div class="bp-field">
+          <label class="bp-label" for="w-book">Which book are you promoting?</label>
+          <select class="bp-select" id="w-book">
             ${raw(books.map((b) => html`<option value="${b.id}" ${b.id === state.bookId ? "selected" : ""}>${b.title}</option>`).join(""))}
           </select>
         </div>
-        <div class="bb-field">
-          <label class="bb-label" for="w-name">Campaign name</label>
-          <input class="bb-input" id="w-name" value="${state.name}" placeholder="What is this campaign testing?">
-          <div class="bb-hint">Name it after the idea you're testing — you'll thank yourself in a month.</div>
+        <div class="bp-field">
+          <label class="bp-label" for="w-name">Campaign name</label>
+          <input class="bp-input" id="w-name" value="${state.name}" placeholder="What is this campaign testing?">
+          <div class="bp-hint">Name it after the idea you're testing — you'll thank yourself in a month.</div>
         </div>
       </div>
       ${raw(footer({ back: false }))}
@@ -256,19 +256,19 @@ export async function renderWizard(container, params, query) {
 
   function stepAudience(body) {
     body.innerHTML = html`
-      <div class="bb-stack">
-        <p class="bb-muted">
+      <div class="bp-stack">
+        <p class="bp-muted">
           Each audience becomes its own ad set, with the budget split between them. Start with one or
           two — splitting a small budget four ways means none of them gathers enough data to judge.
         </p>
-        <div class="bb-stack-sm">
+        <div class="bp-stack-sm">
           ${raw(state.strategy.personas.map((persona) => html`
-            <label class="bb-checkbox ${state.personaIds.includes(persona.id) ? "bb-checkbox--selected" : ""}">
+            <label class="bp-checkbox ${state.personaIds.includes(persona.id) ? "bp-checkbox--selected" : ""}">
               <input type="checkbox" value="${persona.id}" data-persona ${state.personaIds.includes(persona.id) ? "checked" : ""}>
               <span>
                 <strong>${persona.name}</strong>
-                <span class="bb-small bb-subtle"> · ${persona.age_range || ""}</span><br>
-                <span class="bb-small bb-muted">${persona.description || ""}</span>
+                <span class="bp-small bp-subtle"> · ${persona.age_range || ""}</span><br>
+                <span class="bp-small bp-muted">${persona.description || ""}</span>
               </span>
             </label>`).join(""))}
         </div>
@@ -278,26 +278,26 @@ export async function renderWizard(container, params, query) {
     body.querySelectorAll("[data-persona]").forEach((input) => {
       input.addEventListener("change", () => {
         state.personaIds = [...body.querySelectorAll("[data-persona]:checked")].map((i) => i.value);
-        input.closest("label").classList.toggle("bb-checkbox--selected", input.checked);
+        input.closest("label").classList.toggle("bp-checkbox--selected", input.checked);
       });
     });
   }
 
   function stepAngles(body) {
     body.innerHTML = html`
-      <div class="bb-stack">
-        <p class="bb-muted">
+      <div class="bp-stack">
+        <p class="bp-muted">
           Optional, but it's what makes the results readable: tagging the angles you're testing is how
           the advisor can later tell you that emotional beat practical.
         </p>
-        <div class="bb-stack-sm">
+        <div class="bp-stack-sm">
           ${raw(state.strategy.angles.map((angle) => html`
-            <label class="bb-checkbox ${state.angleIds.includes(angle.id) ? "bb-checkbox--selected" : ""}">
+            <label class="bp-checkbox ${state.angleIds.includes(angle.id) ? "bp-checkbox--selected" : ""}">
               <input type="checkbox" value="${angle.id}" data-angle ${state.angleIds.includes(angle.id) ? "checked" : ""}>
               <span>
                 <strong>${angle.name}</strong>
-                <span class="bb-badge" style="margin-left:6px">${fmt.titleCase(angle.category)}</span><br>
-                <span class="bb-small bb-muted">“${angle.hook || ""}”</span>
+                <span class="bp-badge" style="margin-left:6px">${fmt.titleCase(angle.category)}</span><br>
+                <span class="bp-small bp-muted">“${angle.hook || ""}”</span>
               </span>
             </label>`).join(""))}
         </div>
@@ -307,7 +307,7 @@ export async function renderWizard(container, params, query) {
     body.querySelectorAll("[data-angle]").forEach((input) => {
       input.addEventListener("change", () => {
         state.angleIds = [...body.querySelectorAll("[data-angle]:checked")].map((i) => i.value);
-        input.closest("label").classList.toggle("bb-checkbox--selected", input.checked);
+        input.closest("label").classList.toggle("bp-checkbox--selected", input.checked);
       });
     });
   }
@@ -319,26 +319,26 @@ export async function renderWizard(container, params, query) {
           icon: "◐",
           title: "No creatives for this book yet",
           text: "A campaign needs at least one ad to run.",
-          action: `<a class="bb-btn bb-btn--primary" href="#/creatives/new?book=${state.bookId}">Create ads</a>`,
+          action: `<a class="bp-btn bp-btn--primary" href="#/creatives/new?book=${state.bookId}">Create ads</a>`,
         })}
         ${footer({ nextDisabled: true })}`;
       return;
     }
     body.innerHTML = html`
-      <div class="bb-stack">
-        <p class="bb-muted">
+      <div class="bp-stack">
+        <p class="bp-muted">
           Three to five creatives per audience is the sweet spot: enough variety to learn something,
           few enough that each gets real delivery.
         </p>
-        <div class="bb-grid bb-grid--cards">
+        <div class="bp-grid bp-grid--cards">
           ${raw(state.creatives.map((creative) => html`
-            <label class="bb-card bb-card--flush bb-creative" style="cursor:pointer;${state.creativeIds.includes(creative.id) ? "border-color:var(--bb-primary)" : ""}">
-              <div class="bb-creative__preview">
-                <span class="bb-badge bb-badge--accent" style="align-self:flex-start">${fmt.titleCase(creative.format)}</span>
-                <div class="bb-creative__headline">${creative.headline || "Untitled"}</div>
+            <label class="bp-card bp-card--flush bp-creative" style="cursor:pointer;${state.creativeIds.includes(creative.id) ? "border-color:var(--bp-primary)" : ""}">
+              <div class="bp-creative__preview">
+                <span class="bp-badge bp-badge--accent" style="align-self:flex-start">${fmt.titleCase(creative.format)}</span>
+                <div class="bp-creative__headline">${creative.headline || "Untitled"}</div>
               </div>
-              <div class="bb-creative__body">
-                <div class="bb-row bb-row--between">
+              <div class="bp-creative__body">
+                <div class="bp-row bp-row--between">
                   ${raw(scoreBadge(creative.score))}
                   <input type="checkbox" value="${creative.id}" data-creative ${state.creativeIds.includes(creative.id) ? "checked" : ""}>
                 </div>
@@ -351,46 +351,46 @@ export async function renderWizard(container, params, query) {
     body.querySelectorAll("[data-creative]").forEach((input) => {
       input.addEventListener("change", () => {
         state.creativeIds = [...body.querySelectorAll("[data-creative]:checked")].map((i) => i.value);
-        input.closest("label").style.borderColor = input.checked ? "var(--bb-primary)" : "";
+        input.closest("label").style.borderColor = input.checked ? "var(--bp-primary)" : "";
       });
     });
   }
 
   function stepPlatform(body) {
     body.innerHTML = html`
-      <div class="bb-stack">
-        <div class="bb-card">
-          <div class="bb-field">
-            <label class="bb-label">Where should these ads run?</label>
-            <div class="bb-stack-sm">
-              <label class="bb-radio bb-radio--selected">
+      <div class="bp-stack">
+        <div class="bp-card">
+          <div class="bp-field">
+            <label class="bp-label">Where should these ads run?</label>
+            <div class="bp-stack-sm">
+              <label class="bp-radio bp-radio--selected">
                 <input type="radio" name="platform" value="meta" checked>
                 <span><strong>Meta — Facebook and Instagram</strong><br>
-                <span class="bb-small bb-muted">The only platform BookBoost can create campaigns on today.</span></span>
+                <span class="bp-small bp-muted">The only platform BookPilot can create campaigns on today.</span></span>
               </label>
               ${raw(PLATFORMS.filter((p) => !["meta", "instagram", "facebook"].includes(p.value)).map((p) => html`
-                <label class="bb-radio" style="opacity:0.6">
+                <label class="bp-radio" style="opacity:0.6">
                   <input type="radio" name="platform" value="${p.value}" disabled>
                   <span><strong>${p.label}</strong>
-                    <span class="bb-badge" style="margin-left:6px">Coming later</span><br>
-                    <span class="bb-small bb-muted">Planned. Nothing here pretends it works yet.</span></span>
+                    <span class="bp-badge" style="margin-left:6px">Coming later</span><br>
+                    <span class="bp-small bp-muted">Planned. Nothing here pretends it works yet.</span></span>
                 </label>`).join(""))}
             </div>
           </div>
-          <div class="bb-field">
-            <label class="bb-label" for="w-objective">What should Meta optimise for?</label>
-            <select class="bb-select" id="w-objective">
+          <div class="bp-field">
+            <label class="bp-label" for="w-objective">What should Meta optimise for?</label>
+            <select class="bp-select" id="w-objective">
               ${raw(OBJECTIVES.map((o) => html`<option value="${o.value}" ${o.value === state.objective ? "selected" : ""}>${o.label} — ${o.hint}</option>`).join(""))}
             </select>
           </div>
         </div>
         ${raw(metaConnected || !capabilities.meta ? "" : `
-          <div class="bb-alert bb-alert--info">
-            <span class="bb-alert__icon">◆</span>
+          <div class="bp-alert bp-alert--info">
+            <span class="bp-alert__icon">◆</span>
             <div>
-              <div class="bb-alert__title">Your Meta account isn't connected yet</div>
-              <div class="bb-small">You can build the whole campaign now and connect Meta before launching.</div>
-              <a class="bb-btn bb-btn--secondary bb-btn--sm" style="margin-top:var(--bb-3)" href="#/attribution">Connect Meta</a>
+              <div class="bp-alert__title">Your Meta account isn't connected yet</div>
+              <div class="bp-small">You can build the whole campaign now and connect Meta before launching.</div>
+              <a class="bp-btn bp-btn--secondary bp-btn--sm" style="margin-top:var(--bp-3)" href="#/attribution">Connect Meta</a>
             </div>
           </div>`)}
       </div>
@@ -402,25 +402,25 @@ export async function renderWizard(container, params, query) {
   function stepBudget(body) {
     const options = [500, 1000, 2000, 5000, 10000];
     body.innerHTML = html`
-      <div class="bb-stack">
-        <div class="bb-stack-sm">
+      <div class="bp-stack">
+        <div class="bp-stack-sm">
           ${raw(options.map((cents) => html`
-            <label class="bb-radio ${cents === state.dailyBudgetCents ? "bb-radio--selected" : ""}">
+            <label class="bp-radio ${cents === state.dailyBudgetCents ? "bp-radio--selected" : ""}">
               <input type="radio" name="budget" value="${cents}" ${cents === state.dailyBudgetCents ? "checked" : ""}>
               <span><strong>${fmt.money(cents)} per day</strong>
-              <span class="bb-small bb-muted"> · ${fmt.money(cents * 30)} a month</span></span>
+              <span class="bp-small bp-muted"> · ${fmt.money(cents * 30)} a month</span></span>
             </label>`).join(""))}
-          <label class="bb-radio">
+          <label class="bp-radio">
             <input type="radio" name="budget" value="custom">
-            <span class="bb-flex-1"><strong>Custom</strong>
-              <input class="bb-input" style="margin-top:8px" id="w-custom-budget" type="number" min="1" step="0.5"
+            <span class="bp-flex-1"><strong>Custom</strong>
+              <input class="bp-input" style="margin-top:8px" id="w-custom-budget" type="number" min="1" step="0.5"
                 value="${(state.dailyBudgetCents / 100).toFixed(2)}"></span>
           </label>
         </div>
-        <div class="bb-alert bb-alert--info">
-          <span class="bb-alert__icon">◆</span>
-          <div class="bb-small">
-            This is what Meta bills you, not BookBoost. Split across ${state.personaIds.length || 1}
+        <div class="bp-alert bp-alert--info">
+          <span class="bp-alert__icon">◆</span>
+          <div class="bp-small">
+            This is what Meta bills you, not BookPilot. Split across ${state.personaIds.length || 1}
             ${state.personaIds.length === 1 ? "audience" : "audiences"}, that's about
             ${fmt.money(Math.floor(state.dailyBudgetCents / Math.max(state.personaIds.length, 1)))} each per day.
           </div>
@@ -446,17 +446,17 @@ export async function renderWizard(container, params, query) {
     const options = [7, 14, 30, 0];
     const label = (days) => (days === 0 ? "Run until I stop it" : `${days} days`);
     body.innerHTML = html`
-      <div class="bb-stack">
-        <p class="bb-muted">
+      <div class="bp-stack">
+        <p class="bp-muted">
           Meta needs roughly a week before its delivery settles. Anything shorter mostly measures the
           learning phase.
         </p>
-        <div class="bb-stack-sm">
+        <div class="bp-stack-sm">
           ${raw(options.map((days) => html`
-            <label class="bb-radio ${days === state.durationDays ? "bb-radio--selected" : ""}">
+            <label class="bp-radio ${days === state.durationDays ? "bp-radio--selected" : ""}">
               <input type="radio" name="duration" value="${days}" ${days === state.durationDays ? "checked" : ""}>
               <span><strong>${label(days)}</strong>
-              ${days ? raw(html`<span class="bb-small bb-muted"> · about ${fmt.money(state.dailyBudgetCents * days)} total</span>`) : ""}</span>
+              ${days ? raw(html`<span class="bp-small bp-muted"> · about ${fmt.money(state.dailyBudgetCents * days)} total</span>`) : ""}</span>
             </label>`).join(""))}
         </div>
       </div>
@@ -469,29 +469,29 @@ export async function renderWizard(container, params, query) {
 
   function stepDestination(body) {
     body.innerHTML = html`
-      <div class="bb-card">
-        <div class="bb-field">
-          <label class="bb-label">Where do the ads send people?</label>
-          <div class="bb-stack-sm">
+      <div class="bp-card">
+        <div class="bp-field">
+          <label class="bp-label">Where do the ads send people?</label>
+          <div class="bp-stack-sm">
             ${raw(DESTINATIONS.map((d) => html`
-              <label class="bb-radio ${d.value === state.destinationType ? "bb-radio--selected" : ""}">
+              <label class="bp-radio ${d.value === state.destinationType ? "bp-radio--selected" : ""}">
                 <input type="radio" name="destination" value="${d.value}" ${d.value === state.destinationType ? "checked" : ""}>
-                <span><strong>${d.label}</strong><br><span class="bb-small bb-muted">${d.hint}</span></span>
+                <span><strong>${d.label}</strong><br><span class="bp-small bp-muted">${d.hint}</span></span>
               </label>`).join(""))}
           </div>
         </div>
-        <div class="bb-field">
-          <label class="bb-label" for="w-url">Destination URL</label>
-          <input class="bb-input" id="w-url" type="url" value="${state.destinationUrl}" placeholder="https://">
-          <div class="bb-hint">
-            BookBoost adds UTM parameters automatically so each click can be traced back to the
+        <div class="bp-field">
+          <label class="bp-label" for="w-url">Destination URL</label>
+          <input class="bp-input" id="w-url" type="url" value="${state.destinationUrl}" placeholder="https://">
+          <div class="bp-hint">
+            BookPilot adds UTM parameters automatically so each click can be traced back to the
             creative that earned it.
           </div>
         </div>
-        <div class="bb-alert bb-alert--warning" id="amazon-note" hidden>
-          <span class="bb-alert__icon">!</span>
-          <div class="bb-small">
-            Amazon does not report sales to third-party tools. Sending traffic there means BookBoost
+        <div class="bp-alert bp-alert--warning" id="amazon-note" hidden>
+          <span class="bp-alert__icon">!</span>
+          <div class="bp-small">
+            Amazon does not report sales to third-party tools. Sending traffic there means BookPilot
             can show you clicks but not sales, unless you connect Amazon Attribution. Website
             destinations track the whole journey.
           </div>
@@ -519,10 +519,10 @@ export async function renderWizard(container, params, query) {
     const total = state.durationDays ? state.dailyBudgetCents * state.durationDays : null;
 
     body.innerHTML = html`
-      <div class="bb-stack">
-        <div class="bb-card">
-          <div class="bb-card__title" style="margin-bottom:var(--bb-4)">${state.name}</div>
-          <dl class="bb-kv">
+      <div class="bp-stack">
+        <div class="bp-card">
+          <div class="bp-card__title" style="margin-bottom:var(--bp-4)">${state.name}</div>
+          <dl class="bp-kv">
             <dt>Book</dt><dd>${book?.title}</dd>
             <dt>Platform</dt><dd>Meta — Facebook and Instagram</dd>
             <dt>Optimising for</dt><dd>${OBJECTIVES.find((o) => o.value === state.objective)?.label}</dd>
@@ -531,12 +531,12 @@ export async function renderWizard(container, params, query) {
             <dt>Daily budget</dt><dd>${fmt.money(state.dailyBudgetCents)}</dd>
             <dt>Duration</dt><dd>${state.durationDays ? `${state.durationDays} days` : "Until you stop it"}</dd>
             <dt>Maximum spend</dt><dd>${total ? fmt.money(total) : "No end date set"}</dd>
-            <dt>Destination</dt><dd class="bb-truncate">${state.destinationUrl}</dd>
+            <dt>Destination</dt><dd class="bp-truncate">${state.destinationUrl}</dd>
           </dl>
         </div>
-        <div class="bb-alert bb-alert--info">
-          <span class="bb-alert__icon">◆</span>
-          <div class="bb-small">
+        <div class="bp-alert bp-alert--info">
+          <span class="bp-alert__icon">◆</span>
+          <div class="bp-small">
             Saving this creates a draft. Nothing is sent to Meta and nothing spends until you push and
             then launch it, and the launch asks you to confirm.
           </div>
@@ -584,17 +584,17 @@ export async function renderWizard(container, params, query) {
 
   function stepLaunch(body) {
     body.innerHTML = html`
-      <div class="bb-card bb-center" style="padding:var(--bb-10)">
-        <div style="font-size:1.8rem;margin-bottom:var(--bb-3)">✓</div>
-        <h2 class="bb-display" style="font-size:1.5rem;margin-bottom:var(--bb-2)">Campaign saved as a draft</h2>
-        <p class="bb-muted" style="max-width:46ch;margin:0 auto var(--bb-6)">
+      <div class="bp-card bp-center" style="padding:var(--bp-10)">
+        <div style="font-size:1.8rem;margin-bottom:var(--bp-3)">✓</div>
+        <h2 class="bp-display" style="font-size:1.5rem;margin-bottom:var(--bp-2)">Campaign saved as a draft</h2>
+        <p class="bp-muted" style="max-width:46ch;margin:0 auto var(--bp-6)">
           ${isDemo()
             ? "In the demo workspace nothing is sent anywhere — this is where you'd connect Meta and launch."
             : "Next: connect your Meta ad account if you haven't, push the campaign across, and launch when you're ready. It's created paused, so nothing spends before you say so."}
         </p>
-        <div class="bb-row" style="justify-content:center;flex-wrap:wrap">
-          <a class="bb-btn bb-btn--primary" href="#/campaigns/${state.createdId || ""}">Open the campaign</a>
-          <a class="bb-btn bb-btn--secondary" href="#/campaigns">All campaigns</a>
+        <div class="bp-row" style="justify-content:center;flex-wrap:wrap">
+          <a class="bp-btn bp-btn--primary" href="#/campaigns/${state.createdId || ""}">Open the campaign</a>
+          <a class="bp-btn bp-btn--secondary" href="#/campaigns">All campaigns</a>
         </div>
       </div>
     `;
@@ -625,8 +625,8 @@ export async function renderDetail(container, params) {
     .filter((row) => row.metrics.hasData && row.metrics.clicks > 20 && row.metrics.conversions === 0)[0];
 
   container.innerHTML = html`
-    <div class="bb-row bb-row--between" style="margin-bottom:var(--bb-5)">
-      <a class="bb-small bb-muted" href="#/campaigns">← All campaigns</a>
+    <div class="bp-row bp-row--between" style="margin-bottom:var(--bp-5)">
+      <a class="bp-small bp-muted" href="#/campaigns">← All campaigns</a>
       ${raw(demoBadge())}
     </div>
 
@@ -634,28 +634,28 @@ export async function renderDetail(container, params) {
       title: campaign.name,
       description: `${book.title} · ${fmt.money(campaign.daily_budget_cents, campaign.currency)}/day · ${fmt.titleCase(campaign.platform)}`,
       actions: `${statusBadge(campaign.status)}
-        <button type="button" class="bb-btn bb-btn--secondary bb-btn--sm" id="analyse-btn">Analyse · 10 credits</button>`,
+        <button type="button" class="bp-btn bp-btn--secondary bp-btn--sm" id="analyse-btn">Analyse · 10 credits</button>`,
     }))}
 
     ${raw(campaign.status === "draft" ? launchPanel(campaign, metaConnected) : "")}
 
-    <div class="bb-stack-lg">
+    <div class="bp-stack-lg">
       <section>
-        <h2 style="font-size:1.05rem;margin-bottom:var(--bb-3)">Performance</h2>
+        <h2 style="font-size:1.05rem;margin-bottom:var(--bp-3)">Performance</h2>
         ${raw(statGrid(performance?.totals, campaign.currency))}
       </section>
 
       ${raw(performance?.websiteAttributed?.hasData ? html`
-        <section class="bb-card">
-          <div class="bb-card__header">
-            <div class="bb-card__title">Website-attributed sales</div>
-            <span class="bb-badge bb-badge--info">Your own tracking</span>
+        <section class="bp-card">
+          <div class="bp-card__header">
+            <div class="bp-card__title">Website-attributed sales</div>
+            <span class="bp-badge bp-badge--info">Your own tracking</span>
           </div>
-          <p class="bb-small bb-muted">
-            Recorded by the BookBoost script on your site. Reported separately from Meta's own
+          <p class="bp-small bp-muted">
+            Recorded by the BookPilot script on your site. Reported separately from Meta's own
             attribution, which counts differently — the two are never added together.
           </p>
-          <dl class="bb-kv">
+          <dl class="bp-kv">
             <dt>Purchases</dt><dd>${fmt.number(performance.websiteAttributed.conversions)}</dd>
             <dt>Revenue</dt><dd>${fmt.money(performance.websiteAttributed.revenueCents, campaign.currency)}</dd>
           </dl>
@@ -663,17 +663,17 @@ export async function renderDetail(container, params) {
 
       ${raw(perCreative.length ? html`
         <section>
-          <div class="bb-row bb-row--between" style="margin-bottom:var(--bb-3)">
+          <div class="bp-row bp-row--between" style="margin-bottom:var(--bp-3)">
             <h2 style="font-size:1.05rem">Creative performance</h2>
-            <a class="bb-small" href="#/analytics">Compare across campaigns →</a>
+            <a class="bp-small" href="#/analytics">Compare across campaigns →</a>
           </div>
-          <div class="bb-card bb-card--flush">
-            <div class="bb-table-wrap">
-              <table class="bb-table">
+          <div class="bp-card bp-card--flush">
+            <div class="bp-table-wrap">
+              <table class="bp-table">
                 <thead>
-                  <tr><th>Creative</th><th class="bb-num">Spend</th><th class="bb-num">Clicks</th>
-                  <th class="bb-num">CTR</th><th class="bb-num">Sales</th><th class="bb-num">Revenue</th>
-                  <th class="bb-num">ROAS</th><th>Evidence</th></tr>
+                  <tr><th>Creative</th><th class="bp-num">Spend</th><th class="bp-num">Clicks</th>
+                  <th class="bp-num">CTR</th><th class="bp-num">Sales</th><th class="bp-num">Revenue</th>
+                  <th class="bp-num">ROAS</th><th>Evidence</th></tr>
                 </thead>
                 <tbody>
                   ${raw(perCreative.map((row) => {
@@ -685,12 +685,12 @@ export async function renderDetail(container, params) {
                         : "";
                     return html`<tr>
                       <td>${raw(flag)}<a href="#/creatives/${row.creative_id}">${row.creative?.headline || "Creative"}</a></td>
-                      <td class="bb-num">${fmt.money(m.spendCents, campaign.currency)}</td>
-                      <td class="bb-num">${fmt.number(m.clicks)}</td>
-                      <td class="bb-num">${fmt.percent(m.ctr)}</td>
-                      <td class="bb-num">${fmt.number(m.conversions)}</td>
-                      <td class="bb-num">${fmt.money(m.revenueCents, campaign.currency)}</td>
-                      <td class="bb-num">${fmt.multiple(m.roas)}</td>
+                      <td class="bp-num">${fmt.money(m.spendCents, campaign.currency)}</td>
+                      <td class="bp-num">${fmt.number(m.clicks)}</td>
+                      <td class="bp-num">${fmt.percent(m.ctr)}</td>
+                      <td class="bp-num">${fmt.number(m.conversions)}</td>
+                      <td class="bp-num">${fmt.money(m.revenueCents, campaign.currency)}</td>
+                      <td class="bp-num">${fmt.multiple(m.roas)}</td>
                       <td>${raw(confidenceBadge(row.confidence))}</td>
                     </tr>`;
                   }).join(""))}
@@ -702,21 +702,21 @@ export async function renderDetail(container, params) {
 
       <div id="analysis-output"></div>
 
-      <section class="bb-card">
-        <div class="bb-card__title" style="margin-bottom:var(--bb-3)">Campaign settings</div>
-        <dl class="bb-kv">
+      <section class="bp-card">
+        <div class="bp-card__title" style="margin-bottom:var(--bp-3)">Campaign settings</div>
+        <dl class="bp-kv">
           <dt>Objective</dt><dd>${OBJECTIVES.find((o) => o.value === campaign.objective)?.label || campaign.objective}</dd>
           <dt>Daily budget</dt><dd>${fmt.money(campaign.daily_budget_cents, campaign.currency)}</dd>
           <dt>Runs</dt><dd>${campaign.start_date ? fmt.date(campaign.start_date) : "—"} → ${campaign.end_date ? fmt.date(campaign.end_date) : "no end date"}</dd>
-          <dt>Destination</dt><dd class="bb-truncate">${campaign.destination_url || "—"}</dd>
+          <dt>Destination</dt><dd class="bp-truncate">${campaign.destination_url || "—"}</dd>
           <dt>Audiences</dt><dd>${(detail.adSets || []).map((s) => s.name).join(", ") || "—"}</dd>
           <dt>On Meta</dt><dd>${campaign.external_campaign_id ? "Yes" : "Not pushed yet"}</dd>
         </dl>
-        <div class="bb-row bb-row--wrap" style="margin-top:var(--bb-4)">
-          <button type="button" class="bb-btn bb-btn--secondary bb-btn--sm" id="budget-btn">Budget advice · 2 credits</button>
+        <div class="bp-row bp-row--wrap" style="margin-top:var(--bp-4)">
+          <button type="button" class="bp-btn bp-btn--secondary bp-btn--sm" id="budget-btn">Budget advice · 2 credits</button>
           ${raw(campaign.external_campaign_id ? `
-            <button type="button" class="bb-btn bb-btn--secondary bb-btn--sm" id="sync-btn">Sync from Meta</button>
-            <button type="button" class="bb-btn bb-btn--${campaign.status === "active" ? "secondary" : "primary"} bb-btn--sm" id="toggle-btn">
+            <button type="button" class="bp-btn bp-btn--secondary bp-btn--sm" id="sync-btn">Sync from Meta</button>
+            <button type="button" class="bp-btn bp-btn--${campaign.status === "active" ? "secondary" : "primary"} bp-btn--sm" id="toggle-btn">
               ${campaign.status === "active" ? "Pause campaign" : "Launch campaign"}
             </button>` : "")}
         </div>
@@ -804,30 +804,30 @@ export async function renderDetail(container, params) {
 function launchPanel(campaign, metaConnected) {
   if (!metaConnected) {
     return `
-      <div class="bb-alert bb-alert--info" style="margin-bottom:var(--bb-6)">
-        <span class="bb-alert__icon">◆</span>
+      <div class="bp-alert bp-alert--info" style="margin-bottom:var(--bp-6)">
+        <span class="bp-alert__icon">◆</span>
         <div>
-          <div class="bb-alert__title">Connect a Meta ad account to launch</div>
-          <div class="bb-small">
+          <div class="bp-alert__title">Connect a Meta ad account to launch</div>
+          <div class="bp-small">
             This campaign is a complete draft. To run it, connect the ad account you already use —
-            Meta bills you directly, and BookBoost never asks for your password.
+            Meta bills you directly, and BookPilot never asks for your password.
           </div>
-          <a class="bb-btn bb-btn--primary bb-btn--sm" style="margin-top:var(--bb-3)" href="#/attribution">Connect integration</a>
+          <a class="bp-btn bp-btn--primary bp-btn--sm" style="margin-top:var(--bp-3)" href="#/attribution">Connect integration</a>
         </div>
       </div>`;
   }
   return html`
-    <div class="bb-card" style="margin-bottom:var(--bb-6)">
-      <div class="bb-card__header"><div class="bb-card__title">Push this campaign to Meta</div></div>
-      <p class="bb-small bb-muted">
+    <div class="bp-card" style="margin-bottom:var(--bp-6)">
+      <div class="bp-card__header"><div class="bp-card__title">Push this campaign to Meta</div></div>
+      <p class="bp-small bp-muted">
         Everything is created paused. Nothing spends until you launch it in the next step.
       </p>
-      <div class="bb-field">
-        <label class="bb-label" for="page-id">Facebook Page ID</label>
-        <input class="bb-input" id="page-id" placeholder="e.g. 102938475610293">
-        <div class="bb-hint">Meta requires ads to run from a Page. Find the ID in your Page's settings.</div>
+      <div class="bp-field">
+        <label class="bp-label" for="page-id">Facebook Page ID</label>
+        <input class="bp-input" id="page-id" placeholder="e.g. 102938475610293">
+        <div class="bp-hint">Meta requires ads to run from a Page. Find the ID in your Page's settings.</div>
       </div>
-      <button type="button" class="bb-btn bb-btn--primary" id="push-btn">Create on Meta (paused)</button>
+      <button type="button" class="bp-btn bp-btn--primary" id="push-btn">Create on Meta (paused)</button>
     </div>
   `;
 }
@@ -836,41 +836,41 @@ const INSIGHT_ICON = { winner: "🏆", weak: "⚠️", opportunity: "💡", test
 
 function analysisPanel(analysis) {
   return html`
-    <section class="bb-card">
-      <div class="bb-card__header">
-        <div class="bb-card__title">AI analysis</div>
+    <section class="bp-card">
+      <div class="bp-card__header">
+        <div class="bp-card__title">AI analysis</div>
         ${raw(confidenceBadge(analysis.confidence))}
       </div>
       <p>${analysis.summary}</p>
       ${raw((analysis.insights || []).length ? `
-        <div class="bb-stack-sm" style="margin-top:var(--bb-4)">
+        <div class="bp-stack-sm" style="margin-top:var(--bp-4)">
           ${(analysis.insights || []).map((insight) => html`
-            <div class="bb-insight bb-insight--${insight.kind}">
-              <span class="bb-insight__icon">${INSIGHT_ICON[insight.kind] || "•"}</span>
+            <div class="bp-insight bp-insight--${insight.kind}">
+              <span class="bp-insight__icon">${INSIGHT_ICON[insight.kind] || "•"}</span>
               <div>
                 <strong>${insight.title}</strong>
-                <div class="bb-small bb-muted">${insight.detail}</div>
-                <div class="bb-tiny bb-subtle" style="margin-top:4px">${insight.metric}</div>
+                <div class="bp-small bp-muted">${insight.detail}</div>
+                <div class="bp-tiny bp-subtle" style="margin-top:4px">${insight.metric}</div>
               </div>
             </div>`).join("")}
         </div>` : "")}
       ${raw((analysis.recommendations || []).length ? `
-        <div style="margin-top:var(--bb-6)">
-          <div class="bb-eyebrow" style="margin-bottom:var(--bb-3)">Recommended actions</div>
-          <div class="bb-stack-sm">
+        <div style="margin-top:var(--bp-6)">
+          <div class="bp-eyebrow" style="margin-bottom:var(--bp-3)">Recommended actions</div>
+          <div class="bp-stack-sm">
             ${(analysis.recommendations || []).map((rec) => html`
-              <div class="bb-panel">
-                <div class="bb-row bb-row--between">
+              <div class="bp-panel">
+                <div class="bp-row bp-row--between">
                   <strong>${rec.title}</strong>
                   ${raw(confidenceBadge(rec.confidence))}
                 </div>
-                <p class="bb-small bb-muted" style="margin:6px 0">${rec.reason}</p>
-                <div class="bb-tiny bb-subtle">${rec.metrics}</div>
-                <div class="bb-small" style="margin-top:6px"><strong>Next:</strong> ${rec.action}</div>
+                <p class="bp-small bp-muted" style="margin:6px 0">${rec.reason}</p>
+                <div class="bp-tiny bp-subtle">${rec.metrics}</div>
+                <div class="bp-small" style="margin-top:6px"><strong>Next:</strong> ${rec.action}</div>
               </div>`).join("")}
           </div>
-          <p class="bb-tiny bb-subtle" style="margin-top:var(--bb-3)">
-            Recommendations only. BookBoost never changes a budget or pauses an ad on its own.
+          <p class="bp-tiny bp-subtle" style="margin-top:var(--bp-3)">
+            Recommendations only. BookPilot never changes a budget or pauses an ad on its own.
           </p>
         </div>` : "")}
     </section>
@@ -880,32 +880,32 @@ function analysisPanel(analysis) {
 function budgetPanel(result, currency) {
   if (!result.recommendation) {
     return html`
-      <section class="bb-card">
-        <div class="bb-card__title" style="margin-bottom:var(--bb-3)">Budget advice</div>
-        <p class="bb-muted">${result.reason}</p>
+      <section class="bp-card">
+        <div class="bp-card__title" style="margin-bottom:var(--bp-3)">Budget advice</div>
+        <p class="bp-muted">${result.reason}</p>
       </section>`;
   }
   const r = result.recommendation;
   const band = (label, cents) => html`
-    <div class="bb-stat">
-      <div class="bb-stat__label">${label}</div>
-      <div class="bb-stat__value" style="font-size:1.3rem">${fmt.money(cents, currency)}</div>
-      <div class="bb-stat__meta">per day</div>
+    <div class="bp-stat">
+      <div class="bp-stat__label">${label}</div>
+      <div class="bp-stat__value" style="font-size:1.3rem">${fmt.money(cents, currency)}</div>
+      <div class="bp-stat__meta">per day</div>
     </div>`;
   return html`
-    <section class="bb-card">
-      <div class="bb-card__header">
-        <div class="bb-card__title">Budget recommendation</div>
+    <section class="bp-card">
+      <div class="bp-card__header">
+        <div class="bp-card__title">Budget recommendation</div>
         ${raw(confidenceBadge(r.confidence))}
       </div>
-      <div class="bb-stat-grid" style="margin-bottom:var(--bb-4)">
+      <div class="bp-stat-grid" style="margin-bottom:var(--bp-4)">
         ${raw(band("Conservative", r.conservative))}
         ${raw(band("Balanced", r.balanced))}
         ${raw(band("Aggressive", r.aggressive))}
       </div>
-      <p class="bb-small bb-muted">${r.narrative?.reasoning || r.rationale}</p>
-      ${r.narrative?.caveat ? raw(html`<p class="bb-small bb-subtle">${r.narrative.caveat}</p>`) : ""}
-      <p class="bb-tiny bb-subtle">
+      <p class="bp-small bp-muted">${r.narrative?.reasoning || r.rationale}</p>
+      ${r.narrative?.caveat ? raw(html`<p class="bp-small bp-subtle">${r.narrative.caveat}</p>`) : ""}
+      <p class="bp-tiny bp-subtle">
         Estimates from this campaign's own numbers, not a guarantee. Advertising results depend on
         your book, your market and the season.
       </p>

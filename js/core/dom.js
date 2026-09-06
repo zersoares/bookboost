@@ -94,7 +94,7 @@ export function setBusy(button, busy, label = "Working…") {
   if (!button) return;
   if (busy) {
     button.dataset.originalLabel = button.innerHTML;
-    button.innerHTML = `<span class="bb-spinner"></span> ${escapeHtml(label)}`;
+    button.innerHTML = `<span class="bp-spinner"></span> ${escapeHtml(label)}`;
     button.disabled = true;
   } else {
     if (button.dataset.originalLabel) button.innerHTML = button.dataset.originalLabel;

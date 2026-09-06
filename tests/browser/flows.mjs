@@ -49,13 +49,13 @@ const go = async (hash) => {
 
 await step('Landing page CTA reaches the signup screen', async () => {
   await page.goto(`${BASE}/`, { waitUntil: 'networkidle' });
-  await page.click('a.bb-btn--primary >> nth=0');
+  await page.click('a.bp-btn--primary >> nth=0');
   await page.waitForSelector('#auth-form', { timeout: 6000 });
   if (!(await page.locator('input[name="fullName"]').count())) throw new Error('signup form missing');
 });
 
 await step('Signup form validates and explains when accounts are unavailable', async () => {
-  const notice = await page.locator('.bb-alert--info').first().innerText();
+  const notice = await page.locator('.bp-alert--info').first().innerText();
   if (!/demo/i.test(notice)) throw new Error(`expected an honest unavailable notice, got: ${notice.slice(0, 60)}`);
   const disabled = await page.locator('#auth-form button[type=submit]').isDisabled();
   if (!disabled) throw new Error('submit should be disabled with no backend');
@@ -68,8 +68,8 @@ await step('Add book: form saves and lands on the new book', async () => {
   await page.fill('#description', 'A practical guide for teams without a security department.');
   await page.fill('#price', '14.50');
   await page.click('#book-form button[type=submit]');
-  await page.waitForSelector('.bb-book-hero', { timeout: 8000 });
-  const heading = await page.locator('.bb-book-hero h1').innerText();
+  await page.waitForSelector('.bp-book-hero', { timeout: 8000 });
+  const heading = await page.locator('.bp-book-hero h1').innerText();
   if (!heading.includes('Cybersecurity')) throw new Error(`unexpected book page: ${heading}`);
 });
 
@@ -78,58 +78,58 @@ await step('Edit book: changes persist', async () => {
   await page.waitForSelector('#book-form');
   await page.fill('#subtitle', 'Without hiring anyone');
   await page.click('#book-form button[type=submit]');
-  await page.waitForSelector('.bb-book-hero', { timeout: 8000 });
-  const sub = await page.locator('.bb-book-hero .bb-lead').innerText();
+  await page.waitForSelector('.bp-book-hero', { timeout: 8000 });
+  const sub = await page.locator('.bp-book-hero .bp-lead').innerText();
   if (!sub.includes('Without hiring')) throw new Error('subtitle did not persist');
 });
 
 await step('New book shows an empty strategy with the right next step', async () => {
   await page.click('a:has-text("AI strategy")');
-  await page.waitForSelector('.bb-empty', { timeout: 8000 });
-  const text = await page.locator('.bb-empty').innerText();
+  await page.waitForSelector('.bp-empty', { timeout: 8000 });
+  const text = await page.locator('.bp-empty').innerText();
   if (!/Analyse this book/i.test(text)) throw new Error(`unexpected empty state: ${text.slice(0, 60)}`);
 });
 
 await step('Run analysis, then personas, then angles — in that order', async () => {
   await page.click('#run-analysis');
-  await page.waitForSelector('.bb-card:has-text("Positioning")', { timeout: 15000 });
+  await page.waitForSelector('.bp-card:has-text("Positioning")', { timeout: 15000 });
 
-  await page.click('.bb-tab:has-text("Reader personas")');
+  await page.click('.bp-tab:has-text("Reader personas")');
   await page.waitForSelector('#run-personas', { timeout: 8000 });
   await page.click('#run-personas');
-  await page.waitForSelector('.bb-persona', { timeout: 15000 });
-  const personaCount = await page.locator('.bb-persona').count();
+  await page.waitForSelector('.bp-persona', { timeout: 15000 });
+  const personaCount = await page.locator('.bp-persona').count();
   if (personaCount < 3) throw new Error(`expected 3+ personas, got ${personaCount}`);
 
-  await page.click('.bb-tab:has-text("Marketing angles")');
+  await page.click('.bp-tab:has-text("Marketing angles")');
   await page.waitForSelector('#run-angles', { timeout: 8000 });
   await page.click('#run-angles');
-  await page.waitForSelector('.bb-angle', { timeout: 15000 });
-  const angleCount = await page.locator('.bb-angle').count();
+  await page.waitForSelector('.bp-angle', { timeout: 15000 });
+  const angleCount = await page.locator('.bp-angle').count();
   if (angleCount < 10) throw new Error(`spec asks for 10+ angles, got ${angleCount}`);
 });
 
 await step('Angle filter chips narrow the list', async () => {
   const before = await page.locator('#angle-grid > article:visible').count();
-  await page.click('.bb-chip[data-filter]:not([data-filter=""]) >> nth=0');
+  await page.click('.bp-chip[data-filter]:not([data-filter=""]) >> nth=0');
   await page.waitForTimeout(250);
   const after = await page.locator('#angle-grid > article:visible').count();
   if (after >= before) throw new Error(`filter did not narrow: ${before} -> ${after}`);
 });
 
 await step('Credits are spent and shown in the sidebar', async () => {
-  const credits = await page.locator('.bb-credits__row strong').innerText();
+  const credits = await page.locator('.bp-credits__row strong').innerText();
   const value = Number(credits.replace(/\D/g, ''));
   if (!(value < 74)) throw new Error(`credits should have decreased from 74, showing ${credits}`);
 });
 
 await step('Creative factory generates and scores a creative', async () => {
-  await page.click('.bb-angle a:has-text("Create ads from this angle") >> nth=0');
+  await page.click('.bp-angle a:has-text("Create ads from this angle") >> nth=0');
   await page.waitForSelector('#factory-form', { timeout: 8000 });
   await page.click('#factory-form button[type=submit]');
-  await page.waitForSelector('#factory-results .bb-creative', { timeout: 15000 });
-  await page.click('#factory-results .bb-creative a:has-text("Open") >> nth=0');
-  await page.waitForSelector('.bb-creative__preview', { timeout: 8000 });
+  await page.waitForSelector('#factory-results .bp-creative', { timeout: 15000 });
+  await page.click('#factory-results .bp-creative a:has-text("Open") >> nth=0');
+  await page.waitForSelector('.bp-creative__preview', { timeout: 8000 });
 });
 
 await step('Creative detail: edit copy saves', async () => {
@@ -138,7 +138,7 @@ await step('Creative detail: edit copy saves', async () => {
   await page.fill('#e-headline', 'An edited headline');
   await page.click('#edit-form button[type=submit]');
   await page.waitForTimeout(900);
-  const shown = await page.locator('.bb-creative__headline').first().innerText();
+  const shown = await page.locator('.bp-creative__headline').first().innerText();
   if (!shown.includes('edited')) throw new Error(`edit did not persist: ${shown}`);
 });
 
@@ -169,8 +169,8 @@ await step('Campaign builder runs all ten steps and saves a draft', async () => 
   await page.waitForSelector('#w-url', { timeout: 8000 });
   await page.fill('#w-url', 'https://example.com/starting-over');
   await page.click('[data-next]');                                   // 8 -> 9 review
-  await page.waitForSelector('.bb-kv', { timeout: 8000 });
-  const review = await page.locator('.bb-wizard').innerText();
+  await page.waitForSelector('.bp-kv', { timeout: 8000 });
+  const review = await page.locator('.bp-wizard').innerText();
   if (!/Maximum spend/.test(review)) throw new Error('review step should state the maximum spend');
   await page.click('[data-next]');                                   // save
   await page.waitForSelector('text=Campaign saved as a draft', { timeout: 12000 });
@@ -197,8 +197,8 @@ await step('Amazon destination warns that sales cannot be tracked there', async 
 
 await step('Campaign detail shows creative performance and a launch gate', async () => {
   await go('/campaigns');
-  await page.click('.bb-table a:has-text("angle test")');
-  await page.waitForSelector('.bb-stat-grid, .bb-panel', { timeout: 8000 });
+  await page.click('.bp-table a:has-text("angle test")');
+  await page.waitForSelector('.bp-stat-grid, .bp-panel', { timeout: 8000 });
   const body = await page.locator('#view').innerText();
   if (!/Creative performance/.test(body)) throw new Error('no creative table');
   if (!/🏆/.test(body)) throw new Error('no winner marked on a campaign with a clear winner');
@@ -206,7 +206,7 @@ await step('Campaign detail shows creative performance and a launch gate', async
 
 await step('Campaign analysis produces insights with a confidence level', async () => {
   await page.click('#analyse-btn');
-  await page.waitForSelector('#analysis-output .bb-insight', { timeout: 15000 });
+  await page.waitForSelector('#analysis-output .bp-insight', { timeout: 15000 });
   const text = await page.locator('#analysis-output').innerText();
   if (!/confidence/i.test(text)) throw new Error('analysis must state confidence');
   if (!/never changes a budget/i.test(text)) throw new Error('missing the "recommendations only" disclaimer');
@@ -237,12 +237,12 @@ await step('Analytics sorts the creative table', async () => {
 
 await step('Advisor answers and offers actions, not automation', async () => {
   await go('/advisor');
-  await page.click('.bb-chip[data-question] >> nth=0');
+  await page.click('.bp-chip[data-question] >> nth=0');
   await page.waitForSelector('#thinking', { timeout: 8000 });
   await page.waitForSelector('#thinking', { state: 'detached', timeout: 15000 });
-  const answer = await page.locator('.bb-bubble--ai').last().innerText();
+  const answer = await page.locator('.bp-bubble--ai').last().innerText();
   if (answer.length < 60) throw new Error('advisor answer too short');
-  const disclaimer = await page.locator('.bb-advisor').innerText();
+  const disclaimer = await page.locator('.bp-advisor').innerText();
   if (!/says how confident|isn't enough of it/i.test(disclaimer)) throw new Error('missing confidence framing');
 });
 
@@ -255,8 +255,8 @@ await step('Attribution page marks unavailable integrations honestly', async () 
 
 await step('Billing shows plans and disables checkout when unavailable', async () => {
   await go('/billing');
-  await page.waitForSelector('.bb-pricing', { timeout: 8000 });
-  const plans = await page.locator('.bb-plan').count();
+  await page.waitForSelector('.bp-pricing', { timeout: 8000 });
+  const plans = await page.locator('.bp-plan').count();
   if (plans !== 4) throw new Error(`expected 4 plans, got ${plans}`);
   const text = await page.locator('#view').innerText();
   if (!/Checkout is switched off/i.test(text)) throw new Error('demo must say checkout is off');
@@ -275,8 +275,8 @@ await step('Settings: privacy toggles and export are present', async () => {
 await step('Notifications panel opens and marks read', async () => {
   await go('/overview');
   await page.click('#notif-btn');
-  await page.waitForSelector('.bb-notifications .bb-notification', { timeout: 8000 });
-  const items = await page.locator('.bb-notification').count();
+  await page.waitForSelector('.bp-notifications .bp-notification', { timeout: 8000 });
+  const items = await page.locator('.bp-notification').count();
   if (items < 1) throw new Error('no notifications rendered');
   await page.click('#read-all');
   await page.waitForTimeout(500);
@@ -293,14 +293,14 @@ await step('Demo reset restores the starting workspace', async () => {
   await page.click('#demo-reset');
   await page.waitForTimeout(900);
   await go('/books');
-  const cards = await page.locator('.bb-book-card').count();
+  const cards = await page.locator('.bp-book-card').count();
   if (cards !== 1) throw new Error(`expected 1 book after reset, got ${cards}`);
 });
 
 await step('Every screen in the demo carries a DEMO DATA marker', async () => {
   for (const route of ['/overview', '/books', '/creatives', '/campaigns', '/analytics', '/billing']) {
     await go(route);
-    const badges = await page.locator('.bb-demo-badge').count();
+    const badges = await page.locator('.bp-demo-badge').count();
     if (badges < 1) throw new Error(`${route} has no demo marker`);
   }
 });

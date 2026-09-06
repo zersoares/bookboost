@@ -1,22 +1,22 @@
-// BookBoost AI — billing.
+// BookPilot AI — billing.
 //
-//   /api/bb-billing/*
+//   /api/bp-billing/*
 //
 // Checkout and the customer portal. Plan state is never set from here:
 // it is set by the webhook after Stripe confirms payment, so a user who
 // closes the checkout tab at the right moment does not end up on a plan
 // they didn't pay for.
 
-import { withGuards, json, readJson, pathSegments } from "./bookboost-lib/http.js";
-import { authenticate } from "./bookboost-lib/auth.js";
-import { dbAsService } from "./bookboost-lib/db.js";
-import { Errors } from "./bookboost-lib/errors.js";
-import { env } from "./bookboost-lib/env.js";
-import { memoryLimit } from "./bookboost-lib/ratelimit.js";
-import * as stripe from "./bookboost-lib/stripe.js";
-import * as v from "./bookboost-lib/validate.js";
+import { withGuards, json, readJson, pathSegments } from "./bookpilot-lib/http.js";
+import { authenticate } from "./bookpilot-lib/auth.js";
+import { dbAsService } from "./bookpilot-lib/db.js";
+import { Errors } from "./bookpilot-lib/errors.js";
+import { env } from "./bookpilot-lib/env.js";
+import { memoryLimit } from "./bookpilot-lib/ratelimit.js";
+import * as stripe from "./bookpilot-lib/stripe.js";
+import * as v from "./bookpilot-lib/validate.js";
 
-const PREFIX = "/api/bb-billing";
+const PREFIX = "/api/bp-billing";
 
 async function startCheckout(ctx, body) {
   if (!stripe.configured()) throw Errors.notConfigured("Billing");
@@ -96,4 +96,4 @@ export default withGuards(async (req) => {
   throw Errors.notFound("endpoint");
 });
 
-export const config = { path: "/api/bb-billing/*" };
+export const config = { path: "/api/bp-billing/*" };

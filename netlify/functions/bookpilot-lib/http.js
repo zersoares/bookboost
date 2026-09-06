@@ -1,4 +1,4 @@
-// HTTP plumbing shared by every BookBoost function: origin checks,
+// HTTP plumbing shared by every BookPilot function: origin checks,
 // JSON parsing with a size cap, security headers, and a tiny router.
 
 import { env } from "./env.js";
@@ -22,7 +22,7 @@ export function errorResponse(err) {
   const status = err instanceof AppError ? err.status : 500;
   if (!(err instanceof AppError)) {
     // Keep the technical detail in the function log only.
-    console.error("[bookboost] unhandled error:", err);
+    console.error("[bookpilot] unhandled error:", err);
   }
   return json(toResponseBody(err), status);
 }
@@ -74,7 +74,7 @@ export async function readJson(req, maxBytes = MAX_BODY_BYTES) {
   }
 }
 
-// Split "/api/bb/books/123" (after the given prefix) into ["books","123"].
+// Split "/api/bp/books/123" (after the given prefix) into ["books","123"].
 export function pathSegments(req, prefix) {
   const { pathname } = new URL(req.url);
   const rest = pathname.startsWith(prefix) ? pathname.slice(prefix.length) : pathname;

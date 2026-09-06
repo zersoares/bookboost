@@ -1,5 +1,5 @@
 -- =====================================================================
--- BookBoost AI — schema (Supabase / PostgreSQL)
+-- BookPilot AI — schema (Supabase / PostgreSQL)
 --
 -- Apply in order: 001_schema.sql, 002_rls.sql, 003_seed.sql.
 -- Everything lives in the `public` schema and hangs off Supabase's
@@ -48,7 +48,7 @@ create table if not exists public.credit_costs (
 
 -- Server-side AI prompt registry (spec §38). Prompts are never shipped
 -- to the browser; the API layer loads them from here and falls back to
--- the bundled defaults in netlify/functions/bookboost-lib/prompts.js.
+-- the bundled defaults in netlify/functions/bookpilot-lib/prompts.js.
 create table if not exists public.ai_prompts (
   key            text primary key,                 -- 'book_analysis', 'reader_personas', ...
   label          text not null,
@@ -328,7 +328,7 @@ create index if not exists performance_campaign_idx
 -- Website tracking (spec §17)
 -- ---------------------------------------------------------------------
 
--- One row per author website that installs /bookboost/track/bb.js.
+-- One row per author website that installs /bookpilot/track/bp.js.
 -- public_key is safe to embed in a page; write_secret is never exposed.
 create table if not exists public.tracking_sites (
   id          uuid primary key default gen_random_uuid(),

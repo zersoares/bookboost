@@ -1,8 +1,8 @@
-// BookBoost AI — application bootstrap.
+// BookPilot AI — application bootstrap.
 //
 // Decides three things at start-up, in this order:
 //
-//   1. What this deployment can do (GET /api/bb/config).
+//   1. What this deployment can do (GET /api/bp/config).
 //   2. Whether we're in the demo workspace — asked for with ?demo=1, or
 //      forced when the deployment has no database configured. In that
 //      case the app runs entirely in the browser against the sample
@@ -70,8 +70,8 @@ function navItems(activePath) {
   return items
     .map((item) => {
       const active = activePath === item.path || activePath.startsWith(`${item.path}/`);
-      return html`<a class="bb-nav-item ${active ? "bb-nav-item--active" : ""}" href="#${item.path}">
-        <span class="bb-nav-item__icon" aria-hidden="true">${item.icon}</span>${item.label}
+      return html`<a class="bp-nav-item ${active ? "bp-nav-item--active" : ""}" href="#${item.path}">
+        <span class="bp-nav-item__icon" aria-hidden="true">${item.icon}</span>${item.label}
       </a>`;
     })
     .join("");
@@ -81,8 +81,8 @@ function bottomNav(activePath) {
   return NAV.filter((item) => item.mobile)
     .map((item) => {
       const active = activePath === item.path || activePath.startsWith(`${item.path}/`);
-      return html`<a class="bb-bottom-nav__item ${active ? "bb-bottom-nav__item--active" : ""}" href="#${item.path}">
-        <span class="bb-bottom-nav__icon" aria-hidden="true">${item.icon}</span>${item.mobile}
+      return html`<a class="bp-bottom-nav__item ${active ? "bp-bottom-nav__item--active" : ""}" href="#${item.path}">
+        <span class="bp-bottom-nav__icon" aria-hidden="true">${item.icon}</span>${item.mobile}
       </a>`;
     })
     .join("");
@@ -95,16 +95,16 @@ function creditsPanel() {
   const allowance = plan?.monthly_credits || 0;
   const pct = allowance ? Math.min(100, Math.round((profile.ai_credits / allowance) * 100)) : 0;
   return html`
-    <div class="bb-credits">
-      <div class="bb-credits__row">
-        <span class="bb-muted">AI credits</span>
+    <div class="bp-credits">
+      <div class="bp-credits__row">
+        <span class="bp-muted">AI credits</span>
         <strong>${fmt.number(profile.ai_credits)}</strong>
       </div>
-      <div class="bb-progress"><div class="bb-progress__bar" style="width:${pct}%"></div></div>
-      <div class="bb-tiny bb-subtle" style="margin-top:6px">
+      <div class="bp-progress"><div class="bp-progress__bar" style="width:${pct}%"></div></div>
+      <div class="bp-tiny bp-subtle" style="margin-top:6px">
         ${plan ? `${plan.name} plan` : ""}${allowance ? ` · ${allowance}/month` : ""}
       </div>
-      <a class="bb-btn bb-btn--secondary bb-btn--sm bb-btn--block" style="margin-top:var(--bb-3)" href="#/billing">
+      <a class="bp-btn bp-btn--secondary bp-btn--sm bp-btn--block" style="margin-top:var(--bp-3)" href="#/billing">
         Manage plan
       </a>
     </div>
@@ -116,28 +116,28 @@ function renderShell(activePath) {
   const unread = store.get("counts")?.unreadNotifications || 0;
 
   document.body.innerHTML = html`
-    <a class="bb-skip-link" href="#view">Skip to content</a>
-    <div class="bb-app">
-      <aside class="bb-sidebar">
-        <a class="bb-sidebar__brand" href="#/overview">
-          <span class="bb-sidebar__mark">B</span> BookBoost
+    <a class="bp-skip-link" href="#view">Skip to content</a>
+    <div class="bp-app">
+      <aside class="bp-sidebar">
+        <a class="bp-sidebar__brand" href="#/overview">
+          <span class="bp-sidebar__mark">B</span> BookPilot
         </a>
-        <nav class="bb-nav-group" aria-label="Main">${raw(navItems(activePath))}</nav>
-        <div class="bb-sidebar__foot">${raw(creditsPanel())}</div>
+        <nav class="bp-nav-group" aria-label="Main">${raw(navItems(activePath))}</nav>
+        <div class="bp-sidebar__foot">${raw(creditsPanel())}</div>
       </aside>
 
-      <div class="bb-main">
-        <header class="bb-topbar">
-          <div class="bb-topbar__title" id="topbar-title"></div>
-          <div class="bb-topbar__actions">
-            <a class="bb-btn bb-btn--primary bb-btn--sm" href="#/campaigns/new">New campaign</a>
-            <button type="button" class="bb-icon-btn" id="notif-btn" aria-label="Notifications">
-              ${raw(BELL_ICON)}${unread ? raw('<span class="bb-icon-btn__dot"></span>') : ""}
+      <div class="bp-main">
+        <header class="bp-topbar">
+          <div class="bp-topbar__title" id="topbar-title"></div>
+          <div class="bp-topbar__actions">
+            <a class="bp-btn bp-btn--primary bp-btn--sm" href="#/campaigns/new">New campaign</a>
+            <button type="button" class="bp-icon-btn" id="notif-btn" aria-label="Notifications">
+              ${raw(BELL_ICON)}${unread ? raw('<span class="bp-icon-btn__dot"></span>') : ""}
             </button>
-            <button type="button" class="bb-icon-btn" id="theme-btn" aria-label="Switch theme">
+            <button type="button" class="bp-icon-btn" id="theme-btn" aria-label="Switch theme">
               ${currentTheme() === "dark" ? "☀" : "☾"}
             </button>
-            <button type="button" class="bb-avatar" id="avatar-btn" aria-label="Account menu">
+            <button type="button" class="bp-avatar" id="avatar-btn" aria-label="Account menu">
               ${fmt.initials(profile?.full_name || profile?.email || "?")}
             </button>
           </div>
@@ -145,10 +145,10 @@ function renderShell(activePath) {
 
         ${isDemo() ? raw(demoBar()) : ""}
 
-        <main class="bb-view" id="view" tabindex="-1">${raw(loading())}</main>
+        <main class="bp-view" id="view" tabindex="-1">${raw(loading())}</main>
       </div>
     </div>
-    <nav class="bb-bottom-nav" aria-label="Main">${raw(bottomNav(activePath))}</nav>
+    <nav class="bp-bottom-nav" aria-label="Main">${raw(bottomNav(activePath))}</nav>
   `;
 
   $("#theme-btn").addEventListener("click", (event) => {
@@ -168,14 +168,14 @@ function renderShell(activePath) {
 
 function demoBar() {
   return html`
-    <div class="bb-demo-bar">
-      <span class="bb-demo-badge">Demo data</span>
-      <span class="bb-flex-1">
+    <div class="bp-demo-bar">
+      <span class="bp-demo-badge">Demo data</span>
+      <span class="bp-flex-1">
         You're exploring a sample book and a simulated campaign. None of these figures are real sales,
         and nothing here is connected to an ad account.
       </span>
-      <a class="bb-btn bb-btn--primary bb-btn--sm" href="#/signup">Create a free account</a>
-      <button type="button" class="bb-btn bb-btn--ghost bb-btn--sm" id="demo-reset">Reset demo</button>
+      <a class="bp-btn bp-btn--primary bp-btn--sm" href="#/signup">Create a free account</a>
+      <button type="button" class="bp-btn bp-btn--ghost bp-btn--sm" id="demo-reset">Reset demo</button>
     </div>
   `;
 }
@@ -183,7 +183,7 @@ function demoBar() {
 function setTitle(title) {
   const node = $("#topbar-title");
   if (node) node.textContent = title;
-  document.title = `${title} · BookBoost AI`;
+  document.title = `${title} · BookPilot AI`;
 }
 
 // ---------------------------------------------------------------------
@@ -191,28 +191,28 @@ function setTitle(title) {
 // ---------------------------------------------------------------------
 
 function closeMenus() {
-  document.querySelectorAll(".bb-menu, .bb-notifications").forEach((node) => node.remove());
+  document.querySelectorAll(".bp-menu, .bp-notifications").forEach((node) => node.remove());
 }
 
 function toggleAccountMenu() {
-  if (document.querySelector(".bb-menu")) return closeMenus();
+  if (document.querySelector(".bp-menu")) return closeMenus();
   closeMenus();
   const profile = store.get("profile");
   const menu = document.createElement("div");
-  menu.className = "bb-menu";
+  menu.className = "bp-menu";
   menu.innerHTML = html`
-    <div class="bb-menu__head">
+    <div class="bp-menu__head">
       <div><strong>${profile?.full_name || "Your account"}</strong></div>
-      <div class="bb-tiny bb-subtle">${profile?.email || ""}</div>
+      <div class="bp-tiny bp-subtle">${profile?.email || ""}</div>
     </div>
-    <a class="bb-menu__item" href="#/settings">Settings</a>
-    <a class="bb-menu__item" href="#/billing">Plan &amp; credits</a>
-    <a class="bb-menu__item" href="/privacy.html">Privacy policy</a>
+    <a class="bp-menu__item" href="#/settings">Settings</a>
+    <a class="bp-menu__item" href="#/billing">Plan &amp; credits</a>
+    <a class="bp-menu__item" href="/privacy.html">Privacy policy</a>
     ${isDemo()
-      ? raw('<a class="bb-menu__item" href="#/signup">Create an account</a>')
-      : raw('<button type="button" class="bb-menu__item" id="signout-btn">Sign out</button>')}
+      ? raw('<a class="bp-menu__item" href="#/signup">Create an account</a>')
+      : raw('<button type="button" class="bp-menu__item" id="signout-btn">Sign out</button>')}
   `;
-  document.querySelector(".bb-main").appendChild(menu);
+  document.querySelector(".bp-main").appendChild(menu);
   menu.querySelector("#signout-btn")?.addEventListener("click", async () => {
     await auth.signOut();
     location.hash = "#/signin";
@@ -222,46 +222,46 @@ function toggleAccountMenu() {
 }
 
 async function toggleNotifications() {
-  if (document.querySelector(".bb-notifications")) return closeMenus();
+  if (document.querySelector(".bp-notifications")) return closeMenus();
   closeMenus();
   const panel = document.createElement("div");
-  panel.className = "bb-notifications";
+  panel.className = "bp-notifications";
   panel.innerHTML = loading(2);
-  document.querySelector(".bb-main").appendChild(panel);
+  document.querySelector(".bp-main").appendChild(panel);
 
   try {
     const { notifications } = await API.notifications();
     store.set({ notifications });
     panel.innerHTML = notifications.length
-      ? `<div class="bb-row bb-row--between" style="padding:var(--bb-3) var(--bb-4);border-bottom:1px solid var(--bb-border)">
+      ? `<div class="bp-row bp-row--between" style="padding:var(--bp-3) var(--bp-4);border-bottom:1px solid var(--bp-border)">
            <strong>Notifications</strong>
-           <button type="button" class="bb-btn bb-btn--ghost bb-btn--sm" id="read-all">Mark all read</button>
+           <button type="button" class="bp-btn bp-btn--ghost bp-btn--sm" id="read-all">Mark all read</button>
          </div>` +
         notifications
           .map(
-            (n) => html`<a class="bb-notification ${n.read ? "" : "bb-notification--unread"}" href="${n.link || "#/overview"}">
+            (n) => html`<a class="bp-notification ${n.read ? "" : "bp-notification--unread"}" href="${n.link || "#/overview"}">
               <div><strong>${n.title}</strong></div>
-              <div class="bb-small bb-muted">${n.message || ""}</div>
-              <div class="bb-tiny bb-subtle" style="margin-top:4px">${fmt.relativeTime(n.created_at)}</div>
+              <div class="bp-small bp-muted">${n.message || ""}</div>
+              <div class="bp-tiny bp-subtle" style="margin-top:4px">${fmt.relativeTime(n.created_at)}</div>
             </a>`
           )
           .join("")
-      : `<div style="padding:var(--bb-6)" class="bb-center bb-muted bb-small">Nothing yet. We'll tell you when a campaign has news.</div>`;
+      : `<div style="padding:var(--bp-6)" class="bp-center bp-muted bp-small">Nothing yet. We'll tell you when a campaign has news.</div>`;
 
     panel.querySelector("#read-all")?.addEventListener("click", async () => {
       await API.markAllRead();
       store.set({ counts: { ...store.get("counts"), unreadNotifications: 0 } });
       closeMenus();
-      $("#notif-btn").querySelector(".bb-icon-btn__dot")?.remove();
+      $("#notif-btn").querySelector(".bp-icon-btn__dot")?.remove();
     });
   } catch (err) {
-    panel.innerHTML = `<div style="padding:var(--bb-4)">${errorBox(err.message)}</div>`;
+    panel.innerHTML = `<div style="padding:var(--bp-4)">${errorBox(err.message)}</div>`;
   }
   setTimeout(() => document.addEventListener("click", onOutsideClick, { once: true }), 0);
 }
 
 function onOutsideClick(event) {
-  if (event.target.closest(".bb-menu, .bb-notifications, #avatar-btn, #notif-btn")) {
+  if (event.target.closest(".bp-menu, .bp-notifications, #avatar-btn, #notif-btn")) {
     document.addEventListener("click", onOutsideClick, { once: true });
     return;
   }
@@ -282,7 +282,7 @@ let shellPath = null;
 function view(title, renderFn) {
   return async (params, query) => {
     const path = router.currentPath().split("?")[0];
-    if (shellPath === null || document.querySelector(".bb-app") === null) renderShell(path);
+    if (shellPath === null || document.querySelector(".bp-app") === null) renderShell(path);
     else refreshNav(path);
     shellPath = path;
     closeMenus();
@@ -296,25 +296,25 @@ function view(title, renderFn) {
       console.error(err);
       container.innerHTML = errorBox(
         err instanceof ApiError ? err.message : "Something went wrong loading this page.",
-        '<a class="bb-btn bb-btn--secondary bb-btn--sm" href="#/overview">Back to overview</a>'
+        '<a class="bp-btn bp-btn--secondary bp-btn--sm" href="#/overview">Back to overview</a>'
       );
     }
   };
 }
 
 function refreshNav(activePath) {
-  const sidebar = document.querySelector(".bb-sidebar .bb-nav-group");
+  const sidebar = document.querySelector(".bp-sidebar .bp-nav-group");
   if (sidebar) sidebar.innerHTML = navItems(activePath);
-  const bottom = document.querySelector(".bb-bottom-nav");
+  const bottom = document.querySelector(".bp-bottom-nav");
   if (bottom) bottom.innerHTML = bottomNav(activePath);
-  const credits = document.querySelector(".bb-sidebar__foot");
+  const credits = document.querySelector(".bp-sidebar__foot");
   if (credits) credits.innerHTML = creditsPanel();
 }
 
 // The sidebar shows the credit balance and the admin link, so it has to
 // follow the store rather than only the route.
 store.subscribe(() => {
-  if (document.querySelector(".bb-app")) refreshNav(router.currentPath().split("?")[0]);
+  if (document.querySelector(".bp-app")) refreshNav(router.currentPath().split("?")[0]);
 });
 
 async function refresh() {
@@ -360,11 +360,11 @@ function registerRoutes() {
   router.setNotFound(
     view("Not found", (container) => {
       container.innerHTML = `
-        <div class="bb-empty">
-          <div class="bb-empty__icon">◇</div>
-          <div class="bb-empty__title">That page doesn't exist</div>
-          <p class="bb-empty__text">The link may be out of date.</p>
-          <a class="bb-btn bb-btn--primary" href="#/overview">Back to overview</a>
+        <div class="bp-empty">
+          <div class="bp-empty__icon">◇</div>
+          <div class="bp-empty__title">That page doesn't exist</div>
+          <p class="bp-empty__text">The link may be out of date.</p>
+          <a class="bp-btn bp-btn--primary" href="#/overview">Back to overview</a>
         </div>`;
     })
   );
@@ -401,7 +401,7 @@ async function boot() {
     store.set({ demo: true, config: await API.config() });
     if (!wantsDemo && !hasBackend) {
       // Honest about why: the deployment simply isn't connected yet.
-      console.info("[bookboost] No database configured — running the demo workspace.");
+      console.info("[bookpilot] No database configured — running the demo workspace.");
     }
   } else {
     store.set({ demo: false, config });
@@ -423,7 +423,7 @@ async function boot() {
         router.navigate("/onboarding", { replace: true });
       }
     } catch (err) {
-      console.error("[bookboost] could not load account:", err);
+      console.error("[bookpilot] could not load account:", err);
     }
   } else if (isDemo()) {
     try {
@@ -443,9 +443,9 @@ boot().catch((err) => {
   console.error(err);
   mount(
     document.body,
-    `<div class="bb-auth"><div class="bb-auth__card">${errorBox(
-      "BookBoost couldn't start. Please reload the page.",
-      '<button type="button" class="bb-btn bb-btn--primary bb-btn--sm" onclick="location.reload()">Reload</button>'
+    `<div class="bp-auth"><div class="bp-auth__card">${errorBox(
+      "BookPilot couldn't start. Please reload the page.",
+      '<button type="button" class="bp-btn bp-btn--primary bp-btn--sm" onclick="location.reload()">Reload</button>'
     )}</div></div>`
   );
 });

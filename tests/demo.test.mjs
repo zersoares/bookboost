@@ -54,21 +54,21 @@ test("the dataset is complete enough to exercise every view", () => {
 
 test("the adapter answers the routes the app calls", async () => {
   resetDemo();
-  const me = await demoAdapter.request("GET", "/api/bb/me");
+  const me = await demoAdapter.request("GET", "/api/bp/me");
   assert.equal(me.profile.full_name, "Demo Author");
   assert.equal(me.counts.books, 1);
 
-  const strategy = await demoAdapter.request("GET", `/api/bb/books/${DEMO_BOOK.id}/strategy`);
+  const strategy = await demoAdapter.request("GET", `/api/bp/books/${DEMO_BOOK.id}/strategy`);
   assert.ok(strategy.analysis);
   assert.equal(strategy.personas.length, DEMO_PERSONAS.length);
 
-  const analytics = await demoAdapter.request("GET", "/api/bb/analytics?days=30");
+  const analytics = await demoAdapter.request("GET", "/api/bp/analytics?days=30");
   assert.equal(analytics.totals.conversions, 47);
   assert.equal(analytics.creatives.length, DEMO_CREATIVES.length);
 });
 
 test("the demo reports no live capabilities", async () => {
-  const config = await demoAdapter.request("GET", "/api/bb/config");
+  const config = await demoAdapter.request("GET", "/api/bp/config");
   assert.equal(config.capabilities.meta, false);
   assert.equal(config.capabilities.billing, false);
   assert.equal(config.capabilities.database, false);
@@ -77,39 +77,39 @@ test("the demo reports no live capabilities", async () => {
 
 test("Meta, billing and admin refuse rather than simulate", async () => {
   await assert.rejects(
-    () => demoAdapter.request("POST", "/api/bb-meta/push", { campaign_id: "x" }),
+    () => demoAdapter.request("POST", "/api/bp-meta/push", { campaign_id: "x" }),
     (err) => err.code === "demo_mode"
   );
   await assert.rejects(
-    () => demoAdapter.request("POST", "/api/bb-billing/checkout", { plan_id: "author" }),
+    () => demoAdapter.request("POST", "/api/bp-billing/checkout", { plan_id: "author" }),
     (err) => err.code === "demo_mode"
   );
   await assert.rejects(
-    () => demoAdapter.request("GET", "/api/bb-admin/overview"),
+    () => demoAdapter.request("GET", "/api/bp-admin/overview"),
     (err) => err.code === "forbidden"
   );
 });
 
 test("demo mutations are real and credits are spent", async () => {
   resetDemo();
-  const before = (await demoAdapter.request("GET", "/api/bb/me")).profile.ai_credits;
+  const before = (await demoAdapter.request("GET", "/api/bp/me")).profile.ai_credits;
 
-  const { book } = await demoAdapter.request("POST", "/api/bb/books", { title: "A second book" });
-  const { books } = await demoAdapter.request("GET", "/api/bb/books");
+  const { book } = await demoAdapter.request("POST", "/api/bp/books", { title: "A second book" });
+  const { books } = await demoAdapter.request("GET", "/api/bp/books");
   assert.equal(books.length, 2);
 
-  const result = await demoAdapter.request("POST", "/api/bb-ai/analyze", { book_id: book.id });
+  const result = await demoAdapter.request("POST", "/api/bp-ai/analyze", { book_id: book.id });
   assert.ok(result.demo, "every AI answer in the demo is flagged as demo output");
   assert.equal(result.creditsUsed, 10);
 
-  const after = (await demoAdapter.request("GET", "/api/bb/me")).profile.ai_credits;
+  const after = (await demoAdapter.request("GET", "/api/bp/me")).profile.ai_credits;
   assert.equal(after, before - 10);
 });
 
 test("resetDemo returns the workspace to its starting state", async () => {
-  await demoAdapter.request("POST", "/api/bb/books", { title: "Temporary" });
+  await demoAdapter.request("POST", "/api/bp/books", { title: "Temporary" });
   resetDemo();
-  const { books } = await demoAdapter.request("GET", "/api/bb/books");
+  const { books } = await demoAdapter.request("GET", "/api/bp/books");
   assert.equal(books.length, 1);
   assert.equal(books[0].id, DEMO_BOOK.id);
 });

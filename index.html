@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BookBoost AI — Your AI Marketing Manager for Books</title>
-<meta name="description" content="BookBoost AI helps authors find their ideal readers, build advertising campaigns and see which ads actually drive sales. Book analysis, reader personas, marketing angles, creatives and campaign analytics in one place.">
+<title>BookPilot AI — Your AI Marketing Manager for Books</title>
+<meta name="description" content="BookPilot AI helps authors find their ideal readers, build advertising campaigns and see which ads actually drive sales. Book analysis, reader personas, marketing angles, creatives and campaign analytics in one place.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="BookBoost AI — Your AI Marketing Manager for Books">
+<meta property="og:title" content="BookPilot AI — Your AI Marketing Manager for Books">
 <meta property="og:description" content="Upload your book. Find your readers. Create your ads. Launch your campaign. Discover which ads actually sell.">
-<meta property="og:site_name" content="BookBoost AI">
-<meta property="og:url" content="https://bookboost-ai.netlify.app/">
+<meta property="og:site_name" content="BookPilot AI">
+<meta property="og:url" content="https://bookpilot-ai.netlify.app/">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="canonical" href="https://bookboost-ai.netlify.app/">
+<link rel="canonical" href="https://bookpilot-ai.netlify.app/">
 <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -26,32 +26,32 @@
      white flash. Duplicates theme.js deliberately — a module import
      would run too late. */
   try {
-    var t = localStorage.getItem('bookboost.theme');
+    var t = localStorage.getItem('bookpilot.theme');
     if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
   } catch (e) {}
 </script>
 </head>
 <body>
 
-<a class="bb-skip-link" href="#main">Skip to content</a>
+<a class="bp-skip-link" href="#main">Skip to content</a>
 
-<header class="bb-nav">
-  <div class="bb-nav__inner">
-    <a class="bb-logo" href="/">
-      <span class="bb-logo__mark">B</span>
-      BookBoost <span class="bb-logo__ai">AI</span>
+<header class="bp-nav">
+  <div class="bp-nav__inner">
+    <a class="bp-logo" href="/">
+      <span class="bp-logo__mark">B</span>
+      BookPilot <span class="bp-logo__ai">AI</span>
     </a>
-    <nav class="bb-nav__links" aria-label="Sections">
-      <a class="bb-nav__link" href="#how">How it works</a>
-      <a class="bb-nav__link" href="#intelligence">Reader intelligence</a>
-      <a class="bb-nav__link" href="#performance">Performance</a>
-      <a class="bb-nav__link" href="#pricing">Pricing</a>
-      <a class="bb-nav__link" href="#faq">FAQ</a>
+    <nav class="bp-nav__links" aria-label="Sections">
+      <a class="bp-nav__link" href="#how">How it works</a>
+      <a class="bp-nav__link" href="#intelligence">Reader intelligence</a>
+      <a class="bp-nav__link" href="#performance">Performance</a>
+      <a class="bp-nav__link" href="#pricing">Pricing</a>
+      <a class="bp-nav__link" href="#faq">FAQ</a>
     </nav>
-    <div class="bb-nav__actions">
-      <button type="button" class="bb-btn bb-btn--ghost bb-btn--sm" id="theme-toggle" aria-label="Switch theme">☾</button>
-      <a class="bb-btn bb-btn--ghost bb-btn--sm" href="/app.html#/signin">Sign in</a>
-      <a class="bb-btn bb-btn--primary bb-btn--sm" href="/app.html#/signup">Start free</a>
+    <div class="bp-nav__actions">
+      <button type="button" class="bp-btn bp-btn--ghost bp-btn--sm" id="theme-toggle" aria-label="Switch theme">☾</button>
+      <a class="bp-btn bp-btn--ghost bp-btn--sm" href="/app.html#/signin">Sign in</a>
+      <a class="bp-btn bp-btn--primary bp-btn--sm" href="/app.html#/signup">Start free</a>
     </div>
   </div>
 </header>
@@ -61,64 +61,64 @@
 <!-- =============================================================== -->
 <!-- 1. Hero                                                          -->
 <!-- =============================================================== -->
-<section class="bb-section bb-hero">
-  <div class="bb-hero__grid">
+<section class="bp-section bp-hero">
+  <div class="bp-hero__grid">
     <div>
-      <p class="bb-eyebrow">Your AI marketing manager for books</p>
-      <h1 class="bb-hero__title">Sell more books with AI-powered advertising</h1>
-      <p class="bb-hero__sub">
-        BookBoost AI finds your ideal readers, creates your advertising campaigns
+      <p class="bp-eyebrow">Your AI marketing manager for books</p>
+      <h1 class="bp-hero__title">Sell more books with AI-powered advertising</h1>
+      <p class="bp-hero__sub">
+        BookPilot AI finds your ideal readers, creates your advertising campaigns
         and helps you discover which ads actually drive sales.
       </p>
-      <div class="bb-hero__ctas">
-        <a class="bb-btn bb-btn--primary bb-btn--lg" href="/app.html#/signup">Start free</a>
-        <a class="bb-btn bb-btn--secondary bb-btn--lg" href="/app.html?demo=1#/overview">See how it works</a>
+      <div class="bp-hero__ctas">
+        <a class="bp-btn bp-btn--primary bp-btn--lg" href="/app.html#/signup">Start free</a>
+        <a class="bp-btn bp-btn--secondary bp-btn--lg" href="/app.html?demo=1#/overview">See how it works</a>
       </div>
-      <p class="bb-hero__note">
+      <p class="bp-hero__note">
         Free plan, no card required. Explore the full product with sample data before you sign up.
       </p>
     </div>
 
     <!-- Illustration of the dashboard. Every number here is invented for
          the purpose of showing the layout, and the caption says so. -->
-    <div class="bb-mock" role="img" aria-label="Illustration of the BookBoost AI dashboard showing a book, its reader profile, campaign performance and an AI recommendation.">
-      <div class="bb-mock__bar">
-        <span class="bb-mock__dot"></span><span class="bb-mock__dot"></span><span class="bb-mock__dot"></span>
-        <span class="bb-mock__title">BookBoost AI — Overview</span>
+    <div class="bp-mock" role="img" aria-label="Illustration of the BookPilot AI dashboard showing a book, its reader profile, campaign performance and an AI recommendation.">
+      <div class="bp-mock__bar">
+        <span class="bp-mock__dot"></span><span class="bp-mock__dot"></span><span class="bp-mock__dot"></span>
+        <span class="bp-mock__title">BookPilot AI — Overview</span>
       </div>
-      <div class="bb-mock__body">
-        <div class="bb-mock__top">
-          <div class="bb-cover bb-cover--placeholder">The Modern Woman's Guide to Starting Over</div>
-          <div class="bb-stack-sm">
-            <div class="bb-row bb-row--wrap" style="gap:6px">
-              <span class="bb-badge bb-badge--primary">Self-Help</span>
-              <span class="bb-badge bb-badge--success">Campaign active</span>
+      <div class="bp-mock__body">
+        <div class="bp-mock__top">
+          <div class="bp-cover bp-cover--placeholder">The Modern Woman's Guide to Starting Over</div>
+          <div class="bp-stack-sm">
+            <div class="bp-row bp-row--wrap" style="gap:6px">
+              <span class="bp-badge bp-badge--primary">Self-Help</span>
+              <span class="bp-badge bp-badge--success">Campaign active</span>
             </div>
-            <p class="bb-small bb-muted" style="margin:0">
+            <p class="bp-small bp-muted" style="margin:0">
               <strong>Best audience:</strong> The Woman Rebuilding Her Life · 35–52
             </p>
-            <p class="bb-small bb-muted" style="margin:0">
+            <p class="bp-small bp-muted" style="margin:0">
               <strong>Best creative:</strong> “Starting over isn't failure”
             </p>
           </div>
         </div>
 
-        <div class="bb-mock__stats">
-          <div class="bb-mock__stat"><span>Sales</span><b>47</b></div>
-          <div class="bb-mock__stat"><span>Revenue</span><b>€423</b></div>
-          <div class="bb-mock__stat"><span>Ad spend</span><b>€110</b></div>
-          <div class="bb-mock__stat"><span>ROAS</span><b>3.85×</b></div>
+        <div class="bp-mock__stats">
+          <div class="bp-mock__stat"><span>Sales</span><b>47</b></div>
+          <div class="bp-mock__stat"><span>Revenue</span><b>€423</b></div>
+          <div class="bp-mock__stat"><span>Ad spend</span><b>€110</b></div>
+          <div class="bp-mock__stat"><span>ROAS</span><b>3.85×</b></div>
         </div>
 
-        <div class="bb-alert bb-alert--info">
-          <span class="bb-alert__icon">✦</span>
+        <div class="bp-alert bp-alert--info">
+          <span class="bp-alert__icon">✦</span>
           <div>
-            <div class="bb-alert__title">AI recommendation</div>
-            <div class="bb-small">Creative #4 is converting better than Creative #1. Consider shifting 20% of the budget and testing three variations of its hook.</div>
+            <div class="bp-alert__title">AI recommendation</div>
+            <div class="bp-small">Creative #4 is converting better than Creative #1. Consider shifting 20% of the budget and testing three variations of its hook.</div>
           </div>
         </div>
       </div>
-      <p class="bb-mock__caption">Example interface. Figures are illustrative, not results from a real campaign.</p>
+      <p class="bp-mock__caption">Example interface. Figures are illustrative, not results from a real campaign.</p>
     </div>
   </div>
 </section>
@@ -126,44 +126,44 @@
 <!-- =============================================================== -->
 <!-- 2. Problem                                                       -->
 <!-- =============================================================== -->
-<section class="bb-band">
-  <div class="bb-section">
-    <div class="bb-section__head">
-      <p class="bb-eyebrow">The problem</p>
-      <h2 class="bb-section__title">Writing the book was the part you knew how to do</h2>
-      <p class="bb-lead">
+<section class="bp-band">
+  <div class="bp-section">
+    <div class="bp-section__head">
+      <p class="bp-eyebrow">The problem</p>
+      <h2 class="bp-section__title">Writing the book was the part you knew how to do</h2>
+      <p class="bp-lead">
         Most authors publish into silence — not because the book is weak, but because
         advertising is a second profession. These are the walls people hit.
       </p>
     </div>
-    <div class="bb-features">
-      <div class="bb-feature">
-        <div class="bb-feature__icon">🔍</div>
+    <div class="bp-features">
+      <div class="bp-feature">
+        <div class="bp-feature__icon">🔍</div>
         <h3>Finding the right audience</h3>
         <p>“Women 25–65 who like reading” is not an audience. Knowing which reader to speak to is the whole game, and nobody teaches it.</p>
       </div>
-      <div class="bb-feature">
-        <div class="bb-feature__icon">✍</div>
+      <div class="bp-feature">
+        <div class="bp-feature__icon">✍</div>
         <h3>Writing ads that aren't blurbs</h3>
         <p>Ad copy and back-cover copy are different crafts. A description that sells a browsing reader stops a scrolling one cold.</p>
       </div>
-      <div class="bb-feature">
-        <div class="bb-feature__icon">🎨</div>
+      <div class="bp-feature">
+        <div class="bp-feature__icon">🎨</div>
         <h3>Creating the visuals</h3>
         <p>A cover on a plain background is not a creative. Reels, carousels and quote graphics each want their own idea.</p>
       </div>
-      <div class="bb-feature">
-        <div class="bb-feature__icon">⚙</div>
+      <div class="bp-feature">
+        <div class="bp-feature__icon">⚙</div>
         <h3>Understanding Meta Ads</h3>
         <p>Campaigns, ad sets, ads, objectives, learning phases, budgets. A tool built for agencies, handed to a novelist.</p>
       </div>
-      <div class="bb-feature">
-        <div class="bb-feature__icon">🧪</div>
+      <div class="bp-feature">
+        <div class="bp-feature__icon">🧪</div>
         <h3>Testing more than one message</h3>
         <p>One ad is a guess. Testing needs several angles at once and the patience to let them run.</p>
       </div>
-      <div class="bb-feature">
-        <div class="bb-feature__icon">📉</div>
+      <div class="bp-feature">
+        <div class="bp-feature__icon">📉</div>
         <h3>Knowing what actually worked</h3>
         <p>Clicks are easy to see. Whether any of them became a sale — and what that sale cost — is the number that decides everything.</p>
       </div>
@@ -174,40 +174,40 @@
 <!-- =============================================================== -->
 <!-- 3. How it works                                                  -->
 <!-- =============================================================== -->
-<section class="bb-section" id="how">
-  <div class="bb-section__head bb-section__head--center">
-    <p class="bb-eyebrow">How it works</p>
-    <h2 class="bb-section__title">Book → reader → angle → creative → campaign → sale</h2>
-    <p class="bb-lead">Six steps, in the order a marketer would actually take them.</p>
+<section class="bp-section" id="how">
+  <div class="bp-section__head bp-section__head--center">
+    <p class="bp-eyebrow">How it works</p>
+    <h2 class="bp-section__title">Book → reader → angle → creative → campaign → sale</h2>
+    <p class="bp-lead">Six steps, in the order a marketer would actually take them.</p>
   </div>
-  <div class="bb-steps">
-    <article class="bb-step">
-      <div class="bb-step__n">1</div>
+  <div class="bp-steps">
+    <article class="bp-step">
+      <div class="bp-step__n">1</div>
       <h3>Add your book</h3>
       <p>Title, description, genre, price, sales link and cover. A sample chapter if you have one — it sharpens everything downstream.</p>
     </article>
-    <article class="bb-step">
-      <div class="bb-step__n">2</div>
+    <article class="bp-step">
+      <div class="bp-step__n">2</div>
       <h3>AI finds your readers</h3>
-      <p>BookBoost reads the book the way a publisher's marketing lead would and proposes three to five reader personas with the reasoning behind each.</p>
+      <p>BookPilot reads the book the way a publisher's marketing lead would and proposes three to five reader personas with the reasoning behind each.</p>
     </article>
-    <article class="bb-step">
-      <div class="bb-step__n">3</div>
+    <article class="bp-step">
+      <div class="bp-step__n">3</div>
       <h3>Generate campaigns</h3>
       <p>Ten or more marketing angles across emotional, curiosity, transformation and practical categories — then copy and creatives for the ones you pick.</p>
     </article>
-    <article class="bb-step">
-      <div class="bb-step__n">4</div>
+    <article class="bp-step">
+      <div class="bp-step__n">4</div>
       <h3>Launch ads</h3>
       <p>Connect your own Meta ad account. Campaigns are built paused and only start spending when you say so.</p>
     </article>
-    <article class="bb-step">
-      <div class="bb-step__n">5</div>
+    <article class="bp-step">
+      <div class="bp-step__n">5</div>
       <h3>Track sales</h3>
       <p>Spend, clicks, conversions and revenue in one dashboard, with website-attributed and Amazon-attributed sales kept clearly apart.</p>
     </article>
-    <article class="bb-step">
-      <div class="bb-step__n">6</div>
+    <article class="bp-step">
+      <div class="bp-step__n">6</div>
       <h3>Optimise</h3>
       <p>The advisor points at what the numbers support: which creative to keep, which to rest, and what to test next.</p>
     </article>
@@ -217,19 +217,19 @@
 <!-- =============================================================== -->
 <!-- 4. AI reader intelligence                                        -->
 <!-- =============================================================== -->
-<section class="bb-band" id="intelligence">
-  <div class="bb-section">
-    <div class="bb-hero__grid">
+<section class="bp-band" id="intelligence">
+  <div class="bp-section">
+    <div class="bp-hero__grid">
       <div>
-        <p class="bb-eyebrow">AI reader intelligence</p>
-        <h2 class="bb-section__title">It starts by understanding the book</h2>
-        <p class="bb-lead">
-          Generic ad tools start from a product and an audience you supply. BookBoost starts
+        <p class="bp-eyebrow">AI reader intelligence</p>
+        <h2 class="bp-section__title">It starts by understanding the book</h2>
+        <p class="bp-lead">
+          Generic ad tools start from a product and an audience you supply. BookPilot starts
           from the manuscript. It reads topic, genre, description, themes and the emotional
           and practical reasons someone buys a book like yours — and shows its reasoning, so
           you can disagree with it.
         </p>
-        <ul class="bb-plan__features" style="margin-top:var(--bb-5)">
+        <ul class="bp-plan__features" style="margin-top:var(--bp-5)">
           <li>Positioning and the core promise the cover makes</li>
           <li>The reader problem and the transformation on offer</li>
           <li>Emotional themes and purchase motivations</li>
@@ -237,22 +237,22 @@
           <li>Three to five reader personas, each with its own messaging</li>
         </ul>
       </div>
-      <div class="bb-card bb-card--raised">
-        <div class="bb-eyebrow">Example persona</div>
-        <h3 class="bb-display" style="font-size:1.4rem;margin:var(--bb-2) 0 var(--bb-3)">The Woman Rebuilding Her Life</h3>
-        <div class="bb-chips" style="margin-bottom:var(--bb-4)">
-          <span class="bb-chip">35–52</span>
-          <span class="bb-chip">Personal development</span>
-          <span class="bb-chip">Psychology</span>
-          <span class="bb-chip">Career change</span>
+      <div class="bp-card bp-card--raised">
+        <div class="bp-eyebrow">Example persona</div>
+        <h3 class="bp-display" style="font-size:1.4rem;margin:var(--bp-2) 0 var(--bp-3)">The Woman Rebuilding Her Life</h3>
+        <div class="bp-chips" style="margin-bottom:var(--bp-4)">
+          <span class="bp-chip">35–52</span>
+          <span class="bp-chip">Personal development</span>
+          <span class="bp-chip">Psychology</span>
+          <span class="bp-chip">Career change</span>
         </div>
-        <p class="bb-small"><strong>Pain points</strong><br>Feeling stuck; uncertainty about what comes next; a life transition she didn't choose.</p>
-        <p class="bb-small"><strong>Motivation</strong><br>Wanting a clear, practical path into a new chapter rather than encouragement alone.</p>
-        <div class="bb-panel" style="margin-top:var(--bb-4)">
-          <div class="bb-eyebrow">Suggested message</div>
-          <p class="bb-display" style="font-size:1.12rem;margin:6px 0 0">“Starting over doesn't mean starting from nothing.”</p>
+        <p class="bp-small"><strong>Pain points</strong><br>Feeling stuck; uncertainty about what comes next; a life transition she didn't choose.</p>
+        <p class="bp-small"><strong>Motivation</strong><br>Wanting a clear, practical path into a new chapter rather than encouragement alone.</p>
+        <div class="bp-panel" style="margin-top:var(--bp-4)">
+          <div class="bp-eyebrow">Suggested message</div>
+          <p class="bp-display" style="font-size:1.12rem;margin:6px 0 0">“Starting over doesn't mean starting from nothing.”</p>
         </div>
-        <p class="bb-tiny bb-subtle" style="margin-top:var(--bb-3)">
+        <p class="bp-tiny bp-subtle" style="margin-top:var(--bp-3)">
           Example output for a sample book. Personas are built from interests and life stage —
           never from health, religion, ethnicity or other protected characteristics.
         </p>
@@ -264,48 +264,48 @@
 <!-- =============================================================== -->
 <!-- 5. Creative factory                                              -->
 <!-- =============================================================== -->
-<section class="bb-section">
-  <div class="bb-section__head">
-    <p class="bb-eyebrow">Creative factory</p>
-    <h2 class="bb-section__title">Every format, built from the angle you chose</h2>
-    <p class="bb-lead">
+<section class="bp-section">
+  <div class="bp-section__head">
+    <p class="bp-eyebrow">Creative factory</p>
+    <h2 class="bp-section__title">Every format, built from the angle you chose</h2>
+    <p class="bp-lead">
       Instagram Reels, Stories, Facebook ads, quote graphics, book mockups and carousels —
       each one tied to a specific reader and a specific marketing angle, so you always know
       what a creative was testing.
     </p>
   </div>
-  <div class="bb-samples">
-    <article class="bb-sample">
-      <div class="bb-sample__frame">
-        <span class="bb-badge bb-badge--accent" style="align-self:flex-start">Reel · 0–3s hook</span>
-        <p class="bb-sample__hook">“Everyone told me to start again. Nobody told me how.”</p>
+  <div class="bp-samples">
+    <article class="bp-sample">
+      <div class="bp-sample__frame">
+        <span class="bp-badge bp-badge--accent" style="align-self:flex-start">Reel · 0–3s hook</span>
+        <p class="bp-sample__hook">“Everyone told me to start again. Nobody told me how.”</p>
       </div>
-      <div class="bb-sample__meta"><span class="bb-tiny bb-subtle">Instagram Reel</span><span class="bb-badge">Emotional</span></div>
+      <div class="bp-sample__meta"><span class="bp-tiny bp-subtle">Instagram Reel</span><span class="bp-badge">Emotional</span></div>
     </article>
-    <article class="bb-sample">
-      <div class="bb-sample__frame">
-        <span class="bb-badge bb-badge--accent" style="align-self:flex-start">Story</span>
-        <p class="bb-sample__hook">Chapter one is the hardest. Here's what it asks of you.</p>
+    <article class="bp-sample">
+      <div class="bp-sample__frame">
+        <span class="bp-badge bp-badge--accent" style="align-self:flex-start">Story</span>
+        <p class="bp-sample__hook">Chapter one is the hardest. Here's what it asks of you.</p>
       </div>
-      <div class="bb-sample__meta"><span class="bb-tiny bb-subtle">Instagram Story</span><span class="bb-badge">Curiosity</span></div>
+      <div class="bp-sample__meta"><span class="bp-tiny bp-subtle">Instagram Story</span><span class="bp-badge">Curiosity</span></div>
     </article>
-    <article class="bb-sample">
-      <div class="bb-sample__frame">
-        <span class="bb-badge bb-badge--accent" style="align-self:flex-start">Feed ad</span>
-        <p class="bb-sample__hook">A practical plan for the year after everything changed.</p>
+    <article class="bp-sample">
+      <div class="bp-sample__frame">
+        <span class="bp-badge bp-badge--accent" style="align-self:flex-start">Feed ad</span>
+        <p class="bp-sample__hook">A practical plan for the year after everything changed.</p>
       </div>
-      <div class="bb-sample__meta"><span class="bb-tiny bb-subtle">Facebook ad</span><span class="bb-badge">Practical</span></div>
+      <div class="bp-sample__meta"><span class="bp-tiny bp-subtle">Facebook ad</span><span class="bp-badge">Practical</span></div>
     </article>
-    <article class="bb-sample">
-      <div class="bb-sample__frame">
-        <span class="bb-badge bb-badge--accent" style="align-self:flex-start">Quote graphic</span>
-        <p class="bb-sample__hook">“Starting over isn't failure. It's the first honest page.”</p>
+    <article class="bp-sample">
+      <div class="bp-sample__frame">
+        <span class="bp-badge bp-badge--accent" style="align-self:flex-start">Quote graphic</span>
+        <p class="bp-sample__hook">“Starting over isn't failure. It's the first honest page.”</p>
       </div>
-      <div class="bb-sample__meta"><span class="bb-tiny bb-subtle">Quote graphic</span><span class="bb-badge">Identity</span></div>
+      <div class="bp-sample__meta"><span class="bp-tiny bp-subtle">Quote graphic</span><span class="bp-badge">Identity</span></div>
     </article>
   </div>
-  <p class="bb-tiny bb-subtle" style="margin-top:var(--bb-4)">
-    Example concepts for a sample book. BookBoost writes the copy and the art direction for
+  <p class="bp-tiny bp-subtle" style="margin-top:var(--bp-4)">
+    Example concepts for a sample book. BookPilot writes the copy and the art direction for
     every creative; image and video rendering is on the roadmap and is marked as unavailable
     in the product until it ships.
   </p>
@@ -314,28 +314,28 @@
 <!-- =============================================================== -->
 <!-- 6. Performance intelligence                                      -->
 <!-- =============================================================== -->
-<section class="bb-band" id="performance">
-  <div class="bb-section">
-    <div class="bb-section__head">
-      <p class="bb-eyebrow">Performance intelligence</p>
-      <h2 class="bb-section__title">The numbers that decide whether to keep going</h2>
-      <p class="bb-lead">
+<section class="bp-band" id="performance">
+  <div class="bp-section">
+    <div class="bp-section__head">
+      <p class="bp-eyebrow">Performance intelligence</p>
+      <h2 class="bp-section__title">The numbers that decide whether to keep going</h2>
+      <p class="bp-lead">
         Spend, clicks, click-through rate, cost per click, conversions, cost per acquisition,
         revenue and return on ad spend — calculated from your campaign's own data. Where
-        there isn't enough data yet, BookBoost says so instead of showing a zero.
+        there isn't enough data yet, BookPilot says so instead of showing a zero.
       </p>
     </div>
-    <div class="bb-stat-grid">
-      <div class="bb-stat"><div class="bb-stat__label">Spend</div><div class="bb-stat__value">€110</div></div>
-      <div class="bb-stat"><div class="bb-stat__label">Clicks</div><div class="bb-stat__value">284</div></div>
-      <div class="bb-stat"><div class="bb-stat__label">CTR</div><div class="bb-stat__value">2.8%</div></div>
-      <div class="bb-stat"><div class="bb-stat__label">CPC</div><div class="bb-stat__value">€0.39</div></div>
-      <div class="bb-stat"><div class="bb-stat__label">Conversions</div><div class="bb-stat__value">47</div></div>
-      <div class="bb-stat"><div class="bb-stat__label">CPA</div><div class="bb-stat__value">€2.34</div></div>
-      <div class="bb-stat"><div class="bb-stat__label">Revenue</div><div class="bb-stat__value">€423</div></div>
-      <div class="bb-stat"><div class="bb-stat__label">ROAS</div><div class="bb-stat__value">3.85×</div></div>
+    <div class="bp-stat-grid">
+      <div class="bp-stat"><div class="bp-stat__label">Spend</div><div class="bp-stat__value">€110</div></div>
+      <div class="bp-stat"><div class="bp-stat__label">Clicks</div><div class="bp-stat__value">284</div></div>
+      <div class="bp-stat"><div class="bp-stat__label">CTR</div><div class="bp-stat__value">2.8%</div></div>
+      <div class="bp-stat"><div class="bp-stat__label">CPC</div><div class="bp-stat__value">€0.39</div></div>
+      <div class="bp-stat"><div class="bp-stat__label">Conversions</div><div class="bp-stat__value">47</div></div>
+      <div class="bp-stat"><div class="bp-stat__label">CPA</div><div class="bp-stat__value">€2.34</div></div>
+      <div class="bp-stat"><div class="bp-stat__label">Revenue</div><div class="bp-stat__value">€423</div></div>
+      <div class="bp-stat"><div class="bp-stat__label">ROAS</div><div class="bp-stat__value">3.85×</div></div>
     </div>
-    <p class="bb-tiny bb-subtle" style="margin-top:var(--bb-4)">
+    <p class="bp-tiny bp-subtle" style="margin-top:var(--bp-4)">
       Illustrative figures from the sample campaign in the demo workspace — not results from a real book.
     </p>
   </div>
@@ -344,45 +344,45 @@
 <!-- =============================================================== -->
 <!-- 7. AI recommendations                                            -->
 <!-- =============================================================== -->
-<section class="bb-section">
-  <div class="bb-hero__grid">
+<section class="bp-section">
+  <div class="bp-hero__grid">
     <div>
-      <p class="bb-eyebrow">AI recommendations</p>
-      <h2 class="bb-section__title">A second opinion that reads the data with you</h2>
-      <p class="bb-lead">
+      <p class="bp-eyebrow">AI recommendations</p>
+      <h2 class="bp-section__title">A second opinion that reads the data with you</h2>
+      <p class="bp-lead">
         The advisor looks at what your campaigns actually did and tells you what it supports —
         including when the honest answer is “not enough data yet”. It recommends. You decide.
-        BookBoost never increases your spending on its own.
+        BookPilot never increases your spending on its own.
       </p>
-      <ul class="bb-plan__features" style="margin-top:var(--bb-5)">
+      <ul class="bp-plan__features" style="margin-top:var(--bp-5)">
         <li>Which creative is pulling ahead, and how confident that call is</li>
         <li>Which one has spent without converting</li>
         <li>Which angle is outperforming across campaigns</li>
         <li>What to test next, and what would make the answer clearer</li>
       </ul>
     </div>
-    <div class="bb-card bb-card--raised">
-      <div class="bb-row bb-row--between" style="margin-bottom:var(--bb-4)">
-        <strong>BookBoost AI Advisor</strong>
-        <span class="bb-badge bb-badge--success">Confidence: medium</span>
+    <div class="bp-card bp-card--raised">
+      <div class="bp-row bp-row--between" style="margin-bottom:var(--bp-4)">
+        <strong>BookPilot AI Advisor</strong>
+        <span class="bp-badge bp-badge--success">Confidence: medium</span>
       </div>
-      <p class="bb-small bb-muted" style="margin-bottom:var(--bb-2)"><em>“What should I do today?”</em></p>
-      <p class="bb-small">
+      <p class="bp-small bp-muted" style="margin-bottom:var(--bp-2)"><em>“What should I do today?”</em></p>
+      <p class="bp-small">
         Creative #4 is generating a materially higher conversion rate than Creative #1 over
         620 clicks — enough to act on, not enough to bet the whole budget on.
       </p>
-      <ol class="bb-small bb-muted" style="padding-left:1.1rem;margin:var(--bb-3) 0">
+      <ol class="bp-small bp-muted" style="padding-left:1.1rem;margin:var(--bp-3) 0">
         <li>Keep Creative #4 running.</li>
         <li>Build three variations of its hook.</li>
         <li>Reduce spend on the weakest creative.</li>
         <li>Let the variations gather data before raising the total budget.</li>
       </ol>
-      <div class="bb-row" style="gap:var(--bb-2);flex-wrap:wrap">
-        <span class="bb-btn bb-btn--secondary bb-btn--sm" aria-hidden="true">Create variations</span>
-        <span class="bb-btn bb-btn--secondary bb-btn--sm" aria-hidden="true">Optimise campaign</span>
-        <span class="bb-btn bb-btn--ghost bb-btn--sm" aria-hidden="true">Explain</span>
+      <div class="bp-row" style="gap:var(--bp-2);flex-wrap:wrap">
+        <span class="bp-btn bp-btn--secondary bp-btn--sm" aria-hidden="true">Create variations</span>
+        <span class="bp-btn bp-btn--secondary bp-btn--sm" aria-hidden="true">Optimise campaign</span>
+        <span class="bp-btn bp-btn--ghost bp-btn--sm" aria-hidden="true">Explain</span>
       </div>
-      <p class="bb-tiny bb-subtle" style="margin-top:var(--bb-3)">Example answer using the demo workspace's sample campaign.</p>
+      <p class="bp-tiny bp-subtle" style="margin-top:var(--bp-3)">Example answer using the demo workspace's sample campaign.</p>
     </div>
   </div>
 </section>
@@ -390,36 +390,36 @@
 <!-- =============================================================== -->
 <!-- 8. Pricing                                                       -->
 <!-- =============================================================== -->
-<section class="bb-band" id="pricing">
-  <div class="bb-section">
-    <div class="bb-section__head bb-section__head--center">
-      <p class="bb-eyebrow">Pricing</p>
-      <h2 class="bb-section__title">Start free. Upgrade when it's paying for itself.</h2>
-      <p class="bb-lead">All prices in euros, excluding VAT. Your advertising budget is separate and always goes directly to the ad platform.</p>
+<section class="bp-band" id="pricing">
+  <div class="bp-section">
+    <div class="bp-section__head bp-section__head--center">
+      <p class="bp-eyebrow">Pricing</p>
+      <h2 class="bp-section__title">Start free. Upgrade when it's paying for itself.</h2>
+      <p class="bp-lead">All prices in euros, excluding VAT. Your advertising budget is separate and always goes directly to the ad platform.</p>
     </div>
-    <div class="bb-pricing">
-      <article class="bb-plan">
-        <div class="bb-plan__name">Free</div>
-        <div class="bb-plan__price">€0</div>
-        <div class="bb-plan__period">per month</div>
-        <ul class="bb-plan__features">
+    <div class="bp-pricing">
+      <article class="bp-plan">
+        <div class="bp-plan__name">Free</div>
+        <div class="bp-plan__price">€0</div>
+        <div class="bp-plan__period">per month</div>
+        <ul class="bp-plan__features">
           <li>1 book</li>
           <li>Book analysis + 5 AI generations</li>
           <li>3 creatives</li>
           <li>Basic analytics</li>
           <li>Demo campaign</li>
         </ul>
-        <a class="bb-btn bb-btn--secondary bb-btn--block" href="/app.html#/signup">Start free</a>
+        <a class="bp-btn bp-btn--secondary bp-btn--block" href="/app.html#/signup">Start free</a>
       </article>
 
-      <article class="bb-plan bb-plan--featured">
-        <div class="bb-row bb-row--between">
-          <div class="bb-plan__name">Author</div>
-          <span class="bb-badge bb-badge--primary">Most popular</span>
+      <article class="bp-plan bp-plan--featured">
+        <div class="bp-row bp-row--between">
+          <div class="bp-plan__name">Author</div>
+          <span class="bp-badge bp-badge--primary">Most popular</span>
         </div>
-        <div class="bb-plan__price">€19</div>
-        <div class="bb-plan__period">per month</div>
-        <ul class="bb-plan__features">
+        <div class="bp-plan__price">€19</div>
+        <div class="bp-plan__period">per month</div>
+        <ul class="bp-plan__features">
           <li>Up to 3 books</li>
           <li>100 AI credits per month</li>
           <li>30 creatives</li>
@@ -427,14 +427,14 @@
           <li>Analytics</li>
           <li>AI Advisor</li>
         </ul>
-        <a class="bb-btn bb-btn--primary bb-btn--block" href="/app.html#/signup">Choose Author</a>
+        <a class="bp-btn bp-btn--primary bp-btn--block" href="/app.html#/signup">Choose Author</a>
       </article>
 
-      <article class="bb-plan">
-        <div class="bb-plan__name">Author Pro</div>
-        <div class="bb-plan__price">€49</div>
-        <div class="bb-plan__period">per month</div>
-        <ul class="bb-plan__features">
+      <article class="bp-plan">
+        <div class="bp-plan__name">Author Pro</div>
+        <div class="bp-plan__price">€49</div>
+        <div class="bp-plan__period">per month</div>
+        <ul class="bp-plan__features">
           <li>Unlimited books</li>
           <li>500 AI credits per month</li>
           <li>Advanced creatives and video scripts</li>
@@ -443,14 +443,14 @@
           <li>Optimisation recommendations</li>
           <li>Attribution tools</li>
         </ul>
-        <a class="bb-btn bb-btn--secondary bb-btn--block" href="/app.html#/signup">Choose Author Pro</a>
+        <a class="bp-btn bp-btn--secondary bp-btn--block" href="/app.html#/signup">Choose Author Pro</a>
       </article>
 
-      <article class="bb-plan">
-        <div class="bb-plan__name">Publisher</div>
-        <div class="bb-plan__price">€149</div>
-        <div class="bb-plan__period">per month</div>
-        <ul class="bb-plan__features">
+      <article class="bp-plan">
+        <div class="bp-plan__name">Publisher</div>
+        <div class="bp-plan__price">€149</div>
+        <div class="bp-plan__period">per month</div>
+        <ul class="bp-plan__features">
           <li>Multiple authors and books</li>
           <li>Team members</li>
           <li>Advanced analytics</li>
@@ -458,7 +458,7 @@
           <li>Priority processing</li>
           <li>Publisher dashboard</li>
         </ul>
-        <a class="bb-btn bb-btn--secondary bb-btn--block" href="/app.html#/signup">Choose Publisher</a>
+        <a class="bp-btn bp-btn--secondary bp-btn--block" href="/app.html#/signup">Choose Publisher</a>
       </article>
     </div>
   </div>
@@ -467,19 +467,19 @@
 <!-- =============================================================== -->
 <!-- 9. FAQ                                                           -->
 <!-- =============================================================== -->
-<section class="bb-section" id="faq">
-  <div class="bb-section__head bb-section__head--center">
-    <p class="bb-eyebrow">FAQ</p>
-    <h2 class="bb-section__title">Questions worth asking first</h2>
+<section class="bp-section" id="faq">
+  <div class="bp-section__head bp-section__head--center">
+    <p class="bp-eyebrow">FAQ</p>
+    <h2 class="bp-section__title">Questions worth asking first</h2>
   </div>
-  <div class="bb-faq">
+  <div class="bp-faq">
     <details open>
-      <summary>Does BookBoost spend my advertising budget?</summary>
-      <p>No. You connect your own Meta ad account, and Meta bills you directly. BookBoost creates campaigns paused; nothing spends until you launch it, and the advisor never raises a budget on its own.</p>
+      <summary>Does BookPilot spend my advertising budget?</summary>
+      <p>No. You connect your own Meta ad account, and Meta bills you directly. BookPilot creates campaigns paused; nothing spends until you launch it, and the advisor never raises a budget on its own.</p>
     </details>
     <details>
       <summary>Can it track my Amazon sales?</summary>
-      <p>Not directly — nobody can. Amazon does not expose per-ad sales data to third-party tools. What BookBoost supports is Amazon Attribution: if you have an eligible Amazon Attribution account, its clicks, detail-page views, add-to-carts and purchases can be imported and reported alongside your ad spend. Amazon-attributed sales are always labelled separately from sales tracked on your own website.</p>
+      <p>Not directly — nobody can. Amazon does not expose per-ad sales data to third-party tools. What BookPilot supports is Amazon Attribution: if you have an eligible Amazon Attribution account, its clicks, detail-page views, add-to-carts and purchases can be imported and reported alongside your ad spend. Amazon-attributed sales are always labelled separately from sales tracked on your own website.</p>
     </details>
     <details>
       <summary>Will the AI predict which ad will sell?</summary>
@@ -511,31 +511,31 @@
 <!-- =============================================================== -->
 <!-- 10. Final CTA                                                    -->
 <!-- =============================================================== -->
-<section class="bb-section bb-section--tight">
-  <div class="bb-cta-band">
-    <h2 class="bb-display" style="font-size:clamp(1.7rem,1.3rem+1.6vw,2.4rem);margin-bottom:var(--bb-3)">
+<section class="bp-section bp-section--tight">
+  <div class="bp-cta-band">
+    <h2 class="bp-display" style="font-size:clamp(1.7rem,1.3rem+1.6vw,2.4rem);margin-bottom:var(--bp-3)">
       Your next reader is already scrolling
     </h2>
-    <p class="bb-lead" style="max-width:52ch;margin:0 auto var(--bb-6)">
+    <p class="bp-lead" style="max-width:52ch;margin:0 auto var(--bp-6)">
       Add your book, meet your readers and build your first campaign in an afternoon.
     </p>
-    <div class="bb-row" style="justify-content:center;flex-wrap:wrap">
-      <a class="bb-btn bb-btn--primary bb-btn--lg" href="/app.html#/signup">Start free</a>
-      <a class="bb-btn bb-btn--secondary bb-btn--lg" href="/app.html?demo=1#/overview">Explore the demo</a>
+    <div class="bp-row" style="justify-content:center;flex-wrap:wrap">
+      <a class="bp-btn bp-btn--primary bp-btn--lg" href="/app.html#/signup">Start free</a>
+      <a class="bp-btn bp-btn--secondary bp-btn--lg" href="/app.html?demo=1#/overview">Explore the demo</a>
     </div>
   </div>
 </section>
 
 </main>
 
-<footer class="bb-footer">
-  <div class="bb-footer__inner">
+<footer class="bp-footer">
+  <div class="bp-footer__inner">
     <div>
-      <a class="bb-logo" href="/">
-        <span class="bb-logo__mark">B</span>
-        BookBoost <span class="bb-logo__ai">AI</span>
+      <a class="bp-logo" href="/">
+        <span class="bp-logo__mark">B</span>
+        BookPilot <span class="bp-logo__ai">AI</span>
       </a>
-      <p class="bb-small bb-muted" style="margin-top:var(--bb-3);max-width:36ch">
+      <p class="bp-small bp-muted" style="margin-top:var(--bp-3);max-width:36ch">
         Your AI marketing manager for books. Upload your book, find your readers, create your
         ads, launch your campaign, and discover which ads actually sell.
       </p>
@@ -567,9 +567,9 @@
       </ul>
     </div>
   </div>
-  <div class="bb-footer__legal">
-    <div class="bb-footer__legal-inner">
-      <span>© <span id="year">2026</span> BookBoost AI. Advertising results depend on your book, your market and your budget — nothing here is a promise of sales.</span>
+  <div class="bp-footer__legal">
+    <div class="bp-footer__legal-inner">
+      <span>© <span id="year">2026</span> BookPilot AI. Advertising results depend on your book, your market and your budget — nothing here is a promise of sales.</span>
       <span>Built in Europe</span>
     </div>
   </div>

@@ -1,12 +1,12 @@
 -- =====================================================================
--- BookBoost AI — seed data
+-- BookPilot AI — seed data
 --
 -- Plans, credit costs, feature flags and system settings. Everything
 -- here is editable from the admin panel afterwards; these are only the
 -- starting values.
 --
 -- AI prompts are deliberately NOT seeded here. The canonical text lives
--- in netlify/functions/bookboost-lib/prompts.js (version-controlled and
+-- in netlify/functions/bookpilot-lib/prompts.js (version-controlled and
 -- reviewable in a diff). The admin panel's "publish defaults" action
 -- copies them into public.ai_prompts when an operator wants to edit a
 -- prompt without a deploy; until then the bundled defaults are used.

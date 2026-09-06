@@ -3,7 +3,7 @@
 // Costs live in the `credit_costs` table so an operator can retune them
 // without a deploy. The actual spend goes through the bb_consume_credits
 // database function, which does the balance check and the decrement in
-// one statement — see bookboost/sql/004_functions.sql for why that
+// one statement — see bookpilot/sql/004_functions.sql for why that
 // matters.
 
 import { dbAsService } from "./db.js";
@@ -40,7 +40,7 @@ export async function creditCosts() {
     for (const row of rows) if (row.is_active) map[row.operation] = row.credits;
     costCache = Object.keys(map).length ? map : { ...FALLBACK_COSTS };
   } catch (err) {
-    console.error("[bookboost] credit cost lookup failed, using defaults:", err);
+    console.error("[bookpilot] credit cost lookup failed, using defaults:", err);
     costCache = { ...FALLBACK_COSTS };
   }
   costCacheExpires = Date.now() + 300_000;
@@ -96,7 +96,7 @@ export async function refund(userId, credits, reason = "operation_failed") {
   } catch (err) {
     // A failed refund must not mask the original error the user is
     // about to see; log it for reconciliation instead.
-    console.error("[bookboost] credit refund failed:", err);
+    console.error("[bookpilot] credit refund failed:", err);
   }
 }
 

@@ -4,7 +4,7 @@
 // or no choice at all, in which case the OS setting decides through the
 // prefers-color-scheme rules in design-system.css.
 
-const KEY = "bookboost.theme";
+const KEY = "bookpilot.theme";
 
 function read() {
   try {

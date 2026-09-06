@@ -572,7 +572,7 @@ export const DEMO_RECOMMENDATIONS = [
 
 export const DEMO_PROFILE = {
   id: "demo-user",
-  email: "demo@bookboost.ai",
+  email: "demo@bookpilot.ai",
   full_name: "Demo Author",
   country: "DE",
   currency: "EUR",

@@ -11,7 +11,7 @@ import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { html, raw, safeUrl } from "../js/core/dom.js";
-import { PROMPTS, SAFETY_RULES } from "../netlify/functions/bookboost-lib/prompts.js";
+import { PROMPTS, SAFETY_RULES } from "../netlify/functions/bookpilot-lib/prompts.js";
 
 const ROOT = fileURLToPath(new URL("../", import.meta.url));
 const read = (p) => readFileSync(join(ROOT, p), "utf8");
@@ -156,7 +156,7 @@ test("prompts that return structured data declare a schema", () => {
 });
 
 test("the server pins the model rather than trusting configuration", () => {
-  const ai = read("netlify/functions/bookboost-lib/ai.js");
+  const ai = read("netlify/functions/bookpilot-lib/ai.js");
   assert.match(ai, /const ALLOWED_MODELS = \["claude-opus-5"/);
   assert.match(ai, /ALLOWED_MODELS\.includes\(configuredModel\) \? configuredModel : DEFAULT_MODEL/);
   // Opus 5 rejects sampling parameters and assistant prefills outright.
@@ -194,25 +194,25 @@ test("credit spending is atomic in the database, not in the API layer", () => {
 });
 
 test("the Stripe webhook refuses unsigned requests", () => {
-  const webhook = read("netlify/functions/bookboost-stripe-webhook.mjs");
+  const webhook = read("netlify/functions/bookpilot-stripe-webhook.mjs");
   assert.match(webhook, /verifyWebhook/);
   assert.match(webhook, /Invalid signature/);
-  const stripe = read("netlify/functions/bookboost-lib/stripe.js");
+  const stripe = read("netlify/functions/bookpilot-lib/stripe.js");
   assert.match(stripe, /toleranceSeconds/, "replayed events must be rejected on age");
 });
 
 test("Meta campaigns are created paused", () => {
-  const meta = read("netlify/functions/bookboost-lib/meta.js");
+  const meta = read("netlify/functions/bookpilot-lib/meta.js");
   const creators = meta.match(/status: "PAUSED"/g) || [];
   assert.ok(creators.length >= 3, "campaigns, ad sets and ads must all be created paused");
-  const fn = read("netlify/functions/bookboost-meta.mjs");
+  const fn = read("netlify/functions/bookpilot-meta.mjs");
   assert.match(fn, /Confirm the launch to start spending/);
 });
 
 test("the tracking script collects nothing that identifies a visitor", () => {
-  const script = read("track/bb.js");
+  const script = read("track/bp.js");
   for (const forbidden of ["document.cookie", "navigator.userAgent", "document.referrer", "localStorage"]) {
     assert.ok(!script.includes(forbidden), `the tracking script must not touch ${forbidden}`);
   }
-  assert.match(script, /window\.bookboostConsent !== false/, "there must be a consent gate");
+  assert.match(script, /window\.bookpilotConsent !== false/, "there must be a consent gate");
 });

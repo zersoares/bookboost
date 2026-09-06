@@ -26,7 +26,7 @@ export async function render(container, params, query) {
         icon: "▦",
         title: "No performance data",
         text: "Your campaign hasn't generated enough data yet. Numbers appear here once ads have been delivering for a day or two.",
-        action: '<a class="bb-btn bb-btn--primary" href="#/campaigns/new">Create a campaign</a>',
+        action: '<a class="bp-btn bp-btn--primary" href="#/campaigns/new">Create a campaign</a>',
       });
     return;
   }
@@ -36,47 +36,47 @@ export async function render(container, params, query) {
       title: "Analytics",
       description: `Last ${days} days across every campaign.`,
       actions: `${demoBadge()}
-        <select class="bb-select" id="range" style="width:auto">
+        <select class="bp-select" id="range" style="width:auto">
           <option value="7" ${days === 7 ? "selected" : ""}>Last 7 days</option>
           <option value="30" ${days === 30 ? "selected" : ""}>Last 30 days</option>
           <option value="90" ${days === 90 ? "selected" : ""}>Last 90 days</option>
         </select>`,
     }))}
 
-    <div class="bb-stack-lg">
+    <div class="bp-stack-lg">
       <section>${raw(statGrid(analytics.totals, currency))}</section>
 
       ${raw(analytics.amazon ? amazonPanel(analytics.amazon, currency) : "")}
 
       <section>
-        <div class="bb-row bb-row--between" style="margin-bottom:var(--bb-3)">
+        <div class="bp-row bp-row--between" style="margin-bottom:var(--bp-3)">
           <h2 style="font-size:1.05rem">Creative performance</h2>
-          <span class="bb-tiny bb-subtle">Sorted by ${sortKey.toUpperCase()}</span>
+          <span class="bp-tiny bp-subtle">Sorted by ${sortKey.toUpperCase()}</span>
         </div>
         <div id="creative-table"></div>
       </section>
 
       <section>
-        <h2 style="font-size:1.05rem;margin-bottom:var(--bb-3)">By campaign</h2>
-        <div class="bb-card bb-card--flush">
-          <div class="bb-table-wrap">
-            <table class="bb-table">
+        <h2 style="font-size:1.05rem;margin-bottom:var(--bp-3)">By campaign</h2>
+        <div class="bp-card bp-card--flush">
+          <div class="bp-table-wrap">
+            <table class="bp-table">
               <thead>
-                <tr><th>Campaign</th><th class="bb-num">Spend</th><th class="bb-num">Clicks</th>
-                <th class="bb-num">CTR</th><th class="bb-num">CPC</th><th class="bb-num">Sales</th>
-                <th class="bb-num">CPA</th><th class="bb-num">Revenue</th><th class="bb-num">ROAS</th></tr>
+                <tr><th>Campaign</th><th class="bp-num">Spend</th><th class="bp-num">Clicks</th>
+                <th class="bp-num">CTR</th><th class="bp-num">CPC</th><th class="bp-num">Sales</th>
+                <th class="bp-num">CPA</th><th class="bp-num">Revenue</th><th class="bp-num">ROAS</th></tr>
               </thead>
               <tbody>
                 ${raw(analytics.campaigns.map(({ campaign, metrics: m }) => html`<tr>
                   <td><a href="#/campaigns/${campaign.id}">${campaign.name}</a></td>
-                  <td class="bb-num">${m.hasData ? fmt.money(m.spendCents, campaign.currency) : "—"}</td>
-                  <td class="bb-num">${m.hasData ? fmt.number(m.clicks) : "—"}</td>
-                  <td class="bb-num">${fmt.percent(m.ctr)}</td>
-                  <td class="bb-num">${m.cpc === null ? "N/A" : fmt.money(Math.round(m.cpc), campaign.currency)}</td>
-                  <td class="bb-num">${m.hasData ? fmt.number(m.conversions) : "—"}</td>
-                  <td class="bb-num">${m.cpa === null ? "N/A" : fmt.money(Math.round(m.cpa), campaign.currency)}</td>
-                  <td class="bb-num">${m.hasData ? fmt.money(m.revenueCents, campaign.currency) : "—"}</td>
-                  <td class="bb-num">${fmt.multiple(m.roas)}</td>
+                  <td class="bp-num">${m.hasData ? fmt.money(m.spendCents, campaign.currency) : "—"}</td>
+                  <td class="bp-num">${m.hasData ? fmt.number(m.clicks) : "—"}</td>
+                  <td class="bp-num">${fmt.percent(m.ctr)}</td>
+                  <td class="bp-num">${m.cpc === null ? "N/A" : fmt.money(Math.round(m.cpc), campaign.currency)}</td>
+                  <td class="bp-num">${m.hasData ? fmt.number(m.conversions) : "—"}</td>
+                  <td class="bp-num">${m.cpa === null ? "N/A" : fmt.money(Math.round(m.cpa), campaign.currency)}</td>
+                  <td class="bp-num">${m.hasData ? fmt.money(m.revenueCents, campaign.currency) : "—"}</td>
+                  <td class="bp-num">${fmt.multiple(m.roas)}</td>
                 </tr>`).join(""))}
               </tbody>
             </table>
@@ -84,7 +84,7 @@ export async function render(container, params, query) {
         </div>
       </section>
 
-      <p class="bb-tiny bb-subtle">
+      <p class="bp-tiny bp-subtle">
         Rates are calculated from delivered data only. A rate whose denominator is zero shows as N/A
         rather than 0 — an ad with no impressions has an unknown click-through rate, not a bad one.
       </p>
@@ -129,14 +129,14 @@ function paintCreatives(rows, currency) {
   const worst = sorted.find((row) => row.metrics.clicks >= 40 && row.metrics.conversions === 0);
 
   const header = (key, label, numeric = true) => html`
-    <th class="${numeric ? "bb-num" : ""}" data-sortable data-key="${key}">
+    <th class="${numeric ? "bp-num" : ""}" data-sortable data-key="${key}">
       ${label}${sortKey === key ? (sortDir === "desc" ? " ↓" : " ↑") : ""}
     </th>`;
 
   target.innerHTML = html`
-    <div class="bb-card bb-card--flush">
-      <div class="bb-table-wrap">
-        <table class="bb-table">
+    <div class="bp-card bp-card--flush">
+      <div class="bp-table-wrap">
+        <table class="bp-table">
           <thead>
             <tr>
               <th>Creative</th>
@@ -160,12 +160,12 @@ function paintCreatives(rows, currency) {
                   : "";
               return html`<tr>
                 <td>${raw(flag)}<a href="#/creatives/${row.creative?.id}">${row.creative?.headline || "Creative"}</a></td>
-                <td class="bb-num">${fmt.money(m.spendCents, currency)}</td>
-                <td class="bb-num">${fmt.number(m.clicks)}</td>
-                <td class="bb-num">${fmt.percent(m.ctr)}</td>
-                <td class="bb-num">${fmt.number(m.conversions)}</td>
-                <td class="bb-num">${fmt.money(m.revenueCents, currency)}</td>
-                <td class="bb-num">${fmt.multiple(m.roas)}</td>
+                <td class="bp-num">${fmt.money(m.spendCents, currency)}</td>
+                <td class="bp-num">${fmt.number(m.clicks)}</td>
+                <td class="bp-num">${fmt.percent(m.ctr)}</td>
+                <td class="bp-num">${fmt.number(m.conversions)}</td>
+                <td class="bp-num">${fmt.money(m.revenueCents, currency)}</td>
+                <td class="bp-num">${fmt.multiple(m.roas)}</td>
                 <td>${raw(scoreBadge(row.creative?.score))}</td>
                 <td>${raw(confidenceBadge(row.confidence))}</td>
               </tr>`;
@@ -175,11 +175,11 @@ function paintCreatives(rows, currency) {
       </div>
     </div>
     ${raw(best ? html`
-      <p class="bb-tiny bb-subtle" style="margin-top:var(--bb-3)">
+      <p class="bp-tiny bp-subtle" style="margin-top:var(--bp-3)">
         🏆 marks the strongest performer with enough delivery to be worth acting on. ⚠️ marks a
         creative that has taken real traffic without a recorded sale.
       </p>` : `
-      <p class="bb-tiny bb-subtle" style="margin-top:var(--bb-3)">
+      <p class="bp-tiny bp-subtle" style="margin-top:var(--bp-3)">
         No creative has enough delivery yet to be called a winner, so none is marked.
       </p>`)}
   `;
@@ -196,23 +196,23 @@ function paintCreatives(rows, currency) {
 
 function amazonPanel(amazon, currency) {
   return html`
-    <section class="bb-card">
-      <div class="bb-card__header">
-        <div class="bb-card__title">Amazon-attributed</div>
-        <span class="bb-badge bb-badge--info">Amazon Attribution</span>
+    <section class="bp-card">
+      <div class="bp-card__header">
+        <div class="bp-card__title">Amazon-attributed</div>
+        <span class="bp-badge bp-badge--info">Amazon Attribution</span>
       </div>
-      <p class="bb-small bb-muted">
+      <p class="bp-small bp-muted">
         Imported from Amazon Attribution and reported on its own. Amazon counts conversions
         differently from Meta and from your website, so these figures are never added to the totals
         above.
       </p>
-      <div class="bb-stat-grid">
-        <div class="bb-stat"><div class="bb-stat__label">Clicks</div><div class="bb-stat__value">${fmt.number(amazon.clicks)}</div></div>
-        <div class="bb-stat"><div class="bb-stat__label">Detail page views</div><div class="bb-stat__value">${fmt.number(amazon.detailPageViews)}</div></div>
-        <div class="bb-stat"><div class="bb-stat__label">Add to cart</div><div class="bb-stat__value">${fmt.number(amazon.addToCarts)}</div></div>
-        <div class="bb-stat"><div class="bb-stat__label">Purchases</div><div class="bb-stat__value">${fmt.number(amazon.purchases)}</div></div>
-        <div class="bb-stat"><div class="bb-stat__label">Units sold</div><div class="bb-stat__value">${fmt.number(amazon.unitsSold)}</div></div>
-        <div class="bb-stat"><div class="bb-stat__label">Product sales</div><div class="bb-stat__value">${fmt.money(amazon.productSalesCents, currency)}</div></div>
+      <div class="bp-stat-grid">
+        <div class="bp-stat"><div class="bp-stat__label">Clicks</div><div class="bp-stat__value">${fmt.number(amazon.clicks)}</div></div>
+        <div class="bp-stat"><div class="bp-stat__label">Detail page views</div><div class="bp-stat__value">${fmt.number(amazon.detailPageViews)}</div></div>
+        <div class="bp-stat"><div class="bp-stat__label">Add to cart</div><div class="bp-stat__value">${fmt.number(amazon.addToCarts)}</div></div>
+        <div class="bp-stat"><div class="bp-stat__label">Purchases</div><div class="bp-stat__value">${fmt.number(amazon.purchases)}</div></div>
+        <div class="bp-stat"><div class="bp-stat__label">Units sold</div><div class="bp-stat__value">${fmt.number(amazon.unitsSold)}</div></div>
+        <div class="bp-stat"><div class="bp-stat__label">Product sales</div><div class="bp-stat__value">${fmt.money(amazon.productSalesCents, currency)}</div></div>
       </div>
     </section>
   `;

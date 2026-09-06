@@ -26,7 +26,7 @@ export function configured() {
 // --- OAuth state signing ---------------------------------------------
 // The `state` parameter carries the user id through the redirect. It is
 // HMAC-signed so a third party cannot craft a callback that attaches
-// their ad account to someone else's BookBoost account.
+// their ad account to someone else's BookPilot account.
 
 async function hmac(value) {
   const secret = env.oauthStateSecret || env.metaAppSecret;
@@ -92,7 +92,7 @@ async function graph(path, { method = "GET", token, params = {}, body } = {}) {
       body: body ? JSON.stringify(body) : undefined,
     });
   } catch (err) {
-    console.error("[bookboost] Meta unreachable:", err);
+    console.error("[bookpilot] Meta unreachable:", err);
     throw Errors.metaConnect();
   }
 
@@ -107,7 +107,7 @@ async function graph(path, { method = "GET", token, params = {}, body } = {}) {
   if (!res.ok || parsed?.error) {
     // "OAuthException 190" belongs in the log, not in front of an author.
     console.error(
-      `[bookboost] Meta ${method} ${path} -> ${res.status}:`,
+      `[bookpilot] Meta ${method} ${path} -> ${res.status}:`,
       parsed?.error ? JSON.stringify(parsed.error) : text.slice(0, 300)
     );
     const code = parsed?.error?.code;
@@ -159,7 +159,7 @@ export async function listAdAccounts(token) {
 
 // --- Campaign creation ------------------------------------------------
 //
-// Everything is created PAUSED. BookBoost never starts spending an
+// Everything is created PAUSED. BookPilot never starts spending an
 // author's money as a side effect of a click that said "create"; the
 // launch step is separate and explicit (spec §21).
 
@@ -284,7 +284,7 @@ export async function campaignInsights(token, campaignId, { since, until }) {
 }
 
 /**
- * Translate a BookBoost persona into Meta targeting.
+ * Translate a BookPilot persona into Meta targeting.
  *
  * Only age and broad interests cross over. Nothing derived from a
  * protected characteristic is ever sent, and detailed interest terms are

@@ -3,10 +3,10 @@
 import { html, mount } from "./dom.js";
 
 function container() {
-  let node = document.querySelector(".bb-toasts");
+  let node = document.querySelector(".bp-toasts");
   if (!node) {
     node = document.createElement("div");
-    node.className = "bb-toasts";
+    node.className = "bp-toasts";
     node.setAttribute("role", "status");
     node.setAttribute("aria-live", "polite");
     document.body.appendChild(node);
@@ -16,7 +16,7 @@ function container() {
 
 export function toast(message, kind = "info", ms = 4500) {
   const node = document.createElement("div");
-  node.className = `bb-toast bb-toast--${kind}`;
+  node.className = `bp-toast bp-toast--${kind}`;
   node.innerHTML = html`<div>${message}</div>`;
   container().appendChild(node);
   setTimeout(() => node.remove(), ms);
@@ -41,14 +41,14 @@ export function confirmDialog({
 }) {
   return new Promise((resolve) => {
     const backdrop = document.createElement("div");
-    backdrop.className = "bb-modal-backdrop";
+    backdrop.className = "bp-modal-backdrop";
     backdrop.innerHTML = html`
-      <div class="bb-modal" role="dialog" aria-modal="true" aria-label="${title}">
-        <div class="bb-modal__header"><h3>${title}</h3></div>
-        <p class="bb-muted">${message}</p>
-        <div class="bb-modal__footer">
-          <button type="button" class="bb-btn bb-btn--ghost" data-close>${cancelLabel}</button>
-          <button type="button" class="bb-btn bb-btn--${tone}" data-confirm>${confirmLabel}</button>
+      <div class="bp-modal" role="dialog" aria-modal="true" aria-label="${title}">
+        <div class="bp-modal__header"><h3>${title}</h3></div>
+        <p class="bp-muted">${message}</p>
+        <div class="bp-modal__footer">
+          <button type="button" class="bp-btn bp-btn--ghost" data-close>${cancelLabel}</button>
+          <button type="button" class="bp-btn bp-btn--${tone}" data-confirm>${confirmLabel}</button>
         </div>
       </div>
     `;
@@ -75,8 +75,8 @@ export function confirmDialog({
 /** A modal that renders arbitrary markup and hands back its root node. */
 export function openModal(markup, { wide = false, onMount } = {}) {
   const backdrop = document.createElement("div");
-  backdrop.className = "bb-modal-backdrop";
-  backdrop.innerHTML = `<div class="bb-modal${wide ? " bb-modal--wide" : ""}" role="dialog" aria-modal="true">${markup}</div>`;
+  backdrop.className = "bp-modal-backdrop";
+  backdrop.innerHTML = `<div class="bp-modal${wide ? " bp-modal--wide" : ""}" role="dialog" aria-modal="true">${markup}</div>`;
 
   const close = () => {
     backdrop.remove();

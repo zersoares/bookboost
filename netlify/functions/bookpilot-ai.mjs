@@ -1,24 +1,24 @@
-// BookBoost AI — generation endpoints.
+// BookPilot AI — generation endpoints.
 //
-//   /api/bb-ai/*
+//   /api/bp-ai/*
 //
 // Shape of every handler here: authenticate → rate-limit → charge
 // credits → call the model → persist → return. If the model call fails
 // after the charge, the credits are refunded; an author never pays for
 // a generation they didn't receive.
 
-import { withGuards, json, readJson, pathSegments } from "./bookboost-lib/http.js";
-import { authenticate } from "./bookboost-lib/auth.js";
-import { dbAsService } from "./bookboost-lib/db.js";
-import { Errors } from "./bookboost-lib/errors.js";
-import { memoryLimit, aiHourlyLimit } from "./bookboost-lib/ratelimit.js";
-import { charge, refund } from "./bookboost-lib/credits.js";
-import { generate } from "./bookboost-lib/ai.js";
-import { deriveMetrics, confidenceLevel, budgetRecommendation } from "./bookboost-lib/metrics.js";
-import * as v from "./bookboost-lib/validate.js";
-import * as audit from "./bookboost-lib/audit.js";
+import { withGuards, json, readJson, pathSegments } from "./bookpilot-lib/http.js";
+import { authenticate } from "./bookpilot-lib/auth.js";
+import { dbAsService } from "./bookpilot-lib/db.js";
+import { Errors } from "./bookpilot-lib/errors.js";
+import { memoryLimit, aiHourlyLimit } from "./bookpilot-lib/ratelimit.js";
+import { charge, refund } from "./bookpilot-lib/credits.js";
+import { generate } from "./bookpilot-lib/ai.js";
+import { deriveMetrics, confidenceLevel, budgetRecommendation } from "./bookpilot-lib/metrics.js";
+import * as v from "./bookpilot-lib/validate.js";
+import * as audit from "./bookpilot-lib/audit.js";
 
-const PREFIX = "/api/bb-ai";
+const PREFIX = "/api/bp-ai";
 const AI_CALLS_PER_HOUR = 60;
 
 function money(cents, currency = "EUR") {
@@ -636,4 +636,4 @@ export default withGuards(async (req) => {
   return handler(ctx, body);
 });
 
-export const config = { path: "/api/bb-ai/*" };
+export const config = { path: "/api/bp-ai/*" };

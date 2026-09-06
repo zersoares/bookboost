@@ -1,21 +1,21 @@
-// BookBoost AI — admin API (spec §31).
+// BookPilot AI — admin API (spec §31).
 //
-//   /api/bb-admin/*
+//   /api/bp-admin/*
 //
 // Every route re-checks `role = 'admin'` on the caller's own profile row
 // (read through their JWT, so the check cannot be spoofed by a client)
 // before switching to the service role for cross-account reads.
 
-import { withGuards, json, readJson, pathSegments } from "./bookboost-lib/http.js";
-import { authenticate, requireAdmin } from "./bookboost-lib/auth.js";
-import { Errors } from "./bookboost-lib/errors.js";
-import { memoryLimit } from "./bookboost-lib/ratelimit.js";
-import { bundledPrompts, clearPromptCache } from "./bookboost-lib/ai.js";
-import { promptKeys } from "./bookboost-lib/prompts.js";
-import * as v from "./bookboost-lib/validate.js";
-import * as audit from "./bookboost-lib/audit.js";
+import { withGuards, json, readJson, pathSegments } from "./bookpilot-lib/http.js";
+import { authenticate, requireAdmin } from "./bookpilot-lib/auth.js";
+import { Errors } from "./bookpilot-lib/errors.js";
+import { memoryLimit } from "./bookpilot-lib/ratelimit.js";
+import { bundledPrompts, clearPromptCache } from "./bookpilot-lib/ai.js";
+import { promptKeys } from "./bookpilot-lib/prompts.js";
+import * as v from "./bookpilot-lib/validate.js";
+import * as audit from "./bookpilot-lib/audit.js";
 
-const PREFIX = "/api/bb-admin";
+const PREFIX = "/api/bp-admin";
 
 async function overview(service) {
   const stats = await service.rpc("bb_admin_overview");
@@ -183,4 +183,4 @@ export default withGuards(async (req) => {
   throw Errors.notFound("endpoint");
 });
 
-export const config = { path: "/api/bb-admin/*" };
+export const config = { path: "/api/bp-admin/*" };

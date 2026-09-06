@@ -1,8 +1,8 @@
-// BookBoost AI — website event collector (spec §17).
+// BookPilot AI — website event collector (spec §17).
 //
-//   /api/bb-track
+//   /api/bp-track
 //
-// Receives events from bb.js running on an author's own site. Unlike
+// Receives events from bp.js running on an author's own site. Unlike
 // every other endpoint here it is called cross-origin, so the origin is
 // checked against the domain registered for that tracking key rather
 // than against this site.
@@ -12,10 +12,10 @@
 // product needs to know which ad produced a sale, and that is all this
 // stores (GDPR data minimisation, spec §34).
 
-import { json } from "./bookboost-lib/http.js";
-import { dbAsService } from "./bookboost-lib/db.js";
-import { memoryLimit } from "./bookboost-lib/ratelimit.js";
-import { AppError } from "./bookboost-lib/errors.js";
+import { json } from "./bookpilot-lib/http.js";
+import { dbAsService } from "./bookpilot-lib/db.js";
+import { memoryLimit } from "./bookpilot-lib/ratelimit.js";
+import { AppError } from "./bookpilot-lib/errors.js";
 
 const EVENT_TYPES = ["click", "page_view", "add_to_cart", "checkout", "purchase"];
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-9a-f][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -96,7 +96,7 @@ export default async (req) => {
     term: clean(body.utm?.term, 120),
   };
 
-  // utm_campaign and utm_content carry BookBoost ids when the link was
+  // utm_campaign and utm_content carry BookPilot ids when the link was
   // built by the campaign wizard; anything else is stored as-is and
   // simply doesn't attribute to a campaign.
   const campaignId = UUID_RE.test(utm.campaign || "") ? utm.campaign : null;
@@ -155,7 +155,7 @@ export default async (req) => {
       }
     }
   } catch (err) {
-    console.error("[bookboost] tracking write failed:", err);
+    console.error("[bookpilot] tracking write failed:", err);
     // Never surface an error to a visitor's browser on someone else's
     // site; the event is simply lost.
   }
@@ -163,4 +163,4 @@ export default async (req) => {
   return new Response(JSON.stringify({ ok: true }), { status: 202, headers: corsFor(origin) });
 };
 
-export const config = { path: "/api/bb-track" };
+export const config = { path: "/api/bp-track" };

@@ -10,7 +10,7 @@
 // why every value rendered from user data goes through the escaping in
 // dom.js.
 
-const SESSION_KEY = "bookboost.session";
+const SESSION_KEY = "bookpilot.session";
 
 let config = { url: "", anonKey: "" };
 let session = null;

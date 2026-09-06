@@ -229,12 +229,12 @@ function demoCampaignAnalysis() {
 // --- Request routing --------------------------------------------------
 
 async function handle(method, path, body) {
-  // "/api/bb/books/123/strategy" -> ["", "api", "bb", "books", "123", "strategy"]
+  // "/api/bp/books/123/strategy" -> ["", "api", "bp", "books", "123", "strategy"]
   const [, , section, resource, id, sub] = path.split("?")[0].split("/");
   const query = new URLSearchParams(path.split("?")[1] || "");
 
   // ---- Core -----------------------------------------------------------
-  if (section === "bb") {
+  if (section === "bp") {
     if (resource === "config") {
       return {
         capabilities: { database: false, ai: false, billing: false, meta: false,
@@ -244,7 +244,7 @@ async function handle(method, path, body) {
     }
     if (resource === "me") {
       if (sub === "export") {
-        return { exported_at: new Date().toISOString(), format: "BookBoost AI demo export",
+        return { exported_at: new Date().toISOString(), format: "BookPilot AI demo export",
           profile: state.profile, books: state.books, creatives: state.creatives,
           campaigns: state.campaigns, tracking_events: [], notifications: state.notifications };
       }
@@ -421,7 +421,7 @@ async function handle(method, path, body) {
   }
 
   // ---- AI -------------------------------------------------------------
-  if (section === "bb-ai") {
+  if (section === "bp-ai") {
     await wait(700);
     switch (resource) {
       case "analyze": {
@@ -567,7 +567,7 @@ async function handle(method, path, body) {
   }
 
   // ---- Billing --------------------------------------------------------
-  if (section === "bb-billing") {
+  if (section === "bp-billing") {
     if (resource === "summary" || !resource) {
       return {
         subscription: { plan_id: state.profile.plan_id, status: "demo" },
@@ -579,14 +579,14 @@ async function handle(method, path, body) {
   }
 
   // ---- Meta and admin -------------------------------------------------
-  if (section === "bb-meta") {
+  if (section === "bp-meta") {
     throw new DemoError(
       "demo_mode",
       "The demo workspace isn't connected to a Meta ad account — create a free account to connect yours.",
       501
     );
   }
-  if (section === "bb-admin") {
+  if (section === "bp-admin") {
     throw new DemoError("forbidden", "The admin dashboard isn't part of the demo.", 403);
   }
 
@@ -596,7 +596,7 @@ async function handle(method, path, body) {
 export const demoAdapter = {
   async request(method, path, body) {
     // Small, uniform latency for reads so loading states are exercised.
-    if (!path.startsWith("/api/bb-ai")) await wait(120);
+    if (!path.startsWith("/api/bp-ai")) await wait(120);
     return handle(method, path, body);
   },
 };

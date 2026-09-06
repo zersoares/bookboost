@@ -1,12 +1,12 @@
 -- =====================================================================
--- BookBoost AI — Row Level Security
+-- BookPilot AI — Row Level Security
 --
 -- Default posture: every table is deny-all until a policy opens it, and
 -- every policy is scoped to auth.uid(). The API layer (Netlify
 -- functions) talks to PostgREST *with the caller's own JWT*, so these
 -- policies are the real access control — not an extra belt on top of
 -- application checks. The service-role key is used only for the few
--- operations listed in bookboost/README.md (webhooks, credit
+-- operations listed in bookpilot/README.md (webhooks, credit
 -- accounting, admin reads), never to serve a user's own data.
 --
 -- Run after 001_schema.sql.

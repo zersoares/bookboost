@@ -1,7 +1,7 @@
 // Shared <option> lists. Kept in one place so the genre list in
 // onboarding, the book form and the creative filters cannot drift apart
 // — and so it stays in step with the server-side allow-list in
-// netlify/functions/bookboost-lib/validate.js.
+// netlify/functions/bookpilot-lib/validate.js.
 
 import { html } from "../core/dom.js";
 
@@ -48,7 +48,7 @@ export const OBJECTIVES = [
 ];
 
 export const DESTINATIONS = [
-  { value: "website", label: "My website", hint: "Full sales tracking with the BookBoost script." },
+  { value: "website", label: "My website", hint: "Full sales tracking with the BookPilot script." },
   { value: "landing_page", label: "A book landing page", hint: "Same tracking, one page." },
   { value: "amazon", label: "Amazon", hint: "Clicks only, unless you connect Amazon Attribution." },
   { value: "kobo", label: "Kobo", hint: "Clicks only." },

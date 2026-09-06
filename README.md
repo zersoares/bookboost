@@ -1,11 +1,11 @@
-# BookBoost AI
+# BookPilot AI
 
 **Your AI marketing manager for books.**
 
 Upload your book. Find your readers. Create your ads. Launch your campaign.
 Discover which ads actually sell.
 
-BookBoost AI is an advertising platform for independent authors, KDP authors,
+BookPilot AI is an advertising platform for independent authors, KDP authors,
 small publishers, coaches and digital-product creators. It is not a generic ad
 tool with a book-shaped skin: the product starts by reading the book, and every
 artefact downstream — persona, angle, creative, campaign, result — stays
@@ -27,11 +27,11 @@ Book → Reader → Marketing angle → Creative → Campaign → Sale → Learn
 | `js/views/` | One module per screen |
 | `js/data/` | The demo workspace: dataset and in-memory adapter |
 | `assets/css/` | Design system, landing page, application shell |
-| `track/bb.js` | The website tracking script authors install |
+| `track/bp.js` | The website tracking script authors install |
 | `sql/` | Schema, RLS policies, seed data, database functions |
 | `{privacy,terms,cookies}.html` | Legal pages |
-| `netlify/functions/bookboost-*.mjs` | The API |
-| `netlify/functions/bookboost-lib/` | Shared server modules (not deployed as functions) |
+| `netlify/functions/bookpilot-*.mjs` | The API |
+| `netlify/functions/bookpilot-lib/` | Shared server modules (not deployed as functions) |
 | `tests/` | Unit tests and structural security checks |
 
 ---
@@ -78,7 +78,7 @@ unexpected console error.
 
 This repository is a static site with no `package.json` and no bundler; Netlify
 publishes it as-is. Introducing a build for one subdirectory would change how the
-entire site deploys, so BookBoost is written to fit:
+entire site deploys, so BookPilot is written to fit:
 
 - **Front end**: plain ES modules and CSS, served directly. No framework, no
   transpile, no lockfile.
@@ -128,10 +128,10 @@ else degrades gracefully when absent.
 | `STRIPE_WEBHOOK_SECRET` | Applying paid plans | **Secret** |
 | `META_APP_ID` | Meta integration | |
 | `META_APP_SECRET` | Meta integration | **Secret** |
-| `META_REDIRECT_URI` | Meta integration | `https://yoursite/api/bb-meta/callback` |
-| `BOOKBOOST_OAUTH_STATE_SECRET` | Meta integration | **Secret.** Random string; signs the OAuth `state` |
-| `BOOKBOOST_SITE_URL` | Redirects | Defaults to Netlify's `URL` |
-| `BOOKBOOST_ALLOWED_ORIGINS` | Extra origins | Comma-separated, optional |
+| `META_REDIRECT_URI` | Meta integration | `https://yoursite/api/bp-meta/callback` |
+| `BOOKPILOT_OAUTH_STATE_SECRET` | Meta integration | **Secret.** Random string; signs the OAuth `state` |
+| `BOOKPILOT_SITE_URL` | Redirects | Defaults to Netlify's `URL` |
+| `BOOKPILOT_ALLOWED_ORIGINS` | Extra origins | Comma-separated, optional |
 
 Then set each plan's `stripe_price_id` in **Admin → Plans**, and enable the
 matching feature flags. A flag without its credentials leaves the UI showing
@@ -139,7 +139,7 @@ matching feature flags. A flag without its credentials leaves the UI showing
 
 ### 3. Stripe webhook
 
-Point a webhook at `https://yoursite/api/bb-stripe-webhook` for
+Point a webhook at `https://yoursite/api/bp-stripe-webhook` for
 `checkout.session.completed`, `customer.subscription.updated`,
 `customer.subscription.deleted` and `invoice.payment_failed`.
 
@@ -149,13 +149,13 @@ Point a webhook at `https://yoursite/api/bb-stripe-webhook` for
 
 | Function | Path | Purpose |
 |---|---|---|
-| `bookboost-api` | `/api/bb/*` | Books, creatives, campaigns, analytics, notifications, GDPR export and deletion |
-| `bookboost-ai` | `/api/bb-ai/*` | Analysis, personas, angles, copy, creatives, scoring, campaign analysis, budget, advisor |
-| `bookboost-meta` | `/api/bb-meta/*` | OAuth, ad accounts, campaign push, launch/pause, insights sync |
-| `bookboost-billing` | `/api/bb-billing/*` | Checkout and customer portal |
-| `bookboost-stripe-webhook` | `/api/bb-stripe-webhook` | The only place a paid plan is granted |
-| `bookboost-track` | `/api/bb-track` | Website event collector (called cross-origin) |
-| `bookboost-admin` | `/api/bb-admin/*` | Admin dashboard |
+| `bookpilot-api` | `/api/bp/*` | Books, creatives, campaigns, analytics, notifications, GDPR export and deletion |
+| `bookpilot-ai` | `/api/bp-ai/*` | Analysis, personas, angles, copy, creatives, scoring, campaign analysis, budget, advisor |
+| `bookpilot-meta` | `/api/bp-meta/*` | OAuth, ad accounts, campaign push, launch/pause, insights sync |
+| `bookpilot-billing` | `/api/bp-billing/*` | Checkout and customer portal |
+| `bookpilot-stripe-webhook` | `/api/bp-stripe-webhook` | The only place a paid plan is granted |
+| `bookpilot-track` | `/api/bp-track` | Website event collector (called cross-origin) |
+| `bookpilot-admin` | `/api/bp-admin/*` | Admin dashboard |
 
 ---
 
@@ -185,7 +185,7 @@ The service-role key bypasses RLS, so its use is deliberately narrow:
 - **OAuth tokens** live in `integrations`, which `authenticated` cannot touch.
   The UI reads connection state from a view that selects no token columns.
 - **The OAuth `state` parameter is HMAC-signed**, so a third party cannot attach
-  their ad account to someone else's BookBoost account.
+  their ad account to someone else's BookPilot account.
 - **The Stripe webhook verifies signatures** and rejects replays on timestamp age.
 - **Credit spending is atomic** — one statement checks the balance and decrements
   it, so two concurrent generations cannot both spend the last credits. A failed
@@ -235,7 +235,7 @@ These are product decisions, enforced in code, not marketing copy:
 
 Stated plainly, because the alternative is a feature list that lies:
 
-- **Image and video rendering are not implemented.** BookBoost writes the copy and
+- **Image and video rendering are not implemented.** BookPilot writes the copy and
   the art direction for every creative — enough to hand to a designer or an image
   model — and the UI says so rather than showing a placeholder as finished
   artwork. The credit costs and the data model are in place for it.
@@ -264,7 +264,7 @@ Stated plainly, because the alternative is a feature list that lies:
   `cookies.html`, and have them reviewed. They describe what the software
   actually does, which is the hard part; the operating entity's details and a
   qualified review are the rest.
-- Set the canonical URL and `og:url` in `index.html`, and `BOOKBOOST_SITE_URL`,
+- Set the canonical URL and `og:url` in `index.html`, and `BOOKPILOT_SITE_URL`,
   to the domain this ends up on. They were removed rather than left pointing
   at a host this repository no longer belongs to.
 - Narrow `connect-src` in the CSP (in `netlify.toml`) from `https:` to your

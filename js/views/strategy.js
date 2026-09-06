@@ -32,8 +32,8 @@ export async function render(container, params) {
       emptyState({
         icon: "✦",
         title: "No books yet",
-        text: "Add a book and BookBoost will work out who buys it.",
-        action: '<a class="bb-btn bb-btn--primary" href="#/books/new">Add your first book</a>',
+        text: "Add a book and BookPilot will work out who buys it.",
+        action: '<a class="bp-btn bp-btn--primary" href="#/books/new">Add your first book</a>',
       });
     return;
   }
@@ -52,13 +52,13 @@ export async function render(container, params) {
       title: "AI Strategy",
       description: "What the book promises, who buys it, and the angles worth testing.",
       actions: `${demoBadge()}${books.length > 1
-        ? `<select class="bb-select" id="book-picker" style="width:auto">${books
+        ? `<select class="bp-select" id="book-picker" style="width:auto">${books
             .map((b) => html`<option value="${b.id}" ${b.id === book.id ? "selected" : ""}>${b.title}</option>`)
             .join("")}</select>`
         : ""}`,
     }))}
 
-    <div class="bb-tabs" style="margin-bottom:var(--bb-6)" id="strategy-tabs"></div>
+    <div class="bp-tabs" style="margin-bottom:var(--bp-6)" id="strategy-tabs"></div>
     <div id="strategy-body"></div>
   `;
 
@@ -81,11 +81,11 @@ export async function render(container, params) {
       ["angles", "Marketing angles", angles.length ? ` (${angles.length})` : ""],
     ]
       .map(([key, label, count]) => html`
-        <button type="button" class="bb-tab ${key === activeTab ? "bb-tab--active" : ""}" data-tab="${key}">
+        <button type="button" class="bp-tab ${key === activeTab ? "bp-tab--active" : ""}" data-tab="${key}">
           ${label}${count}
         </button>`)
       .join("");
-    tabs.querySelectorAll(".bb-tab").forEach((tab) => {
+    tabs.querySelectorAll(".bp-tab").forEach((tab) => {
       tab.addEventListener("click", () => {
         activeTab = tab.dataset.tab;
         paint();
@@ -133,9 +133,9 @@ function renderAnalysis({ state, reload, paint, body }) {
       icon: "✦",
       title: "Analyse this book",
       text:
-        "BookBoost reads the title, description, genre and any sample text you've added, then works " +
+        "BookPilot reads the title, description, genre and any sample text you've added, then works " +
         "out how the book should be sold — and shows its reasoning, so you can disagree with it.",
-      action: '<button type="button" class="bb-btn bb-btn--primary" id="run-analysis">Run analysis · 10 credits</button>',
+      action: '<button type="button" class="bp-btn bp-btn--primary" id="run-analysis">Run analysis · 10 credits</button>',
     });
     onGenerate($("#run-analysis"), "Reading your book…", async () => {
       body.innerHTML = loading(4);
@@ -148,59 +148,59 @@ function renderAnalysis({ state, reload, paint, body }) {
   }
 
   body.innerHTML = html`
-    <div class="bb-stack-lg">
-      <section class="bb-card">
-        <div class="bb-card__header">
-          <div class="bb-card__title">Positioning</div>
-          <span class="bb-tiny bb-subtle">${fmt.date(analysis.created_at)}</span>
+    <div class="bp-stack-lg">
+      <section class="bp-card">
+        <div class="bp-card__header">
+          <div class="bp-card__title">Positioning</div>
+          <span class="bp-tiny bp-subtle">${fmt.date(analysis.created_at)}</span>
         </div>
         ${raw(paragraphs(analysis.positioning))}
-        <div class="bb-panel" style="margin-top:var(--bb-4)">
-          <div class="bb-eyebrow">Core promise</div>
-          <p class="bb-display" style="font-size:1.2rem;margin:6px 0 0">${analysis.core_promise || ""}</p>
+        <div class="bp-panel" style="margin-top:var(--bp-4)">
+          <div class="bp-eyebrow">Core promise</div>
+          <p class="bp-display" style="font-size:1.2rem;margin:6px 0 0">${analysis.core_promise || ""}</p>
         </div>
       </section>
 
-      <div class="bb-grid bb-grid--2">
-        <section class="bb-card">
-          <div class="bb-card__title" style="margin-bottom:var(--bb-3)">The reader's problem</div>
-          <p class="bb-small bb-muted">${analysis.reader_problem || "Insufficient data."}</p>
+      <div class="bp-grid bp-grid--2">
+        <section class="bp-card">
+          <div class="bp-card__title" style="margin-bottom:var(--bp-3)">The reader's problem</div>
+          <p class="bp-small bp-muted">${analysis.reader_problem || "Insufficient data."}</p>
         </section>
-        <section class="bb-card">
-          <div class="bb-card__title" style="margin-bottom:var(--bb-3)">The transformation</div>
-          <p class="bb-small bb-muted">${analysis.transformation || "Insufficient data."}</p>
+        <section class="bp-card">
+          <div class="bp-card__title" style="margin-bottom:var(--bp-3)">The transformation</div>
+          <p class="bp-small bp-muted">${analysis.transformation || "Insufficient data."}</p>
         </section>
       </div>
 
-      <div class="bb-grid bb-grid--3">
-        <section class="bb-card">
-          <div class="bb-card__title" style="margin-bottom:var(--bb-3)">Themes</div>
+      <div class="bp-grid bp-grid--3">
+        <section class="bp-card">
+          <div class="bp-card__title" style="margin-bottom:var(--bp-3)">Themes</div>
           ${raw(chips(analysis.themes))}
         </section>
-        <section class="bb-card">
-          <div class="bb-card__title" style="margin-bottom:var(--bb-3)">Why people buy</div>
+        <section class="bp-card">
+          <div class="bp-card__title" style="margin-bottom:var(--bp-3)">Why people buy</div>
           ${raw(bullets(analysis.purchase_motivations))}
         </section>
-        <section class="bb-card">
-          <div class="bb-card__title" style="margin-bottom:var(--bb-3)">What stops them</div>
+        <section class="bp-card">
+          <div class="bp-card__title" style="margin-bottom:var(--bp-3)">What stops them</div>
           ${raw(bullets(analysis.objections))}
         </section>
       </div>
 
-      <section class="bb-card">
-        <div class="bb-card__title" style="margin-bottom:var(--bb-3)">Marketing opportunities</div>
+      <section class="bp-card">
+        <div class="bp-card__title" style="margin-bottom:var(--bp-3)">Marketing opportunities</div>
         ${raw(bullets(analysis.opportunities))}
       </section>
 
       ${analysis.reasoning ? raw(html`
-        <section class="bb-panel">
-          <div class="bb-eyebrow">How it reached this</div>
-          <p class="bb-small bb-muted" style="margin:6px 0 0">${analysis.reasoning}</p>
+        <section class="bp-panel">
+          <div class="bp-eyebrow">How it reached this</div>
+          <p class="bp-small bp-muted" style="margin:6px 0 0">${analysis.reasoning}</p>
         </section>`) : ""}
 
-      <div class="bb-row">
-        <button type="button" class="bb-btn bb-btn--secondary bb-btn--sm" id="rerun">Re-run analysis · 10 credits</button>
-        <button type="button" class="bb-btn bb-btn--primary bb-btn--sm" id="to-personas">Continue to readers</button>
+      <div class="bp-row">
+        <button type="button" class="bp-btn bp-btn--secondary bp-btn--sm" id="rerun">Re-run analysis · 10 credits</button>
+        <button type="button" class="bp-btn bp-btn--primary bp-btn--sm" id="to-personas">Continue to readers</button>
       </div>
     </div>
   `;
@@ -226,7 +226,7 @@ function renderPersonas({ state, reload, paint, body }) {
       icon: "✦",
       title: "Analyse the book first",
       text: "Personas are built from the analysis — who the book is for follows from what it promises.",
-      action: '<button type="button" class="bb-btn bb-btn--primary" data-tab-jump>Go to analysis</button>',
+      action: '<button type="button" class="bp-btn bp-btn--primary" data-tab-jump>Go to analysis</button>',
     });
     body.querySelector("[data-tab-jump]").addEventListener("click", () =>
       document.querySelector('[data-tab="analysis"]').click()
@@ -241,7 +241,7 @@ function renderPersonas({ state, reload, paint, body }) {
       text:
         "Three to five reader personas, each specific enough to write an ad for and to translate " +
         "into targeting on an ad platform.",
-      action: '<button type="button" class="bb-btn bb-btn--primary" id="run-personas">Generate personas · 10 credits</button>',
+      action: '<button type="button" class="bp-btn bp-btn--primary" id="run-personas">Generate personas · 10 credits</button>',
     });
     onGenerate($("#run-personas"), "Finding your readers…", async () => {
       body.innerHTML = loading(3);
@@ -254,19 +254,19 @@ function renderPersonas({ state, reload, paint, body }) {
   }
 
   body.innerHTML = html`
-    <div class="bb-stack">
-      <div class="bb-row bb-row--between">
-        <p class="bb-small bb-muted" style="margin:0">
+    <div class="bp-stack">
+      <div class="bp-row bp-row--between">
+        <p class="bp-small bp-muted" style="margin:0">
           Built from interests and life stage. Never from health, religion, ethnicity or other
           protected characteristics.
         </p>
-        <button type="button" class="bb-btn bb-btn--ghost bb-btn--sm" id="regen-personas">Regenerate · 10 credits</button>
+        <button type="button" class="bp-btn bp-btn--ghost bp-btn--sm" id="regen-personas">Regenerate · 10 credits</button>
       </div>
-      <div class="bb-grid bb-grid--2">
+      <div class="bp-grid bp-grid--2">
         ${raw(strategy.personas.map(personaCard).join(""))}
       </div>
-      <div class="bb-row">
-        <button type="button" class="bb-btn bb-btn--primary bb-btn--sm" id="to-angles">Continue to angles</button>
+      <div class="bp-row">
+        <button type="button" class="bp-btn bp-btn--primary bp-btn--sm" id="to-angles">Continue to angles</button>
       </div>
     </div>
   `;
@@ -284,10 +284,10 @@ function renderPersonas({ state, reload, paint, body }) {
 
 function personaCard(persona) {
   return html`
-    <article class="bb-card bb-persona">
-      <div class="bb-persona__name">${persona.name}</div>
-      <div class="bb-small bb-subtle">${persona.age_range || ""}${persona.demographics ? ` · ${persona.demographics}` : ""}</div>
-      <p class="bb-small bb-muted" style="margin-top:var(--bb-3)">${persona.description || ""}</p>
+    <article class="bp-card bp-persona">
+      <div class="bp-persona__name">${persona.name}</div>
+      <div class="bp-small bp-subtle">${persona.age_range || ""}${persona.demographics ? ` · ${persona.demographics}` : ""}</div>
+      <p class="bp-small bp-muted" style="margin-top:var(--bp-3)">${persona.description || ""}</p>
       ${raw(chips(persona.interests, { limit: 6 }))}
       <dl>
         <div><dt>Pain points</dt><dd>${raw(bullets(persona.pain_points, { limit: 4 }))}</dd></div>
@@ -295,9 +295,9 @@ function personaCard(persona) {
         <div><dt>What stops her</dt><dd>${raw(bullets(persona.objections, { limit: 3 }))}</dd></div>
       </dl>
       ${persona.messaging ? raw(html`
-        <div class="bb-panel" style="margin-top:var(--bb-4)">
-          <div class="bb-eyebrow">Suggested message</div>
-          <p class="bb-display" style="font-size:1.05rem;margin:6px 0 0">“${persona.messaging}”</p>
+        <div class="bp-panel" style="margin-top:var(--bp-4)">
+          <div class="bp-eyebrow">Suggested message</div>
+          <p class="bp-display" style="font-size:1.05rem;margin:6px 0 0">“${persona.messaging}”</p>
         </div>`) : ""}
     </article>
   `;
@@ -313,7 +313,7 @@ function renderAngles({ state, reload, paint, body }) {
       icon: "◑",
       title: "Generate personas first",
       text: "An angle is written for a specific reader. Without one, it's just a slogan.",
-      action: '<button type="button" class="bb-btn bb-btn--primary" data-tab-jump>Go to personas</button>',
+      action: '<button type="button" class="bp-btn bp-btn--primary" data-tab-jump>Go to personas</button>',
     });
     body.querySelector("[data-tab-jump]").addEventListener("click", () =>
       document.querySelector('[data-tab="personas"]').click()
@@ -328,7 +328,7 @@ function renderAngles({ state, reload, paint, body }) {
       text:
         "Ten or more testable hypotheses about why someone buys this book, spread across emotional, " +
         "curiosity, transformation, practical and other categories.",
-      action: '<button type="button" class="bb-btn bb-btn--primary" id="run-angles">Generate angles · 5 credits</button>',
+      action: '<button type="button" class="bp-btn bp-btn--primary" id="run-angles">Generate angles · 5 credits</button>',
     });
     onGenerate($("#run-angles"), "Writing angles…", async () => {
       body.innerHTML = loading(4);
@@ -344,15 +344,15 @@ function renderAngles({ state, reload, paint, body }) {
   const categories = [...new Set(strategy.angles.map((a) => a.category))];
 
   body.innerHTML = html`
-    <div class="bb-stack">
-      <div class="bb-row bb-row--between bb-row--wrap">
-        <div class="bb-chips">
-          <span class="bb-chip bb-chip--active" data-filter="">All (${strategy.angles.length})</span>
-          ${raw(categories.map((c) => html`<span class="bb-chip" data-filter="${c}">${ANGLE_LABELS[c] || c}</span>`).join(""))}
+    <div class="bp-stack">
+      <div class="bp-row bp-row--between bp-row--wrap">
+        <div class="bp-chips">
+          <span class="bp-chip bp-chip--active" data-filter="">All (${strategy.angles.length})</span>
+          ${raw(categories.map((c) => html`<span class="bp-chip" data-filter="${c}">${ANGLE_LABELS[c] || c}</span>`).join(""))}
         </div>
-        <button type="button" class="bb-btn bb-btn--ghost bb-btn--sm" id="regen-angles">Regenerate · 5 credits</button>
+        <button type="button" class="bp-btn bp-btn--ghost bp-btn--sm" id="regen-angles">Regenerate · 5 credits</button>
       </div>
-      <div class="bb-grid bb-grid--2" id="angle-grid">
+      <div class="bp-grid bp-grid--2" id="angle-grid">
         ${raw(strategy.angles.map((angle) => angleCard(angle, personaName(angle.persona_id), book.id)).join(""))}
       </div>
     </div>
@@ -360,8 +360,8 @@ function renderAngles({ state, reload, paint, body }) {
 
   body.querySelectorAll("[data-filter]").forEach((chip) => {
     chip.addEventListener("click", () => {
-      body.querySelectorAll("[data-filter]").forEach((c) => c.classList.remove("bb-chip--active"));
-      chip.classList.add("bb-chip--active");
+      body.querySelectorAll("[data-filter]").forEach((c) => c.classList.remove("bp-chip--active"));
+      chip.classList.add("bp-chip--active");
       const filter = chip.dataset.filter;
       body.querySelectorAll("#angle-grid > article").forEach((card) => {
         card.hidden = Boolean(filter) && card.dataset.category !== filter;
@@ -379,19 +379,19 @@ function renderAngles({ state, reload, paint, body }) {
 
 function angleCard(angle, personaName, bookId) {
   return html`
-    <article class="bb-card bb-angle" data-category="${angle.category}">
-      <div class="bb-row bb-row--between">
+    <article class="bp-card bp-angle" data-category="${angle.category}">
+      <div class="bp-row bp-row--between">
         <strong>${angle.name}</strong>
-        <span class="bb-badge">${ANGLE_LABELS[angle.category] || angle.category}</span>
+        <span class="bp-badge">${ANGLE_LABELS[angle.category] || angle.category}</span>
       </div>
-      <div class="bb-angle__hook">“${angle.hook || ""}”</div>
-      <p class="bb-small bb-muted" style="margin:0">${angle.explanation || ""}</p>
-      <dl class="bb-kv bb-tiny" style="margin:0">
+      <div class="bp-angle__hook">“${angle.hook || ""}”</div>
+      <p class="bp-small bp-muted" style="margin:0">${angle.explanation || ""}</p>
+      <dl class="bp-kv bp-tiny" style="margin:0">
         ${personaName ? raw(html`<dt>For</dt><dd>${personaName}</dd>`) : ""}
         ${angle.cta ? raw(html`<dt>Call to action</dt><dd>${angle.cta}</dd>`) : ""}
         ${angle.format_hint ? raw(html`<dt>Suggested format</dt><dd>${angle.format_hint}</dd>`) : ""}
       </dl>
-      <a class="bb-btn bb-btn--secondary bb-btn--sm" href="#/creatives/new?book=${bookId}&angle=${angle.id}">
+      <a class="bp-btn bp-btn--secondary bp-btn--sm" href="#/creatives/new?book=${bookId}&angle=${angle.id}">
         Create ads from this angle
       </a>
     </article>

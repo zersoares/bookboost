@@ -1,4 +1,4 @@
-// BookBoost AI Advisor (spec §21).
+// BookPilot AI Advisor (spec §21).
 //
 // The advisor recommends and explains; it never acts. Every button it
 // offers takes the author to the place where they can decide, which is
@@ -36,65 +36,65 @@ export async function render(container) {
 
   container.innerHTML = html`
     ${raw(pageHead({
-      title: "BookBoost AI Advisor",
+      title: "BookPilot AI Advisor",
       description: "Ask about your campaigns. It answers from your data, says how confident it is, and leaves every decision to you.",
       actions: demoBadge(),
     }))}
 
-    <div class="bb-grid" style="grid-template-columns:minmax(0,1fr) minmax(0,300px);align-items:start;gap:var(--bb-6)">
-      <div class="bb-card bb-advisor">
-        <div class="bb-advisor__thread" id="thread"></div>
-        <div class="bb-chips" id="suggestions">
-          ${raw(SUGGESTED.map((q) => html`<button type="button" class="bb-chip" data-question="${q}">${q}</button>`).join(""))}
+    <div class="bp-grid" style="grid-template-columns:minmax(0,1fr) minmax(0,300px);align-items:start;gap:var(--bp-6)">
+      <div class="bp-card bp-advisor">
+        <div class="bp-advisor__thread" id="thread"></div>
+        <div class="bp-chips" id="suggestions">
+          ${raw(SUGGESTED.map((q) => html`<button type="button" class="bp-chip" data-question="${q}">${q}</button>`).join(""))}
         </div>
-        <form class="bb-advisor__composer" id="ask-form">
-          <input class="bb-input" id="question" placeholder="Ask about your campaigns…" maxlength="1000" required>
-          <button type="submit" class="bb-btn bb-btn--primary">Ask · 2 credits</button>
+        <form class="bp-advisor__composer" id="ask-form">
+          <input class="bp-input" id="question" placeholder="Ask about your campaigns…" maxlength="1000" required>
+          <button type="submit" class="bp-btn bp-btn--primary">Ask · 2 credits</button>
         </form>
-        <p class="bb-tiny bb-subtle" style="margin:0">
+        <p class="bp-tiny bp-subtle" style="margin:0">
           The advisor reads your campaign data only. If there isn't enough of it, it says so rather
           than guessing.
         </p>
       </div>
 
-      <aside class="bb-stack">
-        <section class="bb-card">
-          <div class="bb-card__title" style="margin-bottom:var(--bb-3)">Open recommendations</div>
+      <aside class="bp-stack">
+        <section class="bp-card">
+          <div class="bp-card__title" style="margin-bottom:var(--bp-3)">Open recommendations</div>
           ${raw(recommendations.length
-            ? `<div class="bb-stack-sm">${recommendations.slice(0, 4).map((rec) => html`
-                <div class="bb-panel">
-                  <div class="bb-row bb-row--between">
-                    <strong class="bb-small">${rec.title}</strong>
+            ? `<div class="bp-stack-sm">${recommendations.slice(0, 4).map((rec) => html`
+                <div class="bp-panel">
+                  <div class="bp-row bp-row--between">
+                    <strong class="bp-small">${rec.title}</strong>
                     ${raw(confidenceBadge(rec.confidence))}
                   </div>
-                  <p class="bb-tiny bb-muted" style="margin:6px 0 0">${rec.reason || ""}</p>
-                  <div class="bb-row" style="margin-top:var(--bb-2)">
-                    <button type="button" class="bb-btn bb-btn--ghost bb-btn--sm" data-dismiss="${rec.id}">Dismiss</button>
+                  <p class="bp-tiny bp-muted" style="margin:6px 0 0">${rec.reason || ""}</p>
+                  <div class="bp-row" style="margin-top:var(--bp-2)">
+                    <button type="button" class="bp-btn bp-btn--ghost bp-btn--sm" data-dismiss="${rec.id}">Dismiss</button>
                   </div>
                 </div>`).join("")}</div>`
-            : `<p class="bb-small bb-muted">Nothing outstanding. New recommendations appear after a campaign analysis.</p>`)}
+            : `<p class="bp-small bp-muted">Nothing outstanding. New recommendations appear after a campaign analysis.</p>`)}
         </section>
 
-        <section class="bb-card">
-          <div class="bb-card__title" style="margin-bottom:var(--bb-3)">Your campaigns</div>
+        <section class="bp-card">
+          <div class="bp-card__title" style="margin-bottom:var(--bp-3)">Your campaigns</div>
           ${raw(campaigns.length
-            ? `<div class="bb-stack-sm">${campaigns.slice(0, 5).map((c) => html`
-                <div class="bb-row bb-row--between">
-                  <a class="bb-small bb-truncate" href="#/campaigns/${c.id}">${c.name}</a>
-                  <span class="bb-tiny bb-subtle">${fmt.titleCase(c.status)}</span>
+            ? `<div class="bp-stack-sm">${campaigns.slice(0, 5).map((c) => html`
+                <div class="bp-row bp-row--between">
+                  <a class="bp-small bp-truncate" href="#/campaigns/${c.id}">${c.name}</a>
+                  <span class="bp-tiny bp-subtle">${fmt.titleCase(c.status)}</span>
                 </div>`).join("")}</div>`
-            : `<p class="bb-small bb-muted">No campaigns yet.</p>`)}
+            : `<p class="bp-small bp-muted">No campaigns yet.</p>`)}
         </section>
 
-        <section class="bb-card">
-          <div class="bb-card__title" style="margin-bottom:var(--bb-3)">Patterns across campaigns</div>
-          <p class="bb-small bb-muted">
-            Once you've run a few campaigns, BookBoost looks across them for what repeats.
+        <section class="bp-card">
+          <div class="bp-card__title" style="margin-bottom:var(--bp-3)">Patterns across campaigns</div>
+          <p class="bp-small bp-muted">
+            Once you've run a few campaigns, BookPilot looks across them for what repeats.
           </p>
-          <button type="button" class="bb-btn bb-btn--secondary bb-btn--sm bb-btn--block" id="patterns-btn">
+          <button type="button" class="bp-btn bp-btn--secondary bp-btn--sm bp-btn--block" id="patterns-btn">
             Look for patterns
           </button>
-          <div id="patterns-out" style="margin-top:var(--bb-3)"></div>
+          <div id="patterns-out" style="margin-top:var(--bp-3)"></div>
         </section>
       </aside>
     </div>
@@ -118,7 +118,7 @@ export async function render(container) {
     paintThread();
     threadNode.insertAdjacentHTML(
       "beforeend",
-      '<div class="bb-bubble bb-bubble--ai" id="thinking"><span class="bb-spinner"></span> Reading your campaign data…</div>'
+      '<div class="bp-bubble bp-bubble--ai" id="thinking"><span class="bp-spinner"></span> Reading your campaign data…</div>'
     );
     try {
       const result = await API.askAdvisor(question);
@@ -161,13 +161,13 @@ export async function render(container) {
       await refreshAccount();
       $("#patterns-out").innerHTML = result.patterns?.length
         ? result.patterns
-            .map((p) => html`<div class="bb-panel" style="margin-bottom:var(--bb-2)">
-              <div class="bb-row bb-row--between"><strong class="bb-small">${p.title}</strong>${raw(confidenceBadge(p.confidence))}</div>
-              <p class="bb-tiny bb-muted" style="margin:6px 0 0">${p.detail}</p>
-              <p class="bb-tiny bb-subtle" style="margin:4px 0 0">${p.evidence}</p>
+            .map((p) => html`<div class="bp-panel" style="margin-bottom:var(--bp-2)">
+              <div class="bp-row bp-row--between"><strong class="bp-small">${p.title}</strong>${raw(confidenceBadge(p.confidence))}</div>
+              <p class="bp-tiny bp-muted" style="margin:6px 0 0">${p.detail}</p>
+              <p class="bp-tiny bp-subtle" style="margin:4px 0 0">${p.evidence}</p>
             </div>`)
             .join("")
-        : html`<p class="bb-small bb-muted">${result.note || "Not enough campaign history yet."}</p>`;
+        : html`<p class="bp-small bp-muted">${result.note || "Not enough campaign history yet."}</p>`;
     } catch (err) {
       notify.error(err.message);
     }
@@ -177,24 +177,24 @@ export async function render(container) {
 
 function bubble(entry) {
   if (entry.role === "user") {
-    return html`<div class="bb-bubble bb-bubble--user">${entry.text}</div>`;
+    return html`<div class="bp-bubble bp-bubble--user">${entry.text}</div>`;
   }
   const actions = (entry.actions || [])
     .filter((action) => action.kind && action.kind !== "none")
     .map((action) => {
       if (action.kind === "explain") {
-        return html`<button type="button" class="bb-btn bb-btn--ghost bb-btn--sm" title="${action.detail || ""}">Explain</button>`;
+        return html`<button type="button" class="bp-btn bp-btn--ghost bp-btn--sm" title="${action.detail || ""}">Explain</button>`;
       }
       const target = ACTION_TARGET[action.kind];
       if (!target) return "";
-      return html`<a class="bb-btn bb-btn--secondary bb-btn--sm" href="${target.href}" title="${action.detail || ""}">${action.label || target.label}</a>`;
+      return html`<a class="bp-btn bp-btn--secondary bp-btn--sm" href="${target.href}" title="${action.detail || ""}">${action.label || target.label}</a>`;
     })
     .join("");
 
   return html`
-    <div class="bb-bubble bb-bubble--ai ${entry.error ? "bb-alert--danger" : ""}">
-      <div class="bb-pre-wrap">${entry.text}</div>
-      ${actions ? raw(`<div class="bb-row bb-row--wrap" style="margin-top:var(--bb-3)">${actions}</div>`) : ""}
+    <div class="bp-bubble bp-bubble--ai ${entry.error ? "bp-alert--danger" : ""}">
+      <div class="bp-pre-wrap">${entry.text}</div>
+      ${actions ? raw(`<div class="bp-row bp-row--wrap" style="margin-top:var(--bp-3)">${actions}</div>`) : ""}
     </div>
   `;
 }

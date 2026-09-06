@@ -17,19 +17,19 @@ export async function render(container) {
       title: "Admin",
       description: "Usage, plans, credit costs, prompts and feature flags.",
     }))}
-    <div class="bb-tabs" style="margin-bottom:var(--bb-6)">
-      <button type="button" class="bb-tab" data-tab="overview">Overview</button>
-      <button type="button" class="bb-tab" data-tab="users">Users</button>
-      <button type="button" class="bb-tab" data-tab="plans">Plans &amp; credits</button>
-      <button type="button" class="bb-tab" data-tab="prompts">AI prompts</button>
-      <button type="button" class="bb-tab" data-tab="flags">Flags &amp; settings</button>
+    <div class="bp-tabs" style="margin-bottom:var(--bp-6)">
+      <button type="button" class="bp-tab" data-tab="overview">Overview</button>
+      <button type="button" class="bp-tab" data-tab="users">Users</button>
+      <button type="button" class="bp-tab" data-tab="plans">Plans &amp; credits</button>
+      <button type="button" class="bp-tab" data-tab="prompts">AI prompts</button>
+      <button type="button" class="bp-tab" data-tab="flags">Flags &amp; settings</button>
     </div>
     <div id="admin-body">${raw(loading(3))}</div>
   `;
 
   const paint = async () => {
-    container.querySelectorAll(".bb-tab").forEach((button) => {
-      button.classList.toggle("bb-tab--active", button.dataset.tab === tab);
+    container.querySelectorAll(".bp-tab").forEach((button) => {
+      button.classList.toggle("bp-tab--active", button.dataset.tab === tab);
     });
     const body = $("#admin-body");
     body.innerHTML = loading(3);
@@ -44,7 +44,7 @@ export async function render(container) {
     }
   };
 
-  container.querySelectorAll(".bb-tab").forEach((button) => {
+  container.querySelectorAll(".bp-tab").forEach((button) => {
     button.addEventListener("click", () => {
       tab = button.dataset.tab;
       paint();
@@ -57,17 +57,17 @@ export async function render(container) {
 async function renderOverview(body) {
   const { stats } = await API.adminOverview();
   const stat = (label, value, meta = "") => html`
-    <div class="bb-stat">
-      <div class="bb-stat__label">${label}</div>
-      <div class="bb-stat__value">${value}</div>
-      ${meta ? raw(html`<div class="bb-stat__meta">${meta}</div>`) : ""}
+    <div class="bp-stat">
+      <div class="bp-stat__label">${label}</div>
+      <div class="bp-stat__value">${value}</div>
+      ${meta ? raw(html`<div class="bp-stat__meta">${meta}</div>`) : ""}
     </div>`;
 
   body.innerHTML = html`
-    <div class="bb-stack-lg">
+    <div class="bp-stack-lg">
       <section>
-        <h2 style="font-size:1.05rem;margin-bottom:var(--bb-3)">Accounts</h2>
-        <div class="bb-stat-grid">
+        <h2 style="font-size:1.05rem;margin-bottom:var(--bp-3)">Accounts</h2>
+        <div class="bp-stat-grid">
           ${raw(stat("Total users", fmt.number(stats.total_users)))}
           ${raw(stat("New (30 days)", fmt.number(stats.new_users_30d)))}
           ${raw(stat("Active (30 days)", fmt.number(stats.active_users_30d), "used AI at least once"))}
@@ -77,8 +77,8 @@ async function renderOverview(body) {
       </section>
 
       <section>
-        <h2 style="font-size:1.05rem;margin-bottom:var(--bb-3)">AI usage</h2>
-        <div class="bb-stat-grid">
+        <h2 style="font-size:1.05rem;margin-bottom:var(--bp-3)">AI usage</h2>
+        <div class="bp-stat-grid">
           ${raw(stat("Credits (30 days)", fmt.number(stats.credits_30d)))}
           ${raw(stat("Generations (30 days)", fmt.number(stats.ai_calls_30d)))}
           ${raw(stat("Failures (30 days)", fmt.number(stats.ai_failures_30d), "refunded automatically"))}
@@ -86,8 +86,8 @@ async function renderOverview(body) {
       </section>
 
       <section>
-        <h2 style="font-size:1.05rem;margin-bottom:var(--bb-3)">Product</h2>
-        <div class="bb-stat-grid">
+        <h2 style="font-size:1.05rem;margin-bottom:var(--bp-3)">Product</h2>
+        <div class="bp-stat-grid">
           ${raw(stat("Books", fmt.number(stats.books)))}
           ${raw(stat("Campaigns", fmt.number(stats.campaigns)))}
           ${raw(stat("Live campaigns", fmt.number(stats.live_campaigns)))}
@@ -102,27 +102,27 @@ async function renderOverview(body) {
 async function renderUsers(body) {
   const { users } = await API.adminUsers();
   body.innerHTML = html`
-    <div class="bb-card bb-card--flush">
-      <div class="bb-table-wrap">
-        <table class="bb-table">
+    <div class="bp-card bp-card--flush">
+      <div class="bp-table-wrap">
+        <table class="bp-table">
           <thead><tr><th>Name</th><th>Email</th><th>Country</th><th>Plan</th>
-          <th class="bb-num">Credits</th><th>Role</th><th>Joined</th><th>Onboarded</th></tr></thead>
+          <th class="bp-num">Credits</th><th>Role</th><th>Joined</th><th>Onboarded</th></tr></thead>
           <tbody>
             ${raw(users.map((user) => html`<tr>
               <td>${user.full_name || "—"}</td>
-              <td class="bb-small bb-muted">${user.email || "—"}</td>
-              <td class="bb-small">${user.country || "—"}</td>
+              <td class="bp-small bp-muted">${user.email || "—"}</td>
+              <td class="bp-small">${user.country || "—"}</td>
               <td>${fmt.titleCase(user.plan_id)}</td>
-              <td class="bb-num">${fmt.number(user.ai_credits)}</td>
-              <td>${user.role === "admin" ? raw('<span class="bb-badge bb-badge--primary">Admin</span>') : "User"}</td>
-              <td class="bb-small bb-muted bb-nowrap">${fmt.date(user.created_at)}</td>
-              <td class="bb-small">${user.onboarding_step >= 6 ? "Yes" : `Step ${user.onboarding_step}`}</td>
+              <td class="bp-num">${fmt.number(user.ai_credits)}</td>
+              <td>${user.role === "admin" ? raw('<span class="bp-badge bp-badge--primary">Admin</span>') : "User"}</td>
+              <td class="bp-small bp-muted bp-nowrap">${fmt.date(user.created_at)}</td>
+              <td class="bp-small">${user.onboarding_step >= 6 ? "Yes" : `Step ${user.onboarding_step}`}</td>
             </tr>`).join(""))}
           </tbody>
         </table>
       </div>
     </div>
-    <p class="bb-tiny bb-subtle" style="margin-top:var(--bb-3)">
+    <p class="bp-tiny bp-subtle" style="margin-top:var(--bp-3)">
       Newest 50 accounts. This list intentionally shows no book content — support does not need to
       read someone's manuscript to help them.
     </p>
@@ -133,45 +133,45 @@ async function renderPlans(body) {
   const { plans, creditCosts } = await API.adminSettings();
 
   body.innerHTML = html`
-    <div class="bb-stack-lg">
+    <div class="bp-stack-lg">
       <section>
-        <h2 style="font-size:1.05rem;margin-bottom:var(--bb-3)">Plans</h2>
-        <div class="bb-card bb-card--flush">
-          <div class="bb-table-wrap">
-            <table class="bb-table">
-              <thead><tr><th>Plan</th><th class="bb-num">Price</th><th class="bb-num">Books</th>
-              <th class="bb-num">Creatives/mo</th><th class="bb-num">Credits/mo</th><th>Stripe price</th><th></th></tr></thead>
+        <h2 style="font-size:1.05rem;margin-bottom:var(--bp-3)">Plans</h2>
+        <div class="bp-card bp-card--flush">
+          <div class="bp-table-wrap">
+            <table class="bp-table">
+              <thead><tr><th>Plan</th><th class="bp-num">Price</th><th class="bp-num">Books</th>
+              <th class="bp-num">Creatives/mo</th><th class="bp-num">Credits/mo</th><th>Stripe price</th><th></th></tr></thead>
               <tbody>
                 ${raw(plans.map((plan) => html`<tr data-plan-row="${plan.id}">
                   <td><strong>${plan.name}</strong></td>
-                  <td class="bb-num"><input class="bb-input bb-num" style="width:96px" type="number" min="0" step="1" data-field="price_cents" value="${plan.price_cents}"></td>
-                  <td class="bb-num"><input class="bb-input bb-num" style="width:76px" type="number" min="0" data-field="book_limit" value="${plan.book_limit ?? ""}" placeholder="∞"></td>
-                  <td class="bb-num"><input class="bb-input bb-num" style="width:76px" type="number" min="0" data-field="creative_limit" value="${plan.creative_limit ?? ""}" placeholder="∞"></td>
-                  <td class="bb-num"><input class="bb-input bb-num" style="width:86px" type="number" min="0" data-field="monthly_credits" value="${plan.monthly_credits}"></td>
-                  <td><input class="bb-input" style="width:170px" data-field="stripe_price_id" value="${plan.stripe_price_id || ""}" placeholder="price_…"></td>
-                  <td><button type="button" class="bb-btn bb-btn--secondary bb-btn--sm" data-save-plan="${plan.id}">Save</button></td>
+                  <td class="bp-num"><input class="bp-input bp-num" style="width:96px" type="number" min="0" step="1" data-field="price_cents" value="${plan.price_cents}"></td>
+                  <td class="bp-num"><input class="bp-input bp-num" style="width:76px" type="number" min="0" data-field="book_limit" value="${plan.book_limit ?? ""}" placeholder="∞"></td>
+                  <td class="bp-num"><input class="bp-input bp-num" style="width:76px" type="number" min="0" data-field="creative_limit" value="${plan.creative_limit ?? ""}" placeholder="∞"></td>
+                  <td class="bp-num"><input class="bp-input bp-num" style="width:86px" type="number" min="0" data-field="monthly_credits" value="${plan.monthly_credits}"></td>
+                  <td><input class="bp-input" style="width:170px" data-field="stripe_price_id" value="${plan.stripe_price_id || ""}" placeholder="price_…"></td>
+                  <td><button type="button" class="bp-btn bp-btn--secondary bp-btn--sm" data-save-plan="${plan.id}">Save</button></td>
                 </tr>`).join(""))}
               </tbody>
             </table>
           </div>
         </div>
-        <p class="bb-tiny bb-subtle" style="margin-top:var(--bb-3)">
+        <p class="bp-tiny bp-subtle" style="margin-top:var(--bp-3)">
           Price is in cents. Leave a limit blank for unlimited. A plan can't be bought until its
           Stripe price id is set.
         </p>
       </section>
 
       <section>
-        <h2 style="font-size:1.05rem;margin-bottom:var(--bb-3)">Credit costs</h2>
-        <div class="bb-card bb-card--flush">
-          <div class="bb-table-wrap">
-            <table class="bb-table">
-              <thead><tr><th>Operation</th><th class="bb-num">Credits</th><th></th></tr></thead>
+        <h2 style="font-size:1.05rem;margin-bottom:var(--bp-3)">Credit costs</h2>
+        <div class="bp-card bp-card--flush">
+          <div class="bp-table-wrap">
+            <table class="bp-table">
+              <thead><tr><th>Operation</th><th class="bp-num">Credits</th><th></th></tr></thead>
               <tbody>
                 ${raw(creditCosts.map((cost) => html`<tr data-cost-row="${cost.operation}">
-                  <td>${cost.label}<div class="bb-tiny bb-subtle">${cost.operation}</div></td>
-                  <td class="bb-num"><input class="bb-input bb-num" style="width:76px" type="number" min="0" max="1000" data-field="credits" value="${cost.credits}"></td>
-                  <td><button type="button" class="bb-btn bb-btn--secondary bb-btn--sm" data-save-cost="${cost.operation}">Save</button></td>
+                  <td>${cost.label}<div class="bp-tiny bp-subtle">${cost.operation}</div></td>
+                  <td class="bp-num"><input class="bp-input bp-num" style="width:76px" type="number" min="0" max="1000" data-field="credits" value="${cost.credits}"></td>
+                  <td><button type="button" class="bp-btn bp-btn--secondary bp-btn--sm" data-save-cost="${cost.operation}">Save</button></td>
                 </tr>`).join(""))}
               </tbody>
             </table>
@@ -223,10 +223,10 @@ async function renderPrompts(body, repaint) {
   const anyOverridden = prompts.some((p) => p.overridden);
 
   body.innerHTML = html`
-    <div class="bb-stack">
-      <div class="bb-alert bb-alert--info">
-        <span class="bb-alert__icon">◆</span>
-        <div class="bb-small">
+    <div class="bp-stack">
+      <div class="bp-alert bp-alert--info">
+        <span class="bp-alert__icon">◆</span>
+        <div class="bp-small">
           Prompts ship with the code so a change to what the AI is told shows up in a code review.
           Publishing the defaults copies them into the database, after which edits here take effect
           without a deploy. Every prompt inherits the same advertising-content rules — no invented
@@ -236,24 +236,24 @@ async function renderPrompts(body, repaint) {
       </div>
 
       ${raw(anyOverridden ? "" : `
-        <button type="button" class="bb-btn bb-btn--primary bb-btn--sm" id="publish-defaults" style="align-self:flex-start">
+        <button type="button" class="bp-btn bp-btn--primary bp-btn--sm" id="publish-defaults" style="align-self:flex-start">
           Publish defaults to the editable registry
         </button>`)}
 
-      <div class="bb-card bb-card--flush">
-        <div class="bb-table-wrap">
-          <table class="bb-table">
-            <thead><tr><th>Prompt</th><th>Model</th><th>Effort</th><th class="bb-num">Max tokens</th><th>Source</th><th></th></tr></thead>
+      <div class="bp-card bp-card--flush">
+        <div class="bp-table-wrap">
+          <table class="bp-table">
+            <thead><tr><th>Prompt</th><th>Model</th><th>Effort</th><th class="bp-num">Max tokens</th><th>Source</th><th></th></tr></thead>
             <tbody>
               ${raw(prompts.map((prompt) => html`<tr>
-                <td><strong>${prompt.label}</strong><div class="bb-tiny bb-subtle">${prompt.key}</div></td>
-                <td class="bb-small">${prompt.stored?.model || prompt.model}</td>
-                <td class="bb-small">${prompt.stored?.effort || prompt.effort}</td>
-                <td class="bb-num">${prompt.stored?.max_tokens || prompt.max_tokens}</td>
+                <td><strong>${prompt.label}</strong><div class="bp-tiny bp-subtle">${prompt.key}</div></td>
+                <td class="bp-small">${prompt.stored?.model || prompt.model}</td>
+                <td class="bp-small">${prompt.stored?.effort || prompt.effort}</td>
+                <td class="bp-num">${prompt.stored?.max_tokens || prompt.max_tokens}</td>
                 <td>${prompt.overridden
-                  ? raw('<span class="bb-badge bb-badge--warning">Database override</span>')
-                  : raw('<span class="bb-badge">Bundled default</span>')}</td>
-                <td><button type="button" class="bb-btn bb-btn--secondary bb-btn--sm" data-view="${prompt.key}">View</button></td>
+                  ? raw('<span class="bp-badge bp-badge--warning">Database override</span>')
+                  : raw('<span class="bp-badge">Bundled default</span>')}</td>
+                <td><button type="button" class="bp-btn bp-btn--secondary bp-btn--sm" data-view="${prompt.key}">View</button></td>
               </tr>`).join(""))}
             </tbody>
           </table>
@@ -286,41 +286,41 @@ async function renderPrompts(body, repaint) {
       const prompt = prompts.find((p) => p.key === button.dataset.view);
       const stored = prompt.stored || prompt;
       const { root, close } = openModal(html`
-        <div class="bb-modal__header"><h3>${prompt.label}</h3></div>
-        <div class="bb-field">
-          <label class="bb-label" for="p-system">System prompt</label>
-          <textarea class="bb-textarea" id="p-system" rows="12" ${prompt.overridden ? "" : "readonly"}>${stored.system_prompt}</textarea>
+        <div class="bp-modal__header"><h3>${prompt.label}</h3></div>
+        <div class="bp-field">
+          <label class="bp-label" for="p-system">System prompt</label>
+          <textarea class="bp-textarea" id="p-system" rows="12" ${prompt.overridden ? "" : "readonly"}>${stored.system_prompt}</textarea>
         </div>
-        <div class="bb-field">
-          <label class="bb-label" for="p-user">User template</label>
-          <textarea class="bb-textarea" id="p-user" rows="8" ${prompt.overridden ? "" : "readonly"}>${stored.user_template}</textarea>
+        <div class="bp-field">
+          <label class="bp-label" for="p-user">User template</label>
+          <textarea class="bp-textarea" id="p-user" rows="8" ${prompt.overridden ? "" : "readonly"}>${stored.user_template}</textarea>
         </div>
-        <div class="bb-field-row">
-          <div class="bb-field">
-            <label class="bb-label" for="p-model">Model</label>
-            <select class="bb-select" id="p-model" ${prompt.overridden ? "" : "disabled"}>
+        <div class="bp-field-row">
+          <div class="bp-field">
+            <label class="bp-label" for="p-model">Model</label>
+            <select class="bp-select" id="p-model" ${prompt.overridden ? "" : "disabled"}>
               ${raw(["claude-opus-5", "claude-sonnet-5", "claude-haiku-4-5"].map((m) => html`<option value="${m}">${m}</option>`).join(""))}
             </select>
           </div>
-          <div class="bb-field">
-            <label class="bb-label" for="p-effort">Effort</label>
-            <select class="bb-select" id="p-effort" ${prompt.overridden ? "" : "disabled"}>
+          <div class="bp-field">
+            <label class="bp-label" for="p-effort">Effort</label>
+            <select class="bp-select" id="p-effort" ${prompt.overridden ? "" : "disabled"}>
               ${raw(["low", "medium", "high", "xhigh", "max"].map((e) => html`<option value="${e}">${e}</option>`).join(""))}
             </select>
           </div>
-          <div class="bb-field">
-            <label class="bb-label" for="p-tokens">Max tokens</label>
-            <input class="bb-input" id="p-tokens" type="number" min="512" max="16000" value="${stored.max_tokens}" ${prompt.overridden ? "" : "disabled"}>
+          <div class="bp-field">
+            <label class="bp-label" for="p-tokens">Max tokens</label>
+            <input class="bp-input" id="p-tokens" type="number" min="512" max="16000" value="${stored.max_tokens}" ${prompt.overridden ? "" : "disabled"}>
           </div>
         </div>
         ${prompt.overridden ? "" : `
-          <p class="bb-small bb-muted">
+          <p class="bp-small bp-muted">
             Read-only: this prompt is running from the bundled default. Publish the defaults first to
             make it editable.
           </p>`}
-        <div class="bb-modal__footer">
-          <button type="button" class="bb-btn bb-btn--ghost" data-close>Close</button>
-          ${prompt.overridden ? '<button type="button" class="bb-btn bb-btn--primary" id="save-prompt">Save</button>' : ""}
+        <div class="bp-modal__footer">
+          <button type="button" class="bp-btn bp-btn--ghost" data-close>Close</button>
+          ${prompt.overridden ? '<button type="button" class="bp-btn bp-btn--primary" id="save-prompt">Save</button>' : ""}
         </div>
       `, { wide: true });
 
@@ -353,41 +353,41 @@ async function renderFlags(body) {
   const { flags, settings } = await API.adminSettings();
 
   body.innerHTML = html`
-    <div class="bb-stack-lg">
+    <div class="bp-stack-lg">
       <section>
-        <h2 style="font-size:1.05rem;margin-bottom:var(--bb-3)">Feature flags</h2>
-        <div class="bb-stack-sm">
+        <h2 style="font-size:1.05rem;margin-bottom:var(--bp-3)">Feature flags</h2>
+        <div class="bp-stack-sm">
           ${raw(flags.map((flag) => html`
-            <label class="bb-checkbox ${flag.enabled ? "bb-checkbox--selected" : ""}">
+            <label class="bp-checkbox ${flag.enabled ? "bp-checkbox--selected" : ""}">
               <input type="checkbox" data-flag="${flag.key}" ${flag.enabled ? "checked" : ""}>
-              <span><strong class="bb-small">${fmt.titleCase(flag.key)}</strong><br>
-              <span class="bb-small bb-muted">${flag.description || ""}</span></span>
+              <span><strong class="bp-small">${fmt.titleCase(flag.key)}</strong><br>
+              <span class="bp-small bp-muted">${flag.description || ""}</span></span>
             </label>`).join(""))}
         </div>
-        <p class="bb-tiny bb-subtle" style="margin-top:var(--bb-3)">
+        <p class="bp-tiny bp-subtle" style="margin-top:var(--bp-3)">
           A flag only enables a feature whose credentials are configured on the server. Turning one on
           without them leaves the UI showing "Connect integration" rather than a control that fails.
         </p>
       </section>
 
       <section>
-        <h2 style="font-size:1.05rem;margin-bottom:var(--bb-3)">System settings</h2>
-        <div class="bb-card bb-card--flush">
-          <div class="bb-table-wrap">
-            <table class="bb-table">
+        <h2 style="font-size:1.05rem;margin-bottom:var(--bp-3)">System settings</h2>
+        <div class="bp-card bp-card--flush">
+          <div class="bp-table-wrap">
+            <table class="bp-table">
               <thead><tr><th>Key</th><th>Value</th><th></th></tr></thead>
               <tbody>
                 ${raw(settings.map((setting) => html`<tr data-setting-row="${setting.key}">
-                  <td><code class="bb-mono">${setting.key}</code></td>
-                  <td><input class="bb-input" data-field="value" value="${JSON.stringify(setting.value)}"></td>
-                  <td><button type="button" class="bb-btn bb-btn--secondary bb-btn--sm" data-save-setting="${setting.key}">Save</button></td>
+                  <td><code class="bp-mono">${setting.key}</code></td>
+                  <td><input class="bp-input" data-field="value" value="${JSON.stringify(setting.value)}"></td>
+                  <td><button type="button" class="bp-btn bp-btn--secondary bp-btn--sm" data-save-setting="${setting.key}">Save</button></td>
                 </tr>`).join(""))}
               </tbody>
             </table>
           </div>
         </div>
-        <p class="bb-tiny bb-subtle" style="margin-top:var(--bb-3)">
-          Values are JSON. <code class="bb-mono">ai_model</code> only accepts a model the server
+        <p class="bp-tiny bp-subtle" style="margin-top:var(--bp-3)">
+          Values are JSON. <code class="bp-mono">ai_model</code> only accepts a model the server
           allows; anything else falls back to the default rather than failing every generation.
         </p>
       </section>
@@ -398,7 +398,7 @@ async function renderFlags(body) {
     input.addEventListener("change", async () => {
       try {
         await API.adminUpdateFlag(input.dataset.flag, input.checked);
-        input.closest("label").classList.toggle("bb-checkbox--selected", input.checked);
+        input.closest("label").classList.toggle("bp-checkbox--selected", input.checked);
         notify.success("Flag updated.");
       } catch (err) {
         input.checked = !input.checked;

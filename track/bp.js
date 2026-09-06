@@ -1,13 +1,13 @@
 /*!
- * BookBoost AI — website tracking (spec §17)
+ * BookPilot AI — website tracking (spec §17)
  *
  * Install on your own site:
- *   <script async src="https://…/track/bb.js" data-key="bb_…"></script>
+ *   <script async src="https://…/track/bp.js" data-key="bb_…"></script>
  *
  * Then record a sale on your thank-you page:
- *   bookboost('purchase', { value: 8.99, currency: 'EUR', id: 'order-123' });
+ *   bookpilot('purchase', { value: 8.99, currency: 'EUR', id: 'order-123' });
  *
- * What this collects: which BookBoost campaign and creative sent the
+ * What this collects: which BookPilot campaign and creative sent the
  * visitor (from the UTM parameters on the ad link), which of five event
  * types happened, and the order value on a purchase.
  *
@@ -18,9 +18,9 @@
  * the tab and is never linked to a person.
  *
  * Consent: if your cookie or consent policy requires it, set
- *   window.bookboostConsent = false
+ *   window.bookpilotConsent = false
  * before this script loads and nothing is sent until you set it to true
- * and call bookboost('page_view'). You are the controller of your
+ * and call bookpilot('page_view'). You are the controller of your
  * visitors' data on your own site; this is a tool, not legal advice.
  */
 (function () {
@@ -34,20 +34,20 @@
 
   var key = script && script.getAttribute("data-key");
   if (!key) {
-    if (window.console) console.warn("[bookboost] tracking script has no data-key; nothing will be sent.");
+    if (window.console) console.warn("[bookpilot] tracking script has no data-key; nothing will be sent.");
     return;
   }
 
   var endpoint = (script.getAttribute("data-endpoint") ||
-    new URL(script.src, location.href).origin + "/api/bb-track");
+    new URL(script.src, location.href).origin + "/api/bp-track");
 
-  var STORAGE_UTM = "bb.utm";
-  var STORAGE_SESSION = "bb.sid";
+  var STORAGE_UTM = "bp.utm";
+  var STORAGE_SESSION = "bp.sid";
 
   function consented() {
     // Undefined means "no gate configured", which is the default for
     // sites that don't need one. An explicit false blocks everything.
-    return window.bookboostConsent !== false;
+    return window.bookpilotConsent !== false;
   }
 
   function readStore(name) {
@@ -160,11 +160,11 @@
   }
 
   // Public API. Any calls queued before the script loaded are replayed.
-  var queue = window.bookboost && window.bookboost.q;
-  window.bookboost = function (type, options) {
+  var queue = window.bookpilot && window.bookpilot.q;
+  window.bookpilot = function (type, options) {
     send(type, options);
   };
-  window.bookboost.version = "1.0.0";
+  window.bookpilot.version = "1.0.0";
 
   if (queue && queue.length) {
     for (var i = 0; i < queue.length; i += 1) {
@@ -176,7 +176,7 @@
     }
   }
 
-  // Automatic page view. Only counted when the visit carries BookBoost
+  // Automatic page view. Only counted when the visit carries BookPilot
   // attribution, so a site's ordinary traffic is not collected at all.
   var attribution = utm();
   if (attribution.campaign || attribution.content || attribution.source) {

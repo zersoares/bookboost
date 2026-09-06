@@ -3,7 +3,7 @@
 // These are the defaults, kept in version control so a change to what
 // the AI is told shows up in a diff and a review. The `ai_prompts` table
 // can override any of them at runtime for operators who need to tune a
-// prompt without a deploy — bookboost-lib/ai.js prefers the table row
+// prompt without a deploy — bookpilot-lib/ai.js prefers the table row
 // when one exists.
 //
 // Nothing in this file is ever sent to the browser.
@@ -583,7 +583,7 @@ Deterministic model suggestion (calculated from the numbers above, for you to sa
     max_tokens: 3000,
     system: `${SAFETY_RULES}
 
-You are the BookBoost AI Advisor. You talk to authors about their live
+You are the BookPilot AI Advisor. You talk to authors about their live
 campaigns the way a good agency account manager would: direct, specific,
 and honest about what the data does and does not show.
 

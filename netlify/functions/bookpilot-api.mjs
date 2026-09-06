@@ -1,24 +1,24 @@
-// BookBoost AI — core API.
+// BookPilot AI — core API.
 //
-//   /api/bb/*
+//   /api/bp/*
 //
 // Every route that touches a user's data goes through authenticate(),
 // which returns a database client signed with that user's own JWT. The
-// RLS policies in bookboost/sql/002_rls.sql are therefore the boundary:
+// RLS policies in bookpilot/sql/002_rls.sql are therefore the boundary:
 // even a mistake in a filter below cannot return another account's rows.
 
-import { withGuards, json, readJson, pathSegments } from "./bookboost-lib/http.js";
-import { authenticate } from "./bookboost-lib/auth.js";
-import { dbAsService } from "./bookboost-lib/db.js";
-import { Errors } from "./bookboost-lib/errors.js";
-import { capabilities, env } from "./bookboost-lib/env.js";
-import { memoryLimit } from "./bookboost-lib/ratelimit.js";
-import * as v from "./bookboost-lib/validate.js";
-import { planFor, assertCanAddBook, creditCosts } from "./bookboost-lib/credits.js";
-import { deriveMetrics, confidenceLevel } from "./bookboost-lib/metrics.js";
-import * as audit from "./bookboost-lib/audit.js";
+import { withGuards, json, readJson, pathSegments } from "./bookpilot-lib/http.js";
+import { authenticate } from "./bookpilot-lib/auth.js";
+import { dbAsService } from "./bookpilot-lib/db.js";
+import { Errors } from "./bookpilot-lib/errors.js";
+import { capabilities, env } from "./bookpilot-lib/env.js";
+import { memoryLimit } from "./bookpilot-lib/ratelimit.js";
+import * as v from "./bookpilot-lib/validate.js";
+import { planFor, assertCanAddBook, creditCosts } from "./bookpilot-lib/credits.js";
+import { deriveMetrics, confidenceLevel } from "./bookpilot-lib/metrics.js";
+import * as audit from "./bookpilot-lib/audit.js";
 
-const PREFIX = "/api/bb";
+const PREFIX = "/api/bp";
 
 // ---------------------------------------------------------------------
 // Public: what this deployment can actually do
@@ -165,7 +165,7 @@ async function handleExport(ctx) {
 
   return json({
     exported_at: new Date().toISOString(),
-    format: "BookBoost AI account export v1",
+    format: "BookPilot AI account export v1",
     profile: ctx.profile,
     books,
     book_analysis: analysis,
@@ -202,7 +202,7 @@ async function handleDeleteAccount(ctx, body) {
       },
     });
   } catch (err) {
-    console.error("[bookboost] auth user deletion failed:", err);
+    console.error("[bookpilot] auth user deletion failed:", err);
   }
 
   await audit.record(null, "account.deleted", { entity: "profile" });
@@ -781,4 +781,4 @@ export default withGuards(async (req) => {
   throw Errors.notFound("endpoint");
 });
 
-export const config = { path: "/api/bb/*" };
+export const config = { path: "/api/bp/*" };

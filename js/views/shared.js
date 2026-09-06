@@ -6,45 +6,45 @@ import { isDemo } from "../core/api.js";
 
 export function pageHead({ title, description, actions = "" }) {
   return html`
-    <div class="bb-page-head">
+    <div class="bp-page-head">
       <div>
         <h1>${title}</h1>
         ${description ? raw(html`<p>${description}</p>`) : ""}
       </div>
-      <div class="bb-row">${raw(actions)}</div>
+      <div class="bp-row">${raw(actions)}</div>
     </div>
   `;
 }
 
 export function demoBadge() {
-  return isDemo() ? '<span class="bb-demo-badge">Demo data</span>' : "";
+  return isDemo() ? '<span class="bp-demo-badge">Demo data</span>' : "";
 }
 
 export function emptyState({ icon = "◇", title, text, action = "" }) {
   return html`
-    <div class="bb-empty">
-      <div class="bb-empty__icon">${icon}</div>
-      <div class="bb-empty__title">${title}</div>
-      <p class="bb-empty__text">${text}</p>
+    <div class="bp-empty">
+      <div class="bp-empty__icon">${icon}</div>
+      <div class="bp-empty__title">${title}</div>
+      <p class="bp-empty__text">${text}</p>
       ${raw(action)}
     </div>
   `;
 }
 
 export function loading(rows = 3) {
-  return `<div class="bb-loading">${
-    Array.from({ length: rows }, () => '<div class="bb-skeleton bb-loading__row"></div>').join("")
+  return `<div class="bp-loading">${
+    Array.from({ length: rows }, () => '<div class="bp-skeleton bp-loading__row"></div>').join("")
   }</div>`;
 }
 
 export function errorBox(message, retryAction = "") {
   return html`
-    <div class="bb-alert bb-alert--danger">
-      <span class="bb-alert__icon">!</span>
+    <div class="bp-alert bp-alert--danger">
+      <span class="bp-alert__icon">!</span>
       <div>
-        <div class="bb-alert__title">That didn't work</div>
+        <div class="bp-alert__title">That didn't work</div>
         <div>${message}</div>
-        ${retryAction ? raw(`<div style="margin-top:var(--bb-3)">${retryAction}</div>`) : ""}
+        ${retryAction ? raw(`<div style="margin-top:var(--bp-3)">${retryAction}</div>`) : ""}
       </div>
     </div>
   `;
@@ -53,14 +53,14 @@ export function errorBox(message, retryAction = "") {
 export function cover(book, { className = "" } = {}) {
   const url = safeUrl(book?.cover_url);
   if (url) {
-    return html`<img class="bb-cover ${className}" src="${url}" alt="Cover of ${book.title}" loading="lazy">`;
+    return html`<img class="bp-cover ${className}" src="${url}" alt="Cover of ${book.title}" loading="lazy">`;
   }
-  return html`<div class="bb-cover bb-cover--placeholder ${className}" aria-hidden="true">${book?.title || "No cover"}</div>`;
+  return html`<div class="bp-cover bp-cover--placeholder ${className}" aria-hidden="true">${book?.title || "No cover"}</div>`;
 }
 
 export function statusBadge(status) {
   const tone = fmt.statusTone(status);
-  return html`<span class="bb-badge ${tone ? `bb-badge--${tone}` : ""}">${fmt.titleCase(status)}</span>`;
+  return html`<span class="bp-badge ${tone ? `bp-badge--${tone}` : ""}">${fmt.titleCase(status)}</span>`;
 }
 
 /**
@@ -69,10 +69,10 @@ export function statusBadge(status) {
  */
 export function scoreBadge(score) {
   if (score === null || score === undefined) {
-    return '<span class="bb-badge">Not scored</span>';
+    return '<span class="bp-badge">Not scored</span>';
   }
-  return html`<span class="bb-badge bb-badge--${fmt.scoreTone(score)}" title="Predicted creative quality, not a prediction of sales">
-    <span class="bb-score"><b>${score}</b>/100</span>
+  return html`<span class="bp-badge bp-badge--${fmt.scoreTone(score)}" title="Predicted creative quality, not a prediction of sales">
+    <span class="bp-score"><b>${score}</b>/100</span>
   </span>`;
 }
 
@@ -85,7 +85,7 @@ const CONFIDENCE_LABEL = {
 
 export function confidenceBadge(level) {
   const [label, tone] = CONFIDENCE_LABEL[level] || CONFIDENCE_LABEL.insufficient;
-  return html`<span class="bb-badge ${tone ? `bb-badge--${tone}` : ""}">${label}</span>`;
+  return html`<span class="bp-badge ${tone ? `bp-badge--${tone}` : ""}">${label}</span>`;
 }
 
 /**
@@ -98,9 +98,9 @@ export function confidenceBadge(level) {
 export function statGrid(metrics, currency = "EUR") {
   if (!metrics || !metrics.hasData) {
     return html`
-      <div class="bb-panel bb-center">
+      <div class="bp-panel bp-center">
         <strong>Not enough data yet</strong>
-        <p class="bb-small bb-muted" style="margin:6px 0 0">
+        <p class="bp-small bp-muted" style="margin:6px 0 0">
           Numbers appear here once a campaign has been delivering for a day or two.
         </p>
       </div>
@@ -108,15 +108,15 @@ export function statGrid(metrics, currency = "EUR") {
   }
 
   const stat = (label, value, meta = "") => html`
-    <div class="bb-stat">
-      <div class="bb-stat__label">${label}</div>
-      <div class="bb-stat__value ${value === "N/A" ? "bb-stat__value--na" : ""}">${value}</div>
-      ${meta ? raw(html`<div class="bb-stat__meta">${meta}</div>`) : ""}
+    <div class="bp-stat">
+      <div class="bp-stat__label">${label}</div>
+      <div class="bp-stat__value ${value === "N/A" ? "bp-stat__value--na" : ""}">${value}</div>
+      ${meta ? raw(html`<div class="bp-stat__meta">${meta}</div>`) : ""}
     </div>
   `;
 
   return html`
-    <div class="bb-stat-grid bb-stat-grid--quad">
+    <div class="bp-stat-grid bp-stat-grid--quad">
       ${raw(stat("Sales", fmt.number(metrics.conversions)))}
       ${raw(stat("Revenue", fmt.money(metrics.revenueCents, currency)))}
       ${raw(stat("Ad spend", fmt.money(metrics.spendCents, currency)))}
@@ -133,7 +133,7 @@ export function statGrid(metrics, currency = "EUR") {
 export function bullets(items, { limit = 8 } = {}) {
   const list = (items || []).filter(Boolean).slice(0, limit);
   if (!list.length) return "";
-  return `<ul class="bb-small bb-muted" style="padding-left:1.05rem;margin:0">${
+  return `<ul class="bp-small bp-muted" style="padding-left:1.05rem;margin:0">${
     list.map((item) => html`<li>${item}</li>`).join("")
   }</ul>`;
 }
@@ -141,7 +141,7 @@ export function bullets(items, { limit = 8 } = {}) {
 export function chips(items, { limit = 8 } = {}) {
   const list = (items || []).filter(Boolean).slice(0, limit);
   if (!list.length) return "";
-  return `<div class="bb-chips">${list.map((item) => html`<span class="bb-chip">${item}</span>`).join("")}</div>`;
+  return `<div class="bp-chips">${list.map((item) => html`<span class="bp-chip">${item}</span>`).join("")}</div>`;
 }
 
 /** Turns a plain-text paragraph block into safe HTML paragraphs. */
