@@ -31,17 +31,22 @@
 }
 .bp-logo:hover { text-decoration: none; }
 .bp-logo__mark {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-block;
   width: 26px;
   height: 26px;
-  border-radius: 7px;
-  background: var(--bp-primary);
-  color: var(--bp-text-inverse);
-  font-family: var(--bp-font-sans);
-  font-size: 0.82rem;
-  font-weight: 700;
+  background: url('/assets/brand/logo-mark.svg') center / contain no-repeat;
+}
+/* The mark is two-tone, so it cannot be recoloured with currentColor:
+   the dark theme gets its own artwork, following the same selector
+   pair the tokens use — media query for "system", attribute for an
+   explicit choice. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .bp-logo__mark {
+    background-image: url('/assets/brand/logo-mark-dark.svg');
+  }
+}
+:root[data-theme='dark'] .bp-logo__mark {
+  background-image: url('/assets/brand/logo-mark-dark.svg');
 }
 .bp-logo__ai {
   font-family: var(--bp-font-sans);
