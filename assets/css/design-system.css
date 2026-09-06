@@ -852,10 +852,18 @@ hr {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--bb-3);
+  /* Padding scales with the cover so the smallest one (the 76px hero
+     thumbnail) is not mostly padding. */
+  padding: 6%;
   text-align: center;
   font-family: var(--bb-font-serif);
-  font-size: 0.86rem;
+  font-size: 0.78rem;
   color: var(--bb-text-subtle);
-  line-height: 1.35;
+  line-height: 1.25;
+  /* The title is author-supplied and the box is narrow, so a single long
+     word can be wider than the cover. Break it rather than letting it
+     spill over the artwork beside it, and clip whatever still will not
+     fit — centred flex content overflows both edges, not just the end. */
+  overflow: hidden;
+  overflow-wrap: anywhere;
 }
