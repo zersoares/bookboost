@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cookie policy — BookBoost AI</title>
+<meta name="description" content="What BookBoost AI stores in your browser, and what the tracking script stores in your readers'.">
+<link rel="icon" href="/favicon.ico">
+<link rel="stylesheet" href="/fonts/fonts.css">
+<link rel="stylesheet" href="/assets/css/design-system.css">
+<link rel="stylesheet" href="/assets/css/landing.css">
+<script>
+  try {
+    var t = localStorage.getItem('bookboost.theme');
+    if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+</script>
+<style>
+  .bb-legal { max-width: 760px; margin: 0 auto; padding: var(--bb-12) var(--bb-6) var(--bb-20); }
+  .bb-legal h2 { font-size: 1.25rem; margin: var(--bb-10) 0 var(--bb-3); }
+  .bb-legal h3 { font-size: 1rem; margin: var(--bb-6) 0 var(--bb-2); }
+  .bb-legal p, .bb-legal li { color: var(--bb-text-muted); }
+  .bb-legal ul { padding-left: 1.15rem; margin: 0 0 var(--bb-4); }
+  .bb-legal li { padding: 3px 0; }
+  .bb-legal table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-bottom: var(--bb-4); }
+  .bb-legal th, .bb-legal td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--bb-border); vertical-align: top; }
+  .bb-legal th { font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--bb-text-subtle); }
+  .bb-placeholder { background: var(--bb-warning-soft); border-bottom: 1px dashed var(--bb-warning); padding: 0 3px; color: var(--bb-warning); }
+</style>
+</head>
+<body>
+<a class="bb-skip-link" href="#main">Skip to content</a>
+<header class="bb-nav">
+  <div class="bb-nav__inner">
+    <a class="bb-logo" href="/"><span class="bb-logo__mark">B</span> BookBoost <span class="bb-logo__ai">AI</span></a>
+    <nav class="bb-nav__links" aria-label="Legal">
+      <a class="bb-nav__link" href="/privacy.html">Privacy</a>
+      <a class="bb-nav__link" href="/terms.html">Terms</a>
+      <a class="bb-nav__link" href="/cookies.html">Cookies</a>
+    </nav>
+    <div class="bb-nav__actions">
+      <a class="bb-btn bb-btn--ghost bb-btn--sm" href="/">Product</a>
+      <a class="bb-btn bb-btn--primary bb-btn--sm" href="/app.html#/signup">Start free</a>
+    </div>
+  </div>
+</header>
+<main id="main" class="bb-legal">
+  <p class="bb-eyebrow">Legal</p>
+  <h1 class="bb-display" style="font-size:2.1rem;margin:var(--bb-2) 0 var(--bb-3)">Cookie policy</h1>
+  <p class="bb-lead">No advertising cookies, no tracking cookies. Here is everything that is stored, and where.</p>
+  <p class="bb-small bb-subtle">Version 1.0 · Last updated January 2026</p>
+
+  <div class="bb-alert bb-alert--warning" style="margin:var(--bb-6) 0">
+    <span class="bb-alert__icon">!</span>
+    <div>
+      <div class="bb-alert__title">Complete before launch</div>
+      <div class="bb-small">
+        This document describes how the BookBoost AI software actually handles data, and it is
+        written to be usable — but the highlighted fields must be filled in with the operating
+        company's real details, and the whole document reviewed by a qualified adviser, before the
+        service is offered to the public. BookBoost AI does not provide legal advice.
+      </div>
+    </div>
+  </div>
+
+
+  <h2>The short version</h2>
+  <p>
+    BookBoost AI sets no advertising cookies and no tracking cookies. What it stores in your browser
+    is what an application needs to work: your session, and your theme choice.
+  </p>
+
+  <h2>What BookBoost stores on your device</h2>
+  <table>
+    <thead><tr><th>Name</th><th>Type</th><th>Purpose</th><th>Lifetime</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><code class="bb-mono">bookboost.session</code></td>
+        <td>localStorage</td>
+        <td>Keeps you signed in. Strictly necessary — without it you would have to sign in on every page.</td>
+        <td>Until you sign out</td>
+      </tr>
+      <tr>
+        <td><code class="bb-mono">bookboost.theme</code></td>
+        <td>localStorage</td>
+        <td>Remembers whether you chose light or dark. Only written if you use the toggle.</td>
+        <td>Until you clear site data</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    Both are strictly necessary or set on your own action, which is why the app does not show a
+    consent banner for them. Neither is readable by any other site, and neither is sent to us for
+    analysis.
+  </p>
+  <p>
+    We do not currently load a third-party product analytics tool. If that changes, it will appear in
+    this table, it will be gated behind the analytics toggle in Settings, and it will be off unless
+    you switch it on.
+  </p>
+
+  <h2>The tracking script on your own website</h2>
+  <p>
+    This is the part that needs your attention as a site owner. The BookBoost tracking script
+    (<code class="bb-mono">bb.js</code>) sets <strong>no cookies at all</strong>. It stores two values
+    in <code class="bb-mono">sessionStorage</code>, which is emptied when the visitor closes the tab:
+  </p>
+  <table>
+    <thead><tr><th>Name</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td><code class="bb-mono">bb.utm</code></td><td>The campaign parameters from the ad link, so a purchase several pages later can be attributed to the ad that produced it.</td></tr>
+      <tr><td><code class="bb-mono">bb.sid</code></td><td>A random value that ties a visit's events together. It is not linked to a person and does not survive the tab.</td></tr>
+    </tbody>
+  </table>
+  <p>
+    It records no IP address, no user agent, no device identifier, no referrer and no page content.
+    Even so, storing information on a visitor's device is regulated in the EU under the ePrivacy
+    rules regardless of whether it is technically a cookie, and whether an exemption applies depends
+    on your setup and your national regulator's position.
+  </p>
+  <p>
+    So the script gives you a gate. Set <code class="bb-mono">window.bookboostConsent = false</code>
+    before it loads and it sends nothing; set it to <code class="bb-mono">true</code> after your
+    consent tool records a choice, and call
+    <code class="bb-mono">bookboost('page_view')</code>. Whether you need that gate is your decision
+    as the controller of your site, and one worth taking advice on.
+  </p>
+
+  <h2>Managing storage</h2>
+  <p>
+    Your browser can clear or block site data for any site, including this one. Blocking it for
+    BookBoost means you will be asked to sign in more often and your theme choice will not be
+    remembered; nothing else in the product depends on it.
+  </p>
+
+  <h2>Related</h2>
+  <p>
+    What we do with the data itself is in the <a href="/privacy.html">privacy policy</a>.
+  </p>
+
+
+</main>
+<footer class="bb-footer">
+  <div class="bb-footer__legal">
+    <div class="bb-footer__legal-inner">
+      <span>© <span id="year">2026</span> BookBoost AI</span>
+      <span>
+        <a href="/privacy.html">Privacy</a> ·
+        <a href="/terms.html">Terms</a> ·
+        <a href="/cookies.html">Cookies</a>
+      </span>
+    </div>
+  </div>
+</footer>
+<script>document.getElementById('year').textContent = String(new Date().getFullYear());</script>
+</body>
+</html>
