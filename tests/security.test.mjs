@@ -9,10 +9,11 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { html, raw, safeUrl } from "../js/core/dom.js";
 import { PROMPTS, SAFETY_RULES } from "../netlify/functions/bookboost-lib/prompts.js";
 
-const ROOT = new URL("../", import.meta.url).pathname;
+const ROOT = fileURLToPath(new URL("../", import.meta.url));
 const read = (p) => readFileSync(join(ROOT, p), "utf8");
 
 const schema = read("sql/001_schema.sql");
