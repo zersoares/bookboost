@@ -110,7 +110,7 @@ function stepBook(container) {
     3,
     `Add your ${noun}`,
     "The description matters most — it's what the analysis reads. Paste the one from your sales page.",
-    `<form id="book-form" class="bp-card">
+    html`<form id="book-form" class="bp-card">
        <div class="bp-field">
          <label class="bp-label" for="title">Title</label>
          <input class="bp-input" id="title" name="title" required maxlength="300">
