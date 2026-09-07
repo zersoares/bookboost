@@ -7,6 +7,7 @@ import { notify, confirmDialog, openModal } from "../core/toast.js";
 import { navigate } from "../core/router.js";
 import { refreshAccount } from "../core/session.js";
 import { FORMATS, PLATFORMS } from "./options.js";
+import { CREATIVE_TEMPLATES, creativeFromTemplate } from "./creative-templates.js";
 import { pageHead, emptyState, scoreBadge, fmt, demoBadge, loading, bullets } from "./shared.js";
 
 const FORMAT_LABEL = Object.fromEntries(FORMATS.map((f) => [f.value, f.label]));
@@ -31,6 +32,8 @@ export async function renderLibrary(container, params, query) {
         text: "Pick an angle and BookPilot will write the copy and art-direct the visual.",
         action: books.length
           ? '<a class="bp-btn bp-btn--primary" href="#/creatives/new">Create ads</a>'
+            + '<a class="bp-btn bp-btn--secondary" href="#/creatives/templates" '
+            + 'style="margin-left:var(--bp-2)">Start from a template</a>'
           : '<a class="bp-btn bp-btn--primary" href="#/books/new">Add a book first</a>',
       });
     return;
@@ -41,7 +44,8 @@ export async function renderLibrary(container, params, query) {
     ${raw(pageHead({
       title: "Creative library",
       description: "Filter, preview, score, duplicate — then put the good ones in a campaign.",
-      actions: `${demoBadge()}<a class="bp-btn bp-btn--primary" href="#/creatives/new">Create ads</a>`,
+      actions: `${demoBadge()}<a class="bp-btn bp-btn--secondary" href="#/creatives/templates">Templates</a>`
+        + `<a class="bp-btn bp-btn--primary" href="#/creatives/new" style="margin-left:var(--bp-2)">Create ads</a>`,
     }))}
 
     <div class="bp-row bp-row--wrap" style="margin-bottom:var(--bp-5);gap:var(--bp-2)">
@@ -581,4 +585,81 @@ function downloadCreative(creative, book) {
   link.download = `bookpilot-creative-${creative.id.slice(0, 8)}.txt`;
   link.click();
   URL.revokeObjectURL(url);
+}
+
+// ---------------------------------------------------------------------
+// Starter templates (spec §13 — the empty-library path)
+// ---------------------------------------------------------------------
+
+/**
+ * A gallery of ad structures that write a draft creative directly. No
+ * generation, no credits: the draft opens in the editor pre-filled from
+ * the book, with bracketed gaps where only the author can decide.
+ */
+export async function renderTemplates(container, params, query) {
+  const { books } = await API.books();
+  store.set({ books });
+
+  if (!books.length) {
+    container.innerHTML =
+      pageHead({ title: "Templates", description: "Ready-made ad structures, filled in from your book." }) +
+      emptyState({
+        icon: "◇",
+        title: "Add a book first",
+        text: "Templates pull the title, subtitle, price and description straight from the book they are for.",
+        action: '<a class="bp-btn bp-btn--primary" href="#/books/new">Add a book</a>',
+      });
+    return;
+  }
+
+  const preselected = query?.get("book") || books[0].id;
+
+  container.innerHTML = html`
+    ${raw(pageHead({
+      title: "Templates",
+      description: "Proven ad structures, pre-filled from your book. No AI credits are spent — pick one and edit it.",
+      actions: `${demoBadge()}<a class="bp-btn bp-btn--secondary" href="#/creatives">Back to library</a>`,
+    }))}
+
+    <div class="bp-row bp-row--wrap" style="margin-bottom:var(--bp-5);gap:var(--bp-2);align-items:center">
+      <label class="bp-label" for="template-book" style="margin:0">Book</label>
+      <select class="bp-select" id="template-book" style="width:auto">
+        ${raw(books.map((b) => html`<option value="${b.id}" ${b.id === preselected ? "selected" : ""}>${b.title}</option>`).join(""))}
+      </select>
+    </div>
+
+    <div class="bp-grid bp-grid--cards">
+      ${raw(CREATIVE_TEMPLATES.map((t) => html`
+        <article class="bp-card">
+          <div class="bp-row" style="justify-content:space-between;align-items:flex-start;gap:var(--bp-2)">
+            <h3 style="margin:0;font-size:1.02rem">${t.name}</h3>
+            <span class="bp-badge">${FORMAT_LABEL[t.format] || t.format}</span>
+          </div>
+          <p class="bp-small bp-subtle" style="margin:var(--bp-2) 0 var(--bp-4)">${t.blurb}</p>
+          <button type="button" class="bp-btn bp-btn--secondary bp-btn--sm" data-template="${t.id}">
+            Use this template
+          </button>
+        </article>`).join(""))}
+    </div>
+  `;
+
+  container.querySelectorAll("[data-template]").forEach((button) => {
+    button.addEventListener("click", async (event) => {
+      const template = CREATIVE_TEMPLATES.find((t) => t.id === button.dataset.template);
+      const book = books.find((b) => b.id === $("#template-book").value);
+      if (!template || !book) return;
+
+      const btn = event.currentTarget;
+      setBusy(btn, true, "Creating…");
+      try {
+        const { creative } = await API.createCreative(creativeFromTemplate(template, book));
+        notify.success("Draft created from template.");
+        navigate(`/creatives/${creative.id}`);
+      } catch (error) {
+        notify.error(error.message || "Could not create the draft.");
+      } finally {
+        setBusy(btn, false);
+      }
+    });
+  });
 }

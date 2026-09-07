@@ -344,6 +344,7 @@ function registerRoutes() {
 
   router.register("/creatives", view("Creative library", creativesView.renderLibrary));
   router.register("/creatives/new", view("Create ads", creativesView.renderFactory));
+  router.register("/creatives/templates", view("Templates", creativesView.renderTemplates));
   router.register("/creatives/:id", view("Creative", creativesView.renderDetail));
 
   router.register("/campaigns", view("Campaigns", campaignsView.renderList));
