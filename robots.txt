@@ -1,0 +1,18 @@
+# BookPilot AI — https://bookpilot.org
+
+User-agent: *
+Allow: /
+
+# The workspace is a private application, not content. It already sends
+# X-Robots-Tag: noindex, nofollow; this stops the crawl one step earlier.
+Disallow: /app.html
+
+# Serverless endpoints. Crawling them indexes nothing and bills a
+# function invocation per request.
+Disallow: /api/
+
+# Version-controlled documentation, deliberately not served (netlify.toml
+# returns 404 for it).
+Disallow: /sql/
+
+Sitemap: https://bookpilot.org/sitemap.xml
