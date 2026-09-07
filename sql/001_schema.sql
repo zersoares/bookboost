@@ -548,7 +548,7 @@ create index if not exists audit_log_user_idx on public.audit_log(user_id, creat
 -- Triggers
 -- ---------------------------------------------------------------------
 
-create or replace function public.bb_touch_updated_at()
+create or replace function public.bp_touch_updated_at()
 returns trigger
 language plpgsql
 as $$
@@ -566,16 +566,16 @@ begin
   ]
   loop
     execute format(
-      'drop trigger if exists bb_touch_%1$s on public.%1$s;
-       create trigger bb_touch_%1$s before update on public.%1$s
-       for each row execute function public.bb_touch_updated_at();', t);
+      'drop trigger if exists bp_touch_%1$s on public.%1$s;
+       create trigger bp_touch_%1$s before update on public.%1$s
+       for each row execute function public.bp_touch_updated_at();', t);
   end loop;
 end;
 $$;
 
 -- A profile row must exist the moment a user signs up, otherwise the
 -- first API call after signup has nothing to read.
-create or replace function public.bb_handle_new_user()
+create or replace function public.bp_handle_new_user()
 returns trigger
 language plpgsql
 security definer
@@ -593,7 +593,7 @@ begin
 end;
 $$;
 
-drop trigger if exists bb_on_auth_user_created on auth.users;
-create trigger bb_on_auth_user_created
+drop trigger if exists bp_on_auth_user_created on auth.users;
+create trigger bp_on_auth_user_created
   after insert on auth.users
-  for each row execute function public.bb_handle_new_user();
+  for each row execute function public.bp_handle_new_user();

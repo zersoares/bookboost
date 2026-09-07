@@ -66,7 +66,7 @@ function freshState() {
       id: "d0000000-0000-4000-8000-000000000701",
       name: "Author website (demo)",
       domain: "example.com",
-      public_key: "bb_demo000000000000000000000000000",
+      public_key: "bp_demo000000000000000000000000000",
       is_active: true,
       created_at: "2026-01-10T10:00:00.000Z",
     }],
@@ -408,7 +408,7 @@ async function handle(method, path, body) {
     if (resource === "tracking-sites") {
       if (method === "GET") return { sites: state.trackingSites };
       if (method === "POST") {
-        const site = { ...body, id: uid(), public_key: `bb_demo${Math.random().toString(16).slice(2, 12)}`,
+        const site = { ...body, id: uid(), public_key: `bp_demo${Math.random().toString(16).slice(2, 12)}`,
           is_active: true, created_at: new Date().toISOString() };
         state.trackingSites.push(site);
         return { site };

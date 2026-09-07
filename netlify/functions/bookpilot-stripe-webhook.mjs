@@ -28,7 +28,7 @@ async function applyPlan(userId, planId, subscription) {
     },
     { onConflict: "user_id", returning: false }
   );
-  await service.rpc("bb_apply_plan", { p_user: userId, p_plan: planId });
+  await service.rpc("bp_apply_plan", { p_user: userId, p_plan: planId });
   await service.insert(
     "notifications",
     {
@@ -46,7 +46,7 @@ async function applyPlan(userId, planId, subscription) {
 async function downgrade(userId, reason) {
   const service = dbAsService();
   await service.update("subscriptions", { status: reason }, { eq: { user_id: userId } });
-  await service.rpc("bb_apply_plan", { p_user: userId, p_plan: "free" });
+  await service.rpc("bp_apply_plan", { p_user: userId, p_plan: "free" });
   await service.insert(
     "notifications",
     {

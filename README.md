@@ -172,7 +172,7 @@ The service-role key bypasses RLS, so its use is deliberately narrow:
 
 | Use | Why it cannot use the caller's token |
 |---|---|
-| Credit accounting (`bb_consume_credits`) | Users must not be able to change their own balance |
+| Credit accounting (`bp_consume_credits`) | Users must not be able to change their own balance |
 | Stripe webhook | No user session exists on a webhook |
 | Tracking collector | Authenticates a *site key*, not a signed-in user |
 | Writing `performance_metrics` | Clients have SELECT only, so results can't be fabricated |

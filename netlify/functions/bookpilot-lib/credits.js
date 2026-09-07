@@ -1,7 +1,7 @@
 // AI credits and plan limits (spec §29, §30).
 //
 // Costs live in the `credit_costs` table so an operator can retune them
-// without a deploy. The actual spend goes through the bb_consume_credits
+// without a deploy. The actual spend goes through the bp_consume_credits
 // database function, which does the balance check and the decrement in
 // one statement — see bookpilot/sql/004_functions.sql for why that
 // matters.
@@ -66,7 +66,7 @@ export async function charge(userId, operation, { bookId = null, model = null, a
 
   const service = dbAsService();
   try {
-    const remaining = await service.rpc("bb_consume_credits", {
+    const remaining = await service.rpc("bp_consume_credits", {
       p_user: userId,
       p_operation: operation,
       p_credits: credits,
@@ -76,7 +76,7 @@ export async function charge(userId, operation, { bookId = null, model = null, a
     return { credits, remaining: typeof remaining === "number" ? remaining : null };
   } catch (err) {
     if (err instanceof AppError && err.code === "database_error") {
-      // bb_consume_credits raises `insufficient_credits` when the
+      // bp_consume_credits raises `insufficient_credits` when the
       // balance is short; PostgREST surfaces that as a 4xx.
       throw Errors.noCredits(credits, available);
     }
@@ -88,7 +88,7 @@ export async function charge(userId, operation, { bookId = null, model = null, a
 export async function refund(userId, credits, reason = "operation_failed") {
   if (!credits) return;
   try {
-    await dbAsService().rpc("bb_refund_credits", {
+    await dbAsService().rpc("bp_refund_credits", {
       p_user: userId,
       p_credits: credits,
       p_reason: reason,

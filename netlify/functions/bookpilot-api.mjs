@@ -190,7 +190,7 @@ async function handleDeleteAccount(ctx, body) {
   }, { returning: false });
 
   const service = dbAsService();
-  await service.rpc("bb_delete_account", { p_user: ctx.user.id });
+  await service.rpc("bp_delete_account", { p_user: ctx.user.id });
 
   // Removing the auth.users row is what actually revokes the sign-in.
   try {
@@ -714,7 +714,7 @@ async function handleTrackingSites(ctx, method, segments, body) {
     const name = v.str(body.name, "Site name", { max: 120, required: true });
     const domain = v.str(body.domain, "Domain", { max: 200, required: true })
       .replace(/^https?:\/\//, "").replace(/\/.*$/, "").toLowerCase();
-    const publicKey = `bb_${crypto.randomUUID().replace(/-/g, "")}`;
+    const publicKey = `bp_${crypto.randomUUID().replace(/-/g, "")}`;
     const site = await ctx.db.insert("tracking_sites", {
       user_id: ctx.user.id, name, domain, public_key: publicKey,
     });

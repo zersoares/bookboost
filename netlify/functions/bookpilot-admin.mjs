@@ -18,7 +18,7 @@ import * as audit from "./bookpilot-lib/audit.js";
 const PREFIX = "/api/bp-admin";
 
 async function overview(service) {
-  const stats = await service.rpc("bb_admin_overview");
+  const stats = await service.rpc("bp_admin_overview");
   return json({ stats });
 }
 

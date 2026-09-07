@@ -190,7 +190,7 @@ test("credit spending is atomic in the database, not in the API layer", () => {
   // concurrent generations cannot both spend the last credits.
   assert.match(functions, /update public\.profiles\s+set ai_credits = ai_credits - p_credits\s+where id = p_user\s+and ai_credits >= p_credits/);
   assert.match(functions, /raise exception 'insufficient_credits'/);
-  assert.match(functions, /revoke execute on function public\.bb_consume_credits/);
+  assert.match(functions, /revoke execute on function public\.bp_consume_credits/);
 });
 
 test("the Stripe webhook refuses unsigned requests", () => {

@@ -2,7 +2,7 @@
  * BookPilot AI — website tracking (spec §17)
  *
  * Install on your own site:
- *   <script async src="https://…/track/bp.js" data-key="bb_…"></script>
+ *   <script async src="https://…/track/bp.js" data-key="bp_…"></script>
  *
  * Then record a sale on your thank-you page:
  *   bookpilot('purchase', { value: 8.99, currency: 'EUR', id: 'order-123' });

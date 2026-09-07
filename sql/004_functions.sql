@@ -14,7 +14,7 @@
 -- Returns the number of credits left, or raises `insufficient_credits`
 -- when the balance is too low. The caller (bookpilot-lib/credits.js)
 -- turns that into a friendly 402.
-create or replace function public.bb_consume_credits(
+create or replace function public.bp_consume_credits(
   p_user      uuid,
   p_operation text,
   p_credits   integer,
@@ -52,7 +52,7 @@ $$;
 
 -- Give credits back when a charged operation failed afterwards (an
 -- upstream timeout, say). Never used to hand out credits otherwise.
-create or replace function public.bb_refund_credits(
+create or replace function public.bp_refund_credits(
   p_user    uuid,
   p_credits integer,
   p_reason  text default 'operation_failed'
@@ -80,7 +80,7 @@ $$;
 -- Apply a plan change (Stripe webhook). Sets the plan and tops the
 -- balance up to the plan's monthly allowance — it does not stack
 -- allowances month on month.
-create or replace function public.bb_apply_plan(
+create or replace function public.bp_apply_plan(
   p_user uuid,
   p_plan text
 )
@@ -110,7 +110,7 @@ $$;
 -- transaction and leaves an audit entry behind with no personal data in
 -- it. The auth.users row is deleted separately by the API layer through
 -- the Supabase admin endpoint.
-create or replace function public.bb_delete_account(p_user uuid)
+create or replace function public.bp_delete_account(p_user uuid)
 returns void
 language plpgsql
 security definer
@@ -141,7 +141,7 @@ end;
 $$;
 
 -- Admin dashboard counters (spec §31), computed in one round trip.
-create or replace function public.bb_admin_overview()
+create or replace function public.bp_admin_overview()
 returns jsonb
 language plpgsql
 security definer
@@ -150,7 +150,7 @@ as $$
 declare
   v jsonb;
 begin
-  if not public.bb_is_admin() then
+  if not public.bp_is_admin() then
     raise exception 'forbidden';
   end if;
 
@@ -184,7 +184,7 @@ begin
 end;
 $$;
 
-revoke execute on function public.bb_consume_credits(uuid, text, integer, uuid, text) from anon, authenticated;
-revoke execute on function public.bb_refund_credits(uuid, integer, text) from anon, authenticated;
-revoke execute on function public.bb_apply_plan(uuid, text) from anon, authenticated;
-revoke execute on function public.bb_delete_account(uuid) from anon, authenticated;
+revoke execute on function public.bp_consume_credits(uuid, text, integer, uuid, text) from anon, authenticated;
+revoke execute on function public.bp_refund_credits(uuid, integer, text) from anon, authenticated;
+revoke execute on function public.bp_apply_plan(uuid, text) from anon, authenticated;
+revoke execute on function public.bp_delete_account(uuid) from anon, authenticated;

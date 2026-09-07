@@ -17,7 +17,7 @@
 -- can consult `profiles` without recursing into its own policy.
 -- ---------------------------------------------------------------------
 
-create or replace function public.bb_is_admin()
+create or replace function public.bp_is_admin()
 returns boolean
 language sql
 stable
@@ -30,7 +30,7 @@ as $$
   );
 $$;
 
-create or replace function public.bb_is_org_member(org uuid)
+create or replace function public.bp_is_org_member(org uuid)
 returns boolean
 language sql
 stable
@@ -43,7 +43,7 @@ as $$
   );
 $$;
 
-create or replace function public.bb_can_access_book(book uuid)
+create or replace function public.bp_can_access_book(book uuid)
 returns boolean
 language sql
 stable
@@ -53,11 +53,11 @@ as $$
   select exists (
     select 1 from public.books b
     where b.id = book
-      and (b.user_id = auth.uid() or public.bb_is_org_member(b.organization_id))
+      and (b.user_id = auth.uid() or public.bp_is_org_member(b.organization_id))
   );
 $$;
 
-create or replace function public.bb_can_access_campaign(campaign uuid)
+create or replace function public.bp_can_access_campaign(campaign uuid)
 returns boolean
 language sql
 stable
@@ -67,11 +67,11 @@ as $$
   select exists (
     select 1 from public.campaigns c
     where c.id = campaign
-      and (c.user_id = auth.uid() or public.bb_can_access_book(c.book_id))
+      and (c.user_id = auth.uid() or public.bp_can_access_book(c.book_id))
   );
 $$;
 
-create or replace function public.bb_can_access_ad_set(ad_set uuid)
+create or replace function public.bp_can_access_ad_set(ad_set uuid)
 returns boolean
 language sql
 stable
@@ -80,7 +80,7 @@ set search_path = public
 as $$
   select exists (
     select 1 from public.ad_sets s
-    where s.id = ad_set and public.bb_can_access_campaign(s.campaign_id)
+    where s.id = ad_set and public.bp_can_access_campaign(s.campaign_id)
   );
 $$;
 
@@ -114,11 +114,11 @@ $$;
 
 drop policy if exists plans_read on public.plans;
 create policy plans_read on public.plans
-  for select using (is_active or public.bb_is_admin());
+  for select using (is_active or public.bp_is_admin());
 
 drop policy if exists plans_admin_write on public.plans;
 create policy plans_admin_write on public.plans
-  for all using (public.bb_is_admin()) with check (public.bb_is_admin());
+  for all using (public.bp_is_admin()) with check (public.bp_is_admin());
 
 drop policy if exists credit_costs_read on public.credit_costs;
 create policy credit_costs_read on public.credit_costs
@@ -126,7 +126,7 @@ create policy credit_costs_read on public.credit_costs
 
 drop policy if exists credit_costs_admin_write on public.credit_costs;
 create policy credit_costs_admin_write on public.credit_costs
-  for all using (public.bb_is_admin()) with check (public.bb_is_admin());
+  for all using (public.bp_is_admin()) with check (public.bp_is_admin());
 
 drop policy if exists feature_flags_read on public.feature_flags;
 create policy feature_flags_read on public.feature_flags
@@ -134,17 +134,17 @@ create policy feature_flags_read on public.feature_flags
 
 drop policy if exists feature_flags_admin_write on public.feature_flags;
 create policy feature_flags_admin_write on public.feature_flags
-  for all using (public.bb_is_admin()) with check (public.bb_is_admin());
+  for all using (public.bp_is_admin()) with check (public.bp_is_admin());
 
 -- Prompts and system settings are admin-only in every direction. The
 -- API layer reads them with the service role, which bypasses RLS.
 drop policy if exists ai_prompts_admin on public.ai_prompts;
 create policy ai_prompts_admin on public.ai_prompts
-  for all using (public.bb_is_admin()) with check (public.bb_is_admin());
+  for all using (public.bp_is_admin()) with check (public.bp_is_admin());
 
 drop policy if exists app_settings_admin on public.app_settings;
 create policy app_settings_admin on public.app_settings
-  for all using (public.bb_is_admin()) with check (public.bb_is_admin());
+  for all using (public.bp_is_admin()) with check (public.bp_is_admin());
 
 -- ---------------------------------------------------------------------
 -- Accounts
@@ -152,7 +152,7 @@ create policy app_settings_admin on public.app_settings
 
 drop policy if exists profiles_self_read on public.profiles;
 create policy profiles_self_read on public.profiles
-  for select using (id = auth.uid() or public.bb_is_admin());
+  for select using (id = auth.uid() or public.bp_is_admin());
 
 -- A user may edit their own profile. The policy below scopes that to
 -- their own row — but RLS has no notion of columns, so on its own it
@@ -179,7 +179,7 @@ grant update (
 -- privileged column can only change under the service role. Belt and
 -- braces here because the failure mode is a user making themselves an
 -- administrator.
-create or replace function public.bb_guard_profile_columns()
+create or replace function public.bp_guard_profile_columns()
 returns trigger
 language plpgsql
 security definer
@@ -204,18 +204,18 @@ begin
 end;
 $$;
 
-drop trigger if exists bb_guard_profile on public.profiles;
-create trigger bb_guard_profile
+drop trigger if exists bp_guard_profile on public.profiles;
+create trigger bp_guard_profile
   before update on public.profiles
-  for each row execute function public.bb_guard_profile_columns();
+  for each row execute function public.bp_guard_profile_columns();
 
 drop policy if exists profiles_admin_write on public.profiles;
 create policy profiles_admin_write on public.profiles
-  for all using (public.bb_is_admin()) with check (public.bb_is_admin());
+  for all using (public.bp_is_admin()) with check (public.bp_is_admin());
 
 drop policy if exists organizations_member_read on public.organizations;
 create policy organizations_member_read on public.organizations
-  for select using (owner_id = auth.uid() or public.bb_is_org_member(id) or public.bb_is_admin());
+  for select using (owner_id = auth.uid() or public.bp_is_org_member(id) or public.bp_is_admin());
 
 drop policy if exists organizations_owner_write on public.organizations;
 create policy organizations_owner_write on public.organizations
@@ -223,7 +223,7 @@ create policy organizations_owner_write on public.organizations
 
 drop policy if exists org_members_read on public.organization_members;
 create policy org_members_read on public.organization_members
-  for select using (user_id = auth.uid() or public.bb_is_org_member(organization_id) or public.bb_is_admin());
+  for select using (user_id = auth.uid() or public.bp_is_org_member(organization_id) or public.bp_is_admin());
 
 drop policy if exists org_members_owner_write on public.organization_members;
 create policy org_members_owner_write on public.organization_members
@@ -241,7 +241,7 @@ create policy org_members_owner_write on public.organization_members
 
 drop policy if exists books_read on public.books;
 create policy books_read on public.books
-  for select using (user_id = auth.uid() or public.bb_is_org_member(organization_id));
+  for select using (user_id = auth.uid() or public.bp_is_org_member(organization_id));
 
 drop policy if exists books_insert on public.books;
 create policy books_insert on public.books
@@ -249,8 +249,8 @@ create policy books_insert on public.books
 
 drop policy if exists books_update on public.books;
 create policy books_update on public.books
-  for update using (user_id = auth.uid() or public.bb_is_org_member(organization_id))
-  with check (user_id = auth.uid() or public.bb_is_org_member(organization_id));
+  for update using (user_id = auth.uid() or public.bp_is_org_member(organization_id))
+  with check (user_id = auth.uid() or public.bp_is_org_member(organization_id));
 
 drop policy if exists books_delete on public.books;
 create policy books_delete on public.books
@@ -265,8 +265,8 @@ begin
     execute format('drop policy if exists %1$s_access on public.%1$s;', t);
     execute format(
       'create policy %1$s_access on public.%1$s
-       for all using (public.bb_can_access_book(book_id))
-       with check (public.bb_can_access_book(book_id));', t);
+       for all using (public.bp_can_access_book(book_id))
+       with check (public.bp_can_access_book(book_id));', t);
   end loop;
 end;
 $$;
@@ -277,13 +277,13 @@ $$;
 
 drop policy if exists creatives_access on public.creatives;
 create policy creatives_access on public.creatives
-  for all using (user_id = auth.uid() or public.bb_can_access_book(book_id))
-  with check (user_id = auth.uid() or public.bb_can_access_book(book_id));
+  for all using (user_id = auth.uid() or public.bp_can_access_book(book_id))
+  with check (user_id = auth.uid() or public.bp_can_access_book(book_id));
 
 drop policy if exists campaigns_access on public.campaigns;
 create policy campaigns_access on public.campaigns
-  for all using (user_id = auth.uid() or public.bb_can_access_book(book_id))
-  with check (user_id = auth.uid() or public.bb_can_access_book(book_id));
+  for all using (user_id = auth.uid() or public.bp_can_access_book(book_id))
+  with check (user_id = auth.uid() or public.bp_can_access_book(book_id));
 
 -- `external_campaign_id` and `launched_at` record what is true on Meta,
 -- not what a client would like to be true: they are written only after
@@ -299,19 +299,19 @@ grant update (
 
 drop policy if exists ad_sets_access on public.ad_sets;
 create policy ad_sets_access on public.ad_sets
-  for all using (public.bb_can_access_campaign(campaign_id))
-  with check (public.bb_can_access_campaign(campaign_id));
+  for all using (public.bp_can_access_campaign(campaign_id))
+  with check (public.bp_can_access_campaign(campaign_id));
 
 drop policy if exists ads_access on public.ads;
 create policy ads_access on public.ads
-  for all using (public.bb_can_access_ad_set(ad_set_id))
-  with check (public.bb_can_access_ad_set(ad_set_id));
+  for all using (public.bp_can_access_ad_set(ad_set_id))
+  with check (public.bp_can_access_ad_set(ad_set_id));
 
 -- Performance numbers are written by the sync job (service role) and
 -- are read-only for the account that owns the campaign.
 drop policy if exists performance_read on public.performance_metrics;
 create policy performance_read on public.performance_metrics
-  for select using (public.bb_can_access_campaign(campaign_id));
+  for select using (public.bp_can_access_campaign(campaign_id));
 
 -- ---------------------------------------------------------------------
 -- Tracking
@@ -359,11 +359,11 @@ create policy amazon_metrics_read on public.amazon_attribution_metrics
 -- webhook: read-only for the user.
 drop policy if exists subscriptions_read on public.subscriptions;
 create policy subscriptions_read on public.subscriptions
-  for select using (user_id = auth.uid() or public.bb_is_admin());
+  for select using (user_id = auth.uid() or public.bp_is_admin());
 
 drop policy if exists ai_usage_read on public.ai_usage;
 create policy ai_usage_read on public.ai_usage
-  for select using (user_id = auth.uid() or public.bb_is_admin());
+  for select using (user_id = auth.uid() or public.bp_is_admin());
 
 drop policy if exists notifications_read on public.notifications;
 create policy notifications_read on public.notifications
@@ -396,7 +396,7 @@ create policy recommendations_update on public.recommendations
 
 drop policy if exists consent_read on public.consent_records;
 create policy consent_read on public.consent_records
-  for select using (user_id = auth.uid() or public.bb_is_admin());
+  for select using (user_id = auth.uid() or public.bp_is_admin());
 
 drop policy if exists consent_insert on public.consent_records;
 create policy consent_insert on public.consent_records
@@ -404,7 +404,7 @@ create policy consent_insert on public.consent_records
 
 drop policy if exists gdpr_requests_read on public.gdpr_requests;
 create policy gdpr_requests_read on public.gdpr_requests
-  for select using (user_id = auth.uid() or public.bb_is_admin());
+  for select using (user_id = auth.uid() or public.bp_is_admin());
 
 drop policy if exists gdpr_requests_insert on public.gdpr_requests;
 create policy gdpr_requests_insert on public.gdpr_requests
@@ -414,6 +414,6 @@ create policy gdpr_requests_insert on public.gdpr_requests
 -- anyone through the client API.
 drop policy if exists audit_log_read on public.audit_log;
 create policy audit_log_read on public.audit_log
-  for select using (user_id = auth.uid() or public.bb_is_admin());
+  for select using (user_id = auth.uid() or public.bp_is_admin());
 
 revoke insert, update, delete on public.audit_log from anon, authenticated;
