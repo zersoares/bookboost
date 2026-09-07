@@ -35,17 +35,20 @@
 }
 .bp-sidebar__brand:hover { text-decoration: none; }
 .bp-sidebar__mark {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-block;
   width: 25px;
   height: 25px;
-  border-radius: 7px;
-  background: var(--bp-primary);
-  color: var(--bp-text-inverse);
-  font-family: var(--bp-font-sans);
-  font-size: 0.8rem;
-  font-weight: 700;
+  background: url('/assets/brand/logo-mark.svg') center / contain no-repeat;
+}
+/* Two-tone artwork cannot be recoloured with currentColor, so the dark
+   theme gets its own file — same selector pair the tokens use. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .bp-sidebar__mark {
+    background-image: url('/assets/brand/logo-mark-dark.svg');
+  }
+}
+:root[data-theme='dark'] .bp-sidebar__mark {
+  background-image: url('/assets/brand/logo-mark-dark.svg');
 }
 .bp-nav-group { display: flex; flex-direction: column; gap: 2px; }
 .bp-nav-item {

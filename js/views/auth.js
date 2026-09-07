@@ -14,7 +14,7 @@ function shell(title, body, footer) {
     <div class="bp-auth">
       <div class="bp-auth__card">
         <a class="bp-auth__brand" href="/">
-          <span class="bp-sidebar__mark">B</span> BookPilot <span class="bp-logo__ai">AI</span>
+          <span class="bp-sidebar__mark" aria-hidden="true"></span> BookPilot <span class="bp-logo__ai">AI</span>
         </a>
         <h1 style="font-size:1.35rem;text-align:center;margin-bottom:var(--bp-2)">${title}</h1>
         ${raw(body)}

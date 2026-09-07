@@ -120,7 +120,7 @@ function renderShell(activePath) {
     <div class="bp-app">
       <aside class="bp-sidebar">
         <a class="bp-sidebar__brand" href="#/overview">
-          <span class="bp-sidebar__mark">B</span> BookPilot
+          <span class="bp-sidebar__mark" aria-hidden="true"></span> BookPilot
         </a>
         <nav class="bp-nav-group" aria-label="Main">${raw(navItems(activePath))}</nav>
         <div class="bp-sidebar__foot">${raw(creditsPanel())}</div>
